@@ -1,0 +1,325 @@
+\documentclass{homework}
+\course{Math 5522H}
+\author{Alex Li}
+\input{preamble}
+
+\begin{document}
+\maketitle
+
+\begin{inspiration}
+It is singularity which often makes the worst part of our suffering.\\
+\byline{Jane Austen}, not talking about this problem set.
+\end{inspiration}
+
+\section{Terminology}
+
+This week, there is a lot of new terminology to classify the various
+sorts of singularities we might encounter.  For full credit, be sure
+to give careful precise definitions.
+
+\begin{problem}
+  What is an \textbf{isolated singularity}?
+  \end{problem}
+  \begin{solution}
+  A holomorphic function $f:U\setminus \{z_0\}\to\C$ has an isolated singularity at a point $z_0$ if there is an $r$ such that $(B_r(z_0)\cup z_0) \subset U$.
+  \end{solution}
+  \begin{problem}
+    What is meant by the \textbf{order} (or \textbf{multiplicity}) of a zero?  Of a pole?
+    \end{problem}
+    \begin{solution}
+    Suppose that $f:U\to \C$ is a  holomorphic function from an open set with a zero at $z_0$. The zero is said to have multiplicity $n$ if the function $g(z) = \frac{f(z)}{(z-z_0)^n}$ is holomorphic and $\lim_{z\to z_0} g(z) \neq 0$.
+
+    If $f$ has a pole at $z_0$, then it is said to have multiplicity $n$ if $g(z) = 1/f(z)$ has a zero of multiplicity $n$ at $z_0$.
+    \end{solution}
+    \begin{problem}
+      What is a \textbf{removable singularity}?
+      \end{problem}
+      \begin{solution}
+      An isolated singularity of $f$ at $z_0$ is said to be removable if $\lim_{z\to z_0} f(z)$ exists.
+      \end{solution}
+      \begin{problem}
+        What does it mean to say that a function $f : \C \to \C$ has a zero of order $n$ at infinity?  Has a pole of order $n$ at infinity?  
+        \end{problem}
+        \begin{solution}
+        $f$ has a zero or pole of order $n$ at infinity if $f(\frac{1}{z})$ has a zero or pole respectively of order $n$ at 0. 
+        \end{solution}
+        \begin{problem}
+        What is a \textbf{meromorphic function}?
+        \end{problem}
+        \begin{solution}
+        A function $f$ is said to be meromorphic on an open subset $U$ if there is a set of points $S = \{x_i\}_i$ such that $f:U\setminus S\to \C$ is holomorphic and every point $x_i$ is removable singularity that happens to also be a pole of $f$.
+        \end{solution}
+        \section{Numericals}
+
+        \begin{problem}
+          Let $f(z) = e^{z \sin^2 z} - 1$.  What is the order of the zero at $z = 0$?
+          \end{problem}
+          \begin{solution}
+          We can use a Taylor expansion of the polynomial at 0, and the index of the first nonzero term will be the order of the zero. Equivalently, the order is the index of the first nonzero derivative.
+
+          \begin{align}
+          f'(z)  &= (\sin^2(z) + 2z\sin(z)\cos(z))e^{z\sin^2 z}
+          \end{align}
+          Clearly this is 0 at $z=0$.
+          Define $g(z) = \sin^2(z) + 2z\sin(z)\cos(z)$.
+          \begin{align*}
+          g'(z) &= 2\sin(z)\cos(z) + 2[\sin(z)\cos(z) + z\cos^2(z) - z\sin^2(z)]\\
+          &= 4\sin(z)\cos(z) + 2z(\cos^2(z) - \sin^2(z))\\
+          f''(z)  &= (g'(z)+g(z)^2)e^{z\sin^2 z}
+          \end{align*}
+          We can check that $g'(0)=g(0)=0$, so we look towards the third derivative...
+          \begin{align*}
+          g''(z) &= (4\cos^2(z) - 4\sin^2(z)) + 2(\cos^2(z) - \sin^2(z)) + 2z(-2\cos(z)\sin(z))-2\cos(z)\sin(z))\\
+          g''(z) &= 6\cos^2(z) - 6\sin^2(z) - 8z(\cos(z)\sin(z)))\\
+          f'''(z)  &= g(z)(g'(z)+g(z)^2)e^{z\sin^2 z} + (g''(z)+g'(z)^2)e^{z\sin^2 z}
+          \end{align*}
+          At $z=0$, $g''(0) = 6$ and so $f''(0) = 6$. Thankfully we don't have to compute the fourth derivative and can conclude that the order of the zero at 0 is 3.
+          \end{solution}
+          \begin{problem}
+            Let $f(z) = \left( \cos z \right) - 1 - z^2/2$, and compute
+              \[
+                  \int_\gamma \frac{f'(z)}{f(z)} \, dz
+                    \]
+                      for $\gamma : [0,2\pi]$ given by $\gamma(\theta) = e^{i\theta}$.
+                      \end{problem}
+                      \begin{solution}
+                      First, let's expand $\cos z$ as a Taylor series:
+                      \begin{align}\label{f_leading_coef_cos}
+                      f(z) = (\sum_{n=0}^\infty \frac{(-1)^nz^{2n}}{(2n)!}) - 1 - z^2/2 =-z^2 + \sum_{n=2}^\infty \frac{(-1)^nz^{2n}}{(2n)!}
+                      \end{align}
+                      Now let us use the residue theorem to compute this integral. It will be equal to the sum of the residues at the zeros of $f$. To do this, let's find all poles of the function. At $z=0$, the denominator is 0, and this occurs at no other point, since the magnitude of the first term will be greater than the magnitude of the rest 
+                      \[
+                      \abs{f(z)} \geq \abs{z^2} - \sum_{n=2}^\infty \abs{\frac{z^{2n}}{(2n)!}} \geq  \abs{z^2}(1 - \sum_{n=2}^\infty \frac{1}{(2n)!}) \geq 0
+                      \]
+                      That this is more than 0 can be verified by comparison to the formula 
+                      \begin{align*}
+                      e &= \sum_{n=1}^\infty \frac{1}{n!}\\
+                      .05 \approx e - \sum_{n=0}^3 \frac{1}{n!} &= \sum_{n=4}^\infty \frac{1}{n!}\\
+                      1 &\geq \sum_{n=4}^\infty \frac{1}{n!} \geq \sum_{n=2}^\infty \frac{1}{2n!}
+                      \end{align*}
+
+                      Next we need to determine the order of the pole at $z=0$. Since we already know the first positive coefficient of the power series for f is at $x^2$ from equation \ref{f_leading_coef_cos}, we can quickly check that we are dealing with a first order pole:
+                      \begin{align*}
+                          \frac{f'(z)}{f(z)} &= \frac{\Theta(z)}{\Theta(z^2)} = \Theta(z^{-1})
+                          \end{align*}
+                          Thus we can compute the residue by evaluating the limit as $z\frac{f(z)}{f'(z)}$ approaches 0.
+                          \[
+                          \lim_{z\to 0} \frac{zf'(z)}{f(z)} =  \lim_{z\to 0} \frac{z(-2z + \Theta(z^3))}{-z^2 + \Theta(z^4)} = 2
+                          \]
+                          The original integral is equal to the sum of the residues, so we can conclude that the value of the integral is 2.
+                          \end{solution}
+                          \section{Exploration}
+
+                          \begin{problem}
+                            Explain the topology on $\mathbb{C} \cup \{ \infty \}$, the \textbf{Riemann sphere}.
+                            \end{problem}
+                            \begin{solution}
+                            Well, it's the topology of... a sphere. To see this, we can consider the homeomorphism given by projecting any point $x$ on a unit sphere sitting on the complex plane to the point on the plane on the line between $x$ and the top of the sphere $x_{top}$. The exception is that $x_{top} $ will map to $\infty$.
+
+                            It's geometrically clear enough that this is a bijection, and besides infinity, it's also clear that this is continuous with a continuous inverse. To see that it's continuous at infinity, notice that any neighborhood of $x_{top}$ is a small circle at the top of the sphere, so it's image under this bijection contains all point sufficiently far from 0. The inverse transformation is continuous since for any neighborhood of $\infty$, there is an $R$ so that all points distance $R$ from 0 are contained in the neighborhood, so the preimage will be a neighborhood of $x_{top}$.
+
+                            \end{solution}
+                            \begin{problem}\label{jordans-lemma}
+                              Prove \textbf{Jordan's lemma}; next week, this lemma will help us estimate integrals over the contour $\gamma : [0,\pi] \to \C$ given by $\gamma(\theta) = re^{i\theta}$.
+                                Specifically, show that if $a > 0$, then
+                                  \[
+                                      \abs{\int_\gamma e^{iaz} \, g(z) \, dz } \leq \frac{\pi}{a} \sup_{\theta \in [0,\pi]} \abs{g(\gamma(\theta))}.
+                                          \]
+                                          \end{problem}
+                                          \begin{solution}
+                                          Let \(M = \sup_{\theta \in [0,\pi]} \abs{g(\gamma(\theta))}\)
+                                          \begin{align*}
+                                          \abs{\int_\gamma e^{iaz}g(z)dz}  &= \abs{\int_0^\pi e^{iare^{i\theta}} g(re^{i\theta})rie^{i\theta}d\theta}\\
+                                          &= r\abs{\int_0^\pi e^{iar\cos(\theta) - ar\sin(\theta)}e^{i\theta}g(re^{i\theta})d\theta}\\
+                                          &\leq rM\abs{\int_0^\pi e^{-ar\sin(\theta)}d\theta}\\
+                                          &= 2rM\int_0^{\pi/2} e^{-ar\sin(\theta)}d\theta\\
+                                          &= 2rM\frac{\pi e^{-ar\frac{2\theta}{\pi}}}{2ar}\big|_0^{2\pi}\\
+                                          &\leq 2\pi rM\frac{1}{2ar} = \frac{\pi}{a}M
+                                          \end{align*}
+                                          \end{solution}
+
+                                          \begin{problem}\label{riemann-removable-singularity}
+                                            For an open set $U \ni z_0$, suppose
+                                              $f : U \setminus \{z_0\} \to \C$ is holomorphic.  Show that
+                                                $\lim_{z\to z_0} (z-z_0)f(z)=0$ if and only $f$ extends to a
+                                                  holomorphic function $F : U \to \C$.
+                                                  \end{problem}
+                                                  \begin{solution}
+                                                  We will additionally assume that $z_0$ is a isolated singularity, to prevent the case where $z_0$ is an isolated point where the limit doesn't exist but $f$ can extend to $F$ just by giving it any value at $z_0$.
+
+                                                  We have 3 cases depending on the type of singularity. If $z_0$ is an essential singularity, then the limit has no chance of existing - since $f(z)$ is dense in every open ball and $z-z_0$ is not, their product is dense in every open ball.  If $z_0$ is a removable discontinuity, then $f$ surely extends to a holomorphic function $F$ with $F(z_0)$ finite. Thus
+                                                  \[\lim_{z\to z_0} (z-z_0)f(z)=\lim_{z\to z_0} (z-z_0)F(z) = 0\]
+
+                                                  Finally, if $z_0$ is a pole of order 1 then by definition $g_1(z) = f(z)/(z-z_0)$ is holomorphic and has a nonzero limit. If the order is $n>1$, then $f(z)/(z-z_0)^n$ has a nonzero limit so $f(z)/(z-z_0)^{n-1}$ diverges.In either case, the limit is not zero, consistend with the fact that $f$ does not extend to $F$.
+                                                  \end{solution}
+
+                                                  \begin{problem}\label{idempotent-entire}
+                                                  Describe holomorphic functions
+                                                    $f : \C \to \C$ with the property that $f(f(z)) = f(z)$ for all
+                                                      $z \in \C$.
+                                                      \end{problem}
+                                                      \begin{solution}
+                                                      One possible case occurs when $f(z)=c$. Otherwise, since $f:\C\to\C$, the image of $f$ is dense in $\C$. And for every point $z$ in the image of $f$, $f(z) = z$, so this implies that $f(z)-z = 0$ at a dense subset of the plane, in particular at some convergent sequence of points. Therefore $f(z)-z$ is identically 0, so the only functions with this property are $f(z)=c$ and $f(z)=z$.
+                                                      \end{solution}
+
+                                                      \begin{problem}
+                                                        Suppose $U$ is a disk and $f : U \to \C$ is holomorphic with
+                                                          finitely many zeros, and repeatedly invoke \ref{factor-theorem} to
+                                                            explain why you can find $z_1,z_2,\ldots,z_n \in \C$ and write
+                                                              \[
+                                                                  f(z) = (z-z_1)(z-z_2) \cdots (z-z_n) \, g(z)
+                                                                    \]
+                                                                      for a nowhere-vanishing analytic function $g : U \to \C$.
+                                                                      \end{problem}
+                                                                      \begin{solution}
+                                                                      Let $w_1, w_2, \dots w_k$ correspond to the locations of the zeros. If $w_l$ is the location of a zero of order $m_l$, then by \ref{factor-theorem}, the function $f(z)/ (z-w_l)^{m_l}$ does not vanish at $w_l$ and is still analytic. Furthermore, this does not introduce any new zeros since we are multiplying by a nonzero quantity everywhere besides $w_l$. Repeating this for each root, we see that
+                                                                      \[
+                                                                      \frac{f(z)}{\prod_{l=0}^k (z-w_l)^{m_l}} = g(z)
+                                                                      \]
+                                                                      is nonzero everywhere in $U$.
+                                                                      \end{solution}
+                                                                      \begin{problem}\label{argument-principle-zeros}
+                                                                        Continuing as above, compute $f'(z)/f(z)$ in terms of $z_1,z_2,\ldots,z_n \in \C$ and $g'(z)/g(z)$, and evaluate
+                                                                          \[
+                                                                              \frac{1}{2\pi i} \int_\gamma \frac{f'(z)}{f(z)} \, dz
+                                                                                \]
+                                                                                  in terms of the winding numbers $n(\gamma,z_j)$.
+                                                                                  \end{problem}
+                                                                                  \begin{solution}
+                                                                                  \begin{align*}
+                                                                                      \frac{f'(z)}{f(z)} &= \left(\frac{d}{dz}\Log f(z)\right) \\
+                                                                                          &= \left(\frac{d}{dz}\Log g(z)\prod_{k=1}^n (z-z_k)\right) \\
+                                                                                              &=  \frac{g(z)\prod (z-z_i)\left(\frac{g'(z)}{g(z)} \sum_{i=1}^n \frac{1}{z-z_i}\right)}{g(z)\prod (z-z_i)}\\
+                                                                                                  &=  \frac{g'(z)}{g(z)} + \sum_{i=1}^n \frac{1}{z-z_i}
+                                                                                                  \end{align*}
+                                                                                                  The function $\frac{g'(z)}{g(z)}$ is everywhere holomorphic since $g$ is holomorphic with no zeros, and the rest of the functions have obvious residues. So we can compute the integral:
+                                                                                                  \begin{align*}
+                                                                                                  \frac{1}{2\pi i} \int_\gamma \frac{f'(z)}{f(z)} \, dz &= \frac{1}{2\pi i} \int_\gamma \frac{g'(z)}{g(z)} + \sum_{i=1}^n \frac{1}{z-z_i} \, dz\\
+                                                                                                  &= \sum_{i=1}^n n(\gamma, z_i)
+                                                                                                  \end{align*}
+                                                                                                  \end{solution}
+                                                                                                  \begin{problem}
+                                                                                                    Let's justify the terminology that a ``zero of multiplicity $n$''
+                                                                                                      really means there are $n$ solutions to a certain equation.  Suppose
+                                                                                                        the holomorphic function $f : B_1(0) \to \C$ has a zero of order $n$
+                                                                                                          at zero, i.e., suppose $f(z) = z^n g(z)$ for a holomorphic
+                                                                                                            $g : B_1(0) \to \C$ with $g(0) \neq 0$.  For all sufficiently small
+                                                                                                              $\epsilon > 0$, find $\delta > 0$ so that for all
+                                                                                                                $w \in B_\epsilon(0) - \{0\}$, the set
+                                                                                                                  $f^{-1}(\{w\}) \cap B_\delta(0)$ consists of $n$ elements.
+                                                                                                                  \end{problem}
+                                                                                                                  \begin{solution}
+                                                                                                                  Consider the Talyor expansion of $f$, since $f(z)=z^ng(z)$ is the first nonzero term, the first $n$ coefficents must be zero. Thus 
+                                                                                                                  \[
+                                                                                                                  f(z) = \sum_{k=1}^\infty a_nx^n
+                                                                                                                  \]
+                                                                                                                  We want to show that for some small $w=f(z_0)$, $w - f(z)$ has $k$ roots near 0. Where can the following equation be satisfied?
+                                                                                                                  \[
+                                                                                                                  w - f(z) = w + a_nz^n + O(z^{n+1}) = 0
+                                                                                                                  \]
+                                                                                                                  Where $O(f(z))$ means that $\exists c$ such that $|f(z)|\leq cz^n$ as $z\to 0$.
+                                                                                                                  By definition, $z_0$ is a root of this equation, and if we choose a sufficiently small $\delta>0$, then the dominant term of the equation is $w + a_nz^n$, so any zeros will be in a neighborhood of $z_0e^{2i\pi k/n}$ for some $k$, and there should be at least one zero in each neighborhood. % Weak argument
+
+                                                                                                                  We can indirectly control the size of the neighborhood by adjusting $\delta$ and make it suuuper small so that none intersect. Now choose one of the n neighborhoods. If there are two values $z_0, z_1$ in this neighborhood that are equal, then 
+                                                                                                                  \[0 = f(z_0) - f(z_1) = a_n(z_0^n + z_1^n) + \sum_{k=n+1}^\infty a_k(z_0^{k+1}-z_1^{k+1})\]
+                                                                                                                  Writing $z_1 = z_0 + h$ and using the fact that $z_0, z_1$ being in the same neighborhood implies $h$ can be made arbitrarily small,
+                                                                                                                  \[
+                                                                                                                  0 = a_n(z_0^n + z_1^n) + \sum_{k=n+1}^\infty a_k(z_0^{k+1}-z_1^{k+1}) = anz_0^{n-1}h + O(h^2z_0^{n-1}) + O(hz_0^n) = hz_0^{n-1}(a_n + O(h + z_0))
+                                                                                                                  \]
+                                                                                                                  But since $z_0\neq 0, a_n\neq 0$, this implies that $h=0$ and so $z_0=z_1$. Thus there is exactly one point $z_0$ in each neighborhood such that $f(z_0)=w$, so there must be exactly $n$ points within $\delta$ such that $f(z)=w$.
+                                                                                                                  \end{solution}
+                                                                                                                  \section{Prove or Disprove and Salvage if Possible}
+
+                                                                                                                  \begin{problem}\label{factor-theorem}
+                                                                                                                    Suppose $U \subset \C$ is open, and $f : U \to \C$ is analytic, and for some $z_0 \in U$, we have $f(z_0) = 0$.  Then there is a positive $m \in \Z$ so that
+                                                                                                                      \[
+                                                                                                                          g(z) := \frac{f(z)}{(z-z_0)^m}
+                                                                                                                            \]
+                                                                                                                              yields an analytic function $g : U \to \C$ which does not vanish at $z_0$.
+                                                                                                                              \end{problem}
+                                                                                                                              \begin{solution}
+                                                                                                                              Since $f$ is analytic, it has a power series representation 
+                                                                                                                              \[
+                                                                                                                              f(z) = \sum_{k=0}^\infty a_k(z-z_0)^k
+                                                                                                                              \]
+                                                                                                                              Letting $m$ be the index of the first nonzero term $a_m$ in this representation, the function 
+                                                                                                                              \[
+                                                                                                                              g(z) = \frac{f(z)}{(z-z_0)^m} =  a_m + \sum_{k=m+1}^\infty a_k(z-z_0)^k
+                                                                                                                              \]
+                                                                                                                              is also analytic, and at the point $z=z_0$, all but the first term vanish and so $g(z_0)=a_m\neq 0$.
+                                                                                                                              \end{solution}
+                                                                                                                              \begin{problem}\label{entire-dominate-entire}Suppose $f, g : \C \to \C$ are holomorphic and for all $z \in \C$ we have $\abs{f(z)} \leq \abs{g(z)}$.  In this case, we say that $g$ dominates $f$.  Then $f(z) = \lambda \cdot g(z)$ for some $\lambda \in \C$.  (Compare \ref{identity-dominate-entire}.)
+                                                                                                                              \end{problem}
+                                                                                                                              \begin{solution}
+                                                                                                                              For all $\epsilon>0$, we see that $\abs{f(z)/(g(z)+\epsilon)} \leq 1$ when $g(z)\neq 0$. By the identity theorem, the set of points where $g(z)=0$ is isolated, so the set excluding these points is open, and we can apply Liouville's theorem to say that the function $f/g$ is bounded on that open set and hence everywhere. Thus $f/g$ is a constant $\lambda$.
+                                                                                                                              \end{solution}
+                                                                                                                              \begin{problem}
+                                                                                                                                If $f : \C \to \C$ has a pole of order $n$ at infinity, then $f$ is a polynomial of degree at most $n$.
+                                                                                                                                \end{problem}
+                                                                                                                                \begin{solution}
+                                                                                                                                False, we aren't assuming that $f$ is holomorphic so we will be destroyed by functions like $\begin{cases}x&x\neq 0\\ 1 &x=0\end{cases}$ with a pole of order 1 at infinity. With $f$ holomorphic, it is true, in fact we can say it is a polynomial of degree exactly $n$.
+
+
+                                                                                                                                Since $f(z)$ is a function with a pole of order $n$ at infinity, the function $f(\frac{1}{z})$ has a pole of order $n$ at 0. Thus the function $f(\frac{1}{z})z^n$ is analytic and approaches some nonzero value $a_n$ at the point 0.
+
+                                                                                                                                Then the function $f(z)/z^n$ approaches $a_n$ as $z\to \infty$.
+
+                                                                                                                                Now, $f(z)$ is analytic so we can write it out as a power series.
+                                                                                                                                \[
+                                                                                                                                f(z) = \sum_{k=0}^\infty a_kz^k
+                                                                                                                                \]
+                                                                                                                                After dividing by $z^n$, we get a term $\frac{f(z)}{z^n} = \sum_{k=0}^n a_kz^k$ which evidentally approaches $a_n$ as $z$ goes to infinity. Thus the other component must be 0 in the limit.
+                                                                                                                                \[
+                                                                                                                                0 = \lim_{z\to\infty} \sum_{k=n+1}^\infty a_kz^{k-n}
+                                                                                                                                \]
+                                                                                                                                Now, this function is holomorphic on all of $\C$ and since the limit exists it is bounded, hence constant, hence 0. Therefore $f(z)$ is a degree $n$ polynomial.
+
+                                                                                                                                \end{solution}
+                                                                                                                                \begin{problem}\label{casorati-weierstrass}
+                                                                                                                                  Suppose $f : U \setminus \{ z_0 \} \to \C$ is holomorphic with an essential singularity at $z_0 \in U$.  If $V \subset U$ is a neighborhood of $z_0$, then $f(V \setminus \{ z_0 \})$ is dense in $\C$.
+                                                                                                                                  \end{problem}
+                                                                                                                                  \begin{solution}
+                                                                                                                                  True. Suppose that it was not dense. Then there is a point $w_0\in \C$ such that $f(V\setminus \{z_0\})$ does not take on any value within $\epsilon$ of $w_0$. Now consider the function 
+                                                                                                                                  \[\frac{1}{f(z) - w_0}.\]
+
+                                                                                                                                  For $z \in V$, the norm of the denominator will always be greater than $\epsilon$, and thus the norm of this function is bounded above by $\frac{1}{\epsilon}$. Since it is bounded, the Riemann theorem on removable singularities says that $g(z) = \frac{1}{f(z)-w_0}$ has a removable discontinuity. After removing this discontinuity, if $g(z_0) \neq 0$ then $\frac{1}{g(z)}+w_0 = f(z)$ will be analytic so $f(z)$ has a removable discontinuity at $z_0$.  If, however, $g(z_0)=0$, then by \ref{factor-theorem}, we can find an analytic $h(z) = \frac{g(z)}{(z-z_0)^m}$ that is not zero at $z_0$, so
+                                                                                                                                  \[
+                                                                                                                                  h(z) = \frac{1}{(z-z_0)^m(f(z)-w_0)}\implies f(z) = \frac{1}{(z-z_0)^mh(z)}+w_0
+                                                                                                                                  \]
+                                                                                                                                  From this it is clear that $(z-z_0)^mf(z)$ is analytic and equal to $\frac{1}{h(z_0)}\neq 0$ at $z_0$, so $f(z)$ has a pole of degree $m$ at $z_0$.
+
+                                                                                                                                  In any case, the discontinuity is not essential, a contradictio.
+                                                                                                                                  \end{solution}
+                                                                                                                                  \begin{problem}
+                                                                                                                                    There exists a holomorphic function $f : \C \to \C$ so that both $f$
+                                                                                                                                      and $z \mapsto e^{f(z)}$ have poles at zero.
+                                                                                                                                      \end{problem}
+                                                                                                                                      \begin{solution}
+                                                                                                                                      False, if $f$ is holomorphic on all of $\C$ it doesn't have any discontinuities, so it doesn't have a pole. Here is a salvage:
+
+                                                                                                                                      If $f$ is a meromorphic function with a pole at 0, then $e^f$ has a essential discontinuity at 0.
+
+                                                                                                                                      Even without this tecnhicality, it is impossible: if $f$ has a pole of degree $d$, then we can write $f = \sum_{k=-d}^{\infty} a_kx^k$, and since the leading term dominates as $x$ tends to zero, when $\epsilon$ is sufficiently small, we can find a value $x_1$ such that $f(x_1)\approx |\epsilon|^{-d}$ near 0.
+
+                                                                                                                                      Then $e^{f(x)}$ cannot possibly be a pole or removable discontinuity at 0, as if it were, for some $n\in \N$, 
+                                                                                                                                      \[
+                                                                                                                                      0 = \lim_{x\to 0} e^{f(x)}/x^n  = \lim_{x\to 0} e^{x^d}/x^n = \infty
+                                                                                                                                      \]
+                                                                                                                                      \end{solution}
+                                                                                                                                      \begin{problem}
+                                                                                                                                        There exists a nowhere-vanishing holomorphic function
+                                                                                                                                          $f : \C \to \C$ such that $\lim_{z \to \infty} f(z) = \infty$.
+                                                                                                                                          \end{problem}
+                                                                                                                                          \begin{solution}
+                                                                                                                                          False. Such a function is a meromorphic function on the extended complex plane with a pole at infinity, so it is a rational function, and can be written out as a quotient of two polynomials $f=p(x)/q(x)$. If $q(x)$ is not constant, it has a root, contradicting the domain of $f$ being all of $\C$. If $p(x)$ is not constant, then there is a zero of $f$. Thus $f$ is a constant.
+
+                                                                                                                                          A correct statement could be something like 
+                                                                                                                                          \begin{theorem}
+                                                                                                                                          Any non constant meromorphic function $f:\C\to \C$ with $\lim_{z\to\infty} = C$ for some constant $C$ has at least 1 pole.
+                                                                                                                                          \end{theorem}
+                                                                                                                                          The limit being constant happens exactly when the degree of $p(x)$ is equal to the degree of $q(x)$ in the precceding proof. Since the $f$ isn't constant, $q(x)$ has a root somewhere, and by the definition of meromorphic this root corresponds to a pole.
+                                                                                                                                          \end{solution}
+                                                                                                                                          % All such functions are rational
+
+                                                                                                                                          \end{document}
+

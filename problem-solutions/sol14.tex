@@ -1,0 +1,289 @@
+\documentclass{homework}
+\course{Math 5522H}
+\author{Jim Fowler}
+\input{preamble}
+
+\begin{document}
+\maketitle
+
+\begin{inspiration}
+In mathematics, existence is freedom from contradiction.
+\byline{David Hilbert}
+\end{inspiration}
+
+\section{Terminology}
+
+\begin{problem}
+  What is the \textbf{Schwarz-Christoffel integral}?
+
+    Be careful to discuss the choice of branches in the terms appearing
+      in the integrand.
+      \end{problem}
+      \begin{solution}
+      Let $\{a_1, \dots, a_N\}$ be a sequence of increasing real numbers and $\{b_1, \dots b_N\}$ a sequence of real numbers with $0<b_n<1$ for all $1\leq n\leq N$ such that $1 < \sum_{n=1}^N b_n$.
+      \[
+      S(z) = \int_0^z \left( \prod_{n=1}^N (\zeta - a_n)^{-b_n} \right) d\zeta
+      \]
+      The term $\zeta - a_n$ is defined using the log with a branch cut on the line $a_n - bi$ for $b\geq 0$. The cut is choosen so that $(\zeta - a_n)^{-b_n} = |\zeta - a_n|^{-b_n}$.
+      \end{solution}
+      \begin{problem}
+        What is an elliptic integral?
+        \end{problem}
+        \begin{solution}
+        An elliptic integral is a function $f:\R\to \R$ of the form
+        \[
+        f(y) = \int_0^y R(x, \sqrt{P(x)} dx
+        \]
+        with $R$ rational function and $P$ a polynomial of degree 3 or four.
+
+        \end{solution}
+        \begin{problem}
+          What is the incomplete elliptic integral of the first kind?
+
+            This integral is usually denoted by $F$, but confusingly the input
+              to $F$ is sometimes called the ``parameter'' and other times called
+                the ``modular angle'' and \textit{these are different}!
+                \end{problem}
+                \begin{solution}
+                The incomplete elliptic integral of the first kind is a function 
+                \[
+                F(\varphi, k) = \int_0^\varphi \frac{d\theta}{\sqrt{1- k^2\sin^2\theta}}
+                \]
+
+                \end{solution}
+                \section{Computation}
+
+                \begin{problem}
+                  Find all solutions to
+                    \[
+                        \frac{1}{x} + \frac{1}{y} + \frac{1}{z} = 1
+                          \]
+                            for integers $x,y,z \in \Z$.
+                            \end{problem}
+                            \begin{solution}
+                            WLOG let $x\leq y\leq z$. Then we must have $x\leq 3$ so the LHS is at least as big as 1. If $x=1,$ there is clearly no solution, and if $x=3$, then the only possible solution is $x=y=z.$
+
+                            Finally we consider the case $x=2.$ In this case, we need to solve
+                            \begin{align*}
+                            \frac{1}{y} + \frac{1}{z} &= \frac{1}{2}\\
+                            yz - 2z - 2y &= 0\\
+                            (y - 2)(z - 2) &= 4\\
+                            \end{align*}
+                            From $1*4 = 4$ we get $y=3, z=6$ as a solution. From $2*2=4$ we get $y=z=4.$ There are no more factorizations of $4$ where the second term is bigger than the first, so these three are the only solutions up to permuting the variables.
+                            \end{solution}
+                            \begin{problem}
+                              For $w$ in the upper half-plane, consider
+                                \[
+                                    f(w) = \int_0^w  \frac{dz}{\sqrt{1-z^2}}
+                                      \]
+                                        where $\sqrt{1-z^2}$ is holomorphic in the upper half-plane and positive when $w \in (-1,1)$.
+
+                                          The function $f$ provides a conformal map from the upper half-plane to what region?
+
+                                            What is a well-known name for the function $f$?
+                                            \end{problem}
+                                            \begin{solution}
+
+                                            Let's rewrite this function 
+                                              \[
+                                                  f(w) = \int_0^w  (1-z)^\frac{-1}{2}(1+z)^\frac{-1}{2} dz
+                                                    \]
+                                                    When $z\in (-1, 1),$ the integrand is strictly positive, so $f(w)$ and the image of is the real line on the interval with $x<R$ with $R$ given by
+                                                    \[
+                                                    \int_0^1 \frac{dz}{\sqrt{1-z^2}} = \arcsin(z)\bigg|_{z=0}^1 = \frac{\pi}{2}
+                                                    \]
+                                                    When $z\in (1, \infty)$, the integrand $(1-z)$ is purely imaginary, so the image is a vertical line starting at $\frac{\pi}{2}$ and going up. Since
+                                                    \[
+                                                    \lim_{w\to\infty} \int_0^w (1-z)^\frac{-1}{2}(1+z)^\frac{-1}{2} dz = \lim_{w\to\infty} \int_0^w O(\frac{1}{z}) = \infty
+                                                    \]
+                                                    the line goes all the way to $\oo.$ Similarly, the image of $(-\oo, -1)$ is a vertical line from $\frac{-\pi}{2}$ going straight up to $\oo.$
+
+                                                    To decide which side of this box is the image of the interior of the half plane, notice that this is the integral of the derivative of the arcsin function, so this function is nothing but $\arcsin(z)$. $\arcsin$ will sends values into an injective domain of $\sin$, so it must send the upper half plane to the interior of this box rather than the exterior.
+                                                    \end{solution}
+                                                    \begin{problem}
+                                                      Consider the function
+                                                        \[
+                                                            f(w) = \int_0^w  \frac{dz}{\sqrt{z} \sqrt{z+1} \sqrt{z-1}}
+                                                              \]
+                                                                which maps the upper half-plane to a square (after making appropriate branch cuts!).
+
+                                                                  What is the side length of the square?
+
+                                                                    \textit{Warning:} Your answer may still involve an integral.
+                                                                    \end{problem}
+                                                                    \begin{solution}
+                                                                    Considering the derivative of this function, we see that it takes 3 right turns at the points $-1, 0, 1,$ and $\infty$ Using the branch cuts from the definition of the Schwarz-Christoffel integral, the integrand is real and positive when $z\in (1, \infty)$. So we can compute the side length of the square by integrating over this derivative from 1 to infinity. By the fundamental theorem of calculus, it is 
+                                                                    \[
+                                                                    f(\oo) - f(1) = \int_1^\oo \frac{dz}{\sqrt{z}\sqrt{z+1}\sqrt{z-1}}
+                                                                    \]
+                                                                    Wolfram Alpha tells us that this is
+                                                                    \[
+                                                                    \frac{2\sqrt{\pi}\, \Gamma(\frac{5}{4})}{\Gamma(\frac{3}{4})} \approx 2.62206
+                                                                    \]
+                                                                    \end{solution}
+                                                                    \begin{problem}
+                                                                      Describe a biholomorphic map between the unit disk and the interior
+                                                                        of an $n$-gon.
+                                                                        \end{problem}
+                                                                        \begin{solution}
+                                                                        We can compose the Cayley transform with an appropriate Schwarz Christoffel integral to get such a biholomorphic map. The Cayley transform maps the unit disk to the upper half plane biholomorphically, and the integral will map the half plane into the interior of a polygon biholomorphically.
+
+                                                                        % TODO why is it biholomorphic
+                                                                        \end{solution}
+                                                                        \section{Exploration}
+
+                                                                        \begin{problem}  
+                                                                          When can a holomorphic map $f : B_1(0) \to B_1(0)$ have more than two fixed points?
+                                                                          \end{problem}
+                                                                          \begin{solution}
+                                                                          The only time that $f$ can have two or more fixed points is when it is constant. Suppose, we have two points $a,b$ so that $f(a)=a$ and $f(b)=b.$
+
+                                                                          We can find a biholomorphic map from the unit disk to itself swapping the point $a$ with the point $0$, call it $g$. Then it follows that 
+                                                                          \[
+                                                                          (g^{-1}\circ f \circ g)(0) = (g^{-1}\circ f)(a) = g^{-1}(a) = 0
+                                                                          \]
+                                                                          Now we can apply the Schwarz lemma to the function $g^{-1}\circ f \circ g$ to conclude that if this function has a fixed point besides 0, then it must be constant.
+
+                                                                          Since $g$ is bijective, there is a point $c$ so that $g(c)=b$ (hence $g^{-1}(b)= c$). Then
+                                                                          \[
+                                                                          (g^{-1}\circ f \circ g)(c) = (g^{-1}\circ f)(b) = g^{-1}(b) = c
+                                                                          \]
+                                                                          Using the Schwarz lemma as mentioned, we can conclude that $g^{-1}\circ f\circ g$ is constant, and hence $f$ is also constant.
+                                                                          \end{solution}
+                                                                          \begin{problem}
+                                                                            Can a holomorphic map $f : \C \to \C$ which isn't the identity have
+                                                                              more than two fixed points?
+                                                                              \end{problem}
+                                                                              \begin{solution}
+                                                                              Yes, many do. Consider for example a cubic polynomial $p(z).$ At a fixed point, $p(z)=z$, and by the fundamental theorem of algebra, $p(z)-z$ has three roots. We can choose $p(z)$ so that there are no repeated roots and then find an example of such a function.
+                                                                              \end{solution}
+                                                                              \begin{problem}
+                                                                                Does every holomorphic function $f : B_1(0) \to B_1(0)$ have a fixed point?
+                                                                                \end{problem}
+                                                                                \begin{solution}
+                                                                                No. Consider the Cayley transform $g=\frac{z-i}{z+i}$ from the upper half plane to the unit disk. Then consider
+                                                                                \[
+                                                                                f = g\circ \left(z\to(z + 1)\right) \circ g^{-1}.
+                                                                                \]
+                                                                                $f$ has no fixed point, since if $f(z)=z,$ then 
+                                                                                \begin{align*}
+                                                                                f(z) = z &= (g\circ \left(z\to(z + 1)\right) \circ g^{-1})(z)\\
+                                                                                g^{-1}(z) &= g^{-1}(z) + 1
+                                                                                \end{align*}
+
+                                                                                Also, $f$ is a biholomorphism from $B_1(0)\to B_1(0)$ since adding $1$ is a biholomorphism from the upper half plane to itself.
+                                                                                \end{solution}
+                                                                                \begin{problem}
+                                                                                  For angles $\alpha, \beta, \gamma \in (0,2\pi)$ with $\alpha + \beta + \gamma = \pi$, the function
+                                                                                    \[
+                                                                                        f(z) = \int_0^z \frac{dw}{(w-A)^{1-\alpha/\pi} (w-B)^{1-\beta/\pi}}
+                                                                                          \]
+                                                                                            maps the upper half-plane to a triangle, and extends to a map $f : H \to T$ where $H$ is the closed half-space
+                                                                                              \[
+                                                                                                  H = \{ x + iy \in \C : x, y \in \R \mbox{ and } y \geq 0 \},
+                                                                                                    \]
+                                                                                                      and $T$ is the (closed) triangle.
+
+                                                                                                        Where does $f$ send the real line?
+                                                                                                        \end{problem}
+                                                                                                        \begin{solution}
+                                                                                                        We are given that $f$ extends to a map $f:H\to T$ with $T$ the closed triangle, so $f$ sends the real line to the boundary of some triangle.
+
+                                                                                                        To do find which one, we consider the derivative, easily computed with the fundamental theorem of calculus.
+                                                                                                        \begin{align*}
+                                                                                                        f'(z) &= (z - A)^{\alpha/\pi-1}(z - B)^{\beta/\pi-1}\\
+                                                                                                        \arg(f'(z)) &= \arg((z - A)^{\alpha/\pi-1}(z - B)^{\beta/\pi-1})\\
+                                                                                                        &= \arg\left(\begin{cases}
+                                                                                                        0 & A > z \\
+                                                                                                        \alpha/\pi - 1 & A < z \\
+                                                                                                        \end{cases}
+                                                                                                        \right)
+                                                                                                        \arg\left(\begin{cases}
+                                                                                                        0 & B > z \\
+                                                                                                        \beta/\pi - 1 & B < z \\
+                                                                                                        \end{cases}
+                                                                                                        \right)
+                                                                                                        \end{align*}
+                                                                                                        Thus, the image of $f$ on the real line is a straight line with two curves at the points $f(A)$ and $f(B)$. At the point $A$, the curve takes a counterclockwise turn of exterior angle $\alpha - \pi$, hence interior angle $\alpha$. Similarly at the point $B$, the curve takes a counterclockwise turn of angle $\beta.$
+
+                                                                                                        Finally, since $2 - \alpha + \beta > 1$, the integrand of $f(z)$ grows slower than $w^{-1}$ and hence the integral converges to some point $f(\infty),$ and this point is the same at both plus and minus infinity since $f$ is holomorphic. Thus the image of the real line line is the triangle with verticies $f(A), f(B),$ and $\lim_{z\to\infty} f(z).$
+                                                                                                        \end{solution}
+                                                                                                        \begin{problem}
+                                                                                                          A M\"obius transformation $g(z) = (az + b)/(cz + d)$ with
+                                                                                                            $a,b,c,d \in \R$ sends $H$ to itself.  Consider the composition
+                                                                                                              \[
+                                                                                                                  f \circ g \circ f^{-1} : T \to T
+                                                                                                                    \]
+                                                                                                                      to describe a map from $T$ to itself, conformal on the interior of
+                                                                                                                        $T$, which permutes the vertices of $T$.
+                                                                                                                        \end{problem}
+                                                                                                                        \begin{solution}
+                                                                                                                        We consider the values $A$ and $B$ used in the last problem on the real line, and use a conformal mapping to scale and shift the plane with a function so that they go to $0$ and $1$. WLOG assume $B>A.$
+                                                                                                                        \[
+                                                                                                                        h(z) = (z - A)/(B - A)
+                                                                                                                        \]
+                                                                                                                        Then we can permute the locations of $0, 1, \oo$ on the real line by using this family of mobius tranformations. To send $0$ to $1$ , $1$ to $\oo$, and $\oo$ to $0$, the transformation
+                                                                                                                        \[
+                                                                                                                        g_1(z) = \frac{-1}{z-1}
+                                                                                                                        \]
+                                                                                                                        works. To swap the positions of $0$ and $\oo$, the tranformation 
+                                                                                                                        \[
+                                                                                                                        g_2(z) = \frac{1}{z}
+                                                                                                                        \]
+                                                                                                                        works. By composing $g_1(z)$ and $g_2(z)$ in some ways, we can get a function $g$ that permutes the 3 points in any way that we may desire.
+
+                                                                                                                        Then we consider the transformation
+                                                                                                                        \[
+                                                                                                                        f\circ h^{-1}\circ g\circ h\circ f^{-1}
+                                                                                                                        \].
+
+                                                                                                                        $f^{-1}$ sends the triangle to the half plane, then $h^{-1}\circ g\circ h$ switches the locations of $A,B,$ and $\oo$, and finally, $f$ will send the half plane back to the triangle, but since the 3 points mapped to the corners have been permuted, the verticies of $T$ will be permuted by this transformation. 
+                                                                                                                        \end{solution}
+                                                                                                                        \section{Prove or Disprove and Salvage if Possible}
+
+                                                                                                                        \begin{problem}
+                                                                                                                          A polygon's angles determine the polygon up to similarity.
+                                                                                                                          \end{problem}
+                                                                                                                          \begin{solution}
+                                                                                                                          Considering polygonal regions of the plane, this is false, since we can scale, shift, and rotate a polygon to change it. However, up to scaling and shifting, it is True. Given two polygons $P_1=[c_{1,1}, c_{1,2},\dots c_{1,n}]$ and $P_2 = [c_{2,1}, c_{2,2},\dots c_{2,n}]$ so that $c_{1,i}$ is the corner of $P_1$ with the same interior angle as $c_{2,i}$, we scale, shift, and rotate so that $c_{1,1}=c_{2,1}$ and $c_{1,2}=c_{2,2}$.
+
+                                                                                                                          Now assume that for $1, 2, \dots k$, $c_{1,k}=c_{2,k}$ with $k\geq 2.$ Then consider the triangle with corners 
+                                                                                                                          \[
+                                                                                                                          \triangle(c_{1,k-1}, c_{1,k}, c_{1, k+1}) =
+                                                                                                                          \triangle(c_{2,k-1}, c_{2,k}, c_{1, k+1})
+                                                                                                                          \]
+                                                                                                                          Now, since this triangle has two of the same verticies as $\triangle(c_{2,k-1}, c_{2,k}, c_{2, k+1})$, and the angles associated with the two verticies are the same, these two triangles are the same by ASA triangle similarity. Thus $c_{2, k+1} = c_{1, k+1}.$
+
+                                                                                                                          By induction, all of the corners of $P_1$ and $P_2$ are in the same place and so the two polygons are equal.
+
+                                                                                                                          \end{solution}
+                                                                                                                          \begin{problem}
+                                                                                                                            Suppose $f : B_{1+\epsilon}(0) \to \C$ and if $|z| \leq 1$ then
+                                                                                                                              $|f(z)| \leq 1$.  Then $f$ has a fixed point in the unit disk
+                                                                                                                                $B_1(0)$.
+                                                                                                                                \end{problem}
+                                                                                                                                \begin{solution}
+                                                                                                                                True. Let $g(z) = (1 + \frac{\epsilon}{n})z$. Then on the unit circle, $\abs{g(z)}>\abs{f(z)}$. Since $g(z)$ has one zero contained in the unit circle, Rouche's theorem, tells us that $g(z) + f(z)$ has exactly one zero in the unit cirlce. Let $z_{n}$ be the point where 
+                                                                                                                                \[
+                                                                                                                                g(z_n) + f(z_n) = 0.
+                                                                                                                                \]
+                                                                                                                                Expanding out g,
+                                                                                                                                \[
+                                                                                                                                z_n - f(z_n) = -z_{n}\frac{\epsilon}{n}
+                                                                                                                                \]
+                                                                                                                                Now consider the sequence $\{z_i\}_{1\leq i \leq\infty}.$ Each element in the sequence is an element of the compact set given by the unit disk $B_1(0).$ Therefore, there exists a subsequence $z_{a_i}$ approaching some accumulation point $A$, and on this subsequence, $z-f(z)$ gets arbitrarily close to 0. Since $f(z) - z$ is continuous and every open ball around $A$ contains points arbitrarily close to $0$, it follows that $f(A) - A = 0.$ Thus $A$ is a fixed point of $f$.
+                                                                                                                                \end{solution}
+                                                                                                                                \begin{problem}
+                                                                                                                                  There exists a surjective holomorphic function
+                                                                                                                                    $f : B_1(0) \to B_1(0)$ which is not injective.
+                                                                                                                                    \end{problem}
+                                                                                                                                    \begin{solution}
+                                                                                                                                    True, $z^2$ is such a function. Any point in the ball has a square root with magnitude less than 1, and it's not injective since $\pm z$ map to the same point.
+                                                                                                                                    \end{solution}
+                                                                                                                                    \begin{problem}
+                                                                                                                                      There exists a surjective holomorphic function $f : B_1(0) \to \C$.
+                                                                                                                                      \end{problem}
+                                                                                                                                      \begin{solution}
+                                                                                                                                      True. Let $g_1$ be the Cayley transform mapping the disk to the upper half plane, $g_2(z) = z-i$, and $g_3(z) = z^2.$ Then $g_2\circ g_1$ maps the unit disk to a set containing the closed half plane, and $g_3$ maps the closed half plane to all of $\C$, so $g_3\circ g_2 \circ g_1$ is surjective onto $\C.$
+                                                                                                                                      \end{solution}
+                                                                                                                                      \end{document}

@@ -1,0 +1,330 @@
+\documentclass{homework}
+\course{Math 5522H}
+\author{Jim Fowler}
+\input{preamble}
+
+\begin{document}
+\maketitle
+
+\begin{inspiration}
+Nature laughs at the difficulties of integration.
+\byline{Pierre-Simon Laplace} % what's the original source for this quotation?
+\end{inspiration}
+
+\section{Terminology}
+
+\begin{problem}
+  What does it mean to say that $\Omega \subset \C$ is connected?  Is path-connected?  
+  \end{problem}
+  \begin{solution}
+  $\Omega\subset \C$ is said to be connected if, for any two disjoint open sets $U,V\in \C$ containing $\Omega$ in their union, either $U\cap \Omega$ or $V\cap \Omega$ is empty.
+  \end{solution}
+  \begin{problem}
+    What is a piecewise-smooth \textbf{curve}?  When are two curves ``the same''?  
+    \end{problem}
+    \begin{solution}
+    A smooth curve is a smooth function $f$ from an interval $[t_0, t_1]: t_0, t_1\in\R$ to the complex numbers $\gamma(t)\in \C$ such that $\gamma'(t)\neq 0$ at any point $t$.A piecewise smooth curve is the function defined on the interval $[t_0, t_n]$ by $n$ smooth curves $$\gamma_i:[t_{i-1}, t_i]\mapsto \C$$ satisfying $\gamma_{i-1}(t_{i}) = \gamma_{i}(t_{i})$ for $i\in [1, n]$.
+
+    Two curves $\gamma_a:[a_0, a_1] \mapsto \C, \gamma_b:[b_0, b_1]\mapsto \C$ are said to be the same if there is a differentiable function $f: [a_0, a_1] \mapsto [b_0, b_1]$ such that $\forall t\in [a_0, a_1], \gamma_a(t) = \gamma_b(f(t))$.
+    \end{solution}
+    \begin{problem}
+        Define $\int_\gamma f(z) \, dz$ and define $\int_\gamma f(z) \, dx$ and define $\int_\gamma f(z) \, dy$.
+        \end{problem}
+        \begin{solution}
+        First, some notation for $\gamma$. Define $\gamma:[a,b]\to \{x + iy:x, y \in \R\}$. Then
+        \begin{align*}
+        \int_\gamma f(z) \, dz &:= \int_{a}^b \gamma'(t)f(\gamma(t)) \, dt\quad \color{purple}\text{ complex derivative }\\
+        \int_\gamma f(z) \, dx &:= \int_{a}^b \gamma_x(t)f(\gamma(t)) \, dt\quad\color{purple}\text{ first coordinate derivative }\\
+        \int_\gamma f(z) \, dy &:= i\int_{a}^b \gamma_y(t)f(\gamma(t)) \,dt\quad \color{purple}\text{ second coordinate derivative }
+        \end{align*}
+        \end{solution}
+        \begin{problem}
+          Define $\int_\gamma f(z) \, d\conj{z}$.
+          \end{problem}
+          \begin{solution}
+          \begin{align*}
+          \int_\gamma f(z) \, \conj{dz} &:= \conj{\int_{a}^b \gamma'(t)\conj{f(\gamma(t))} \, dt}\\
+          \end{align*}
+
+          \end{solution}
+          \begin{problem}
+            Define $\int_\gamma f(z) \, \abs{dz}$.
+            \end{problem}
+            \begin{solution}
+            \begin{align*}
+            \int_\gamma f(z) \, \abs{dz} &:= \int_{a}^b \abs{\gamma'(t)}f(\gamma(t)) \,dt \\
+            \end{align*}
+            \end{solution}
+
+            \begin{problem}
+              What does it mean to say that a $1$-form is \textbf{exact}?
+              \end{problem}
+              \begin{solution}
+              $f(z)\,dz$ is \textbf{exact} if there it has a \textbf{primitive} - a complex differentiable function $F(z)$ such that $\frac{d}{dz} F(z) = f(z)$.
+              \end{solution}
+              \begin{problem}
+                What are the \textbf{poles} and \textbf{zeros} of a rational
+                  function $p(z)/q(z)$?
+                  \end{problem}
+                  \begin{solution}
+                  Assuming that $p(z)$ and $q(z)$ share no zeros as part of the definition of a rational function:
+                  The \textbf{poles} of $p(z)/q(z)$ are the points at which $q(z)=0$. The $\textbf{zeros}$ are the points at which $p(z)=0$.
+                  \end{solution}
+
+                  \section{Numericals}
+
+                  \begin{problem}
+                  Consider a piecewise smooth curve $\gamma$ tracing the boundary of the square
+                    $$S = \{ z = x+iy\in \C : \abs{x} \mbox{ and } \abs{y} \leq 1 \}.$$
+                      Compute $\displaystyle\int_\gamma \frac{1}{z} \, dz$ by hand.
+                      \end{problem}
+                      \begin{solution}
+                      Going counter-clockwise, we recognize $\gamma = \gamma_1 + \gamma_2 + \gamma_3 + \gamma_4$ with $\gamma_i$ defined on the interval $[-1, 1]$ satisfying
+                      \begin{align*}
+                      \gamma_1 = 1 + it &\qquad \gamma_3 = -1 - it \\
+                      \gamma_2 = -t + i  &\qquad \gamma_4 = t - i
+                      \end{align*}
+                      Now we can compute the integral:
+                      \begin{align*}
+                      \int_{\gamma} \frac{1}{z} \, dz 
+                      &= \int_{-1}^1 \frac{\gamma_1'}{1 + it} \, dt +
+                      \int_{-1}^1 \frac{\gamma_2'}{-t + i} \, dt +
+                      \int_{-1}^1 \frac{\gamma_3'}{-1 - it} \, dt +
+                      \int_{-1}^1 \frac{\gamma_4'}{t - i} \, dt\\
+                      &= \int_{-1}^1 \frac{i}{1 + it} \, dt +
+                      \int_{-1}^1 \frac{-1}{-t + i} \, dt +
+                      \int_{-1}^1 \frac{-i}{-1 - it} \, dt +
+                      \int_{-1}^1 \frac{1}{t - i} \, dt\\
+                      &= \int_{-1}^1 \frac{4}{t - i} \, dt\\
+                      &= 4\Log(t - i)|_{t=-1}^1\color{purple}\text{ Log is analytic in an open set containing [-1, 1]} \\
+                      &= 4(\Log(1 - i)  - \Log(-1 - i))\\
+                      &= 4((\sqrt{2} + i7\pi/4) - (\sqrt{2} + i5\pi/4))\\
+                      &= 4(i\pi/2) = 2\pi i
+                      \end{align*}
+
+                      \end{solution}
+                      \begin{problem}\label{integral-powers-of-z}Consider the curve $\gamma : [0,2\pi] \to \C$ given by $\gamma(\theta) = e^{i\theta}$.  For an integer $n \in \Z$, compute $\displaystyle\int_\gamma z^n \, dz$ and $\displaystyle\int_\gamma \conj{z}^n \, dz$.
+                      \end{problem}
+                      \begin{solution}
+                      \begin{align*}
+                      \int_\gamma z^ndz &= \int_{0}^{2\pi} \gamma'(\theta) e^{i\theta n} d\theta\\
+                      &= i\int_{0}^{2\pi}e^{i(1+n)\theta} d\theta\\
+                      &= \begin{cases}i\int_{0}^{2\pi} e^{i(1+n)\theta} d\theta & n \neq -1\\
+                      i\int_{0}^{2\pi} 1 d\theta & n = -1 \end{cases}\\
+                      &= \begin{cases} 0 & n \neq -1\\
+                      2\pi i & n = -1 \end{cases}
+                      \end{align*}
+                      For the second integral,
+                      \begin{align*}
+                      \int_\gamma \conj{z}^ndz &= \int_{0}^{2\pi} \gamma'(\theta) e^{-i\theta n} d\theta\\
+                      &= i\int_{0}^{2\pi}e^{i(1-n)\theta} d\theta\\
+                      &= \begin{cases}i\int_{0}^{2\pi} e^{i(1-n)\theta} d\theta & n \neq 1\\
+                      i\int_{0}^{2\pi} 1 d\theta & n = 1 \end{cases}\\
+                      &= \begin{cases} 0 & n \neq 1\\
+                      2\pi i & n = 1 \end{cases}
+                      \end{align*}
+                      \end{solution}
+
+                      \begin{problem}\label{one-over-z-around-circle}Let $\gamma:[a, b]\mapsto \C$ be a (positively oriented) parametrization of a circle
+                        in the plane, and suppose the image of $\gamma$ does not include the
+                          origin.  Compute $\displaystyle\int_\gamma \frac{1}{z} \, dz$.
+                          \end{problem}
+                          \begin{solution}
+                          Since $\gamma$ is a positively oriented parameterization of a circle, we can find a differentiable map $f:[a,b]\mapsto [0, 2\pi]$ such that $r(e^{if(t)} + z)= \gamma(t)$, where $r\in\R$ is the radius of and $rz$ is the center of the circle parameterized by $\gamma$.
+                          \begin{align*}
+                          \int_\gamma \frac{1}{z} \, dz &= \int_a^{b} \frac{\frac{d}{dt}\gamma(t)}{\gamma(t)}dt\\
+                          &= \int_a^{b} \frac{\frac{d}{dt}(re^{if(t)}+ rz)}{re^{if(t)} + rz}dt\\
+                          &= \int_a^{b} \frac{if'(t)e^{if(t)}}{e^{if(t)} + z}dt\\
+                          &= \int_0^{2\pi} \frac{ie^{iu}}{e^{iu} +  z}du \quad \color{purple} u=f(t), du = f'(t) dt\\
+                          &= \log(e^{ui} + z)\big|_{u=0}^{2\pi}
+                          \end{align*}
+                          Though we may be a bit suspcious about which log we are using. However, since the interior of $\gamma$ does not contain the origin, we can choose a branch of the log such that the angle which has a discontinuity is disjoint from the set of $\theta$ that satisfy $re^{i\theta}= e^{ui} +z$ for some $r, u$. Then the value of the above integral is 0 since $e^0 = e^{2\pi i}$.
+
+                          On the other hand, if the image does include the origin, we can imagine that the argument of the parameter passed to log will continuously increase by $2\pi$, so if we switch branches of the log at the place that the derivative is continuous, the difference between the start and end point will be exactly $2\pi i$.
+
+                          \end{solution}
+                          \begin{problem}\label{lacunary-series}What is radius $R$ of convergence of
+                            $\displaystyle\sum_{n=1} x^{(n!)}$?  (This is a \textbf{lacunary
+                                series} with large gaps between nonzero terms.)
+                                \end{problem}
+                                \begin{solution}
+                                We use the following fact: the radius of convergence of a power series $R$ satisfies
+                                \[\frac{1}{R} = \limsup_{k\to \infty} \sqrt[k]{|x_k|}\]
+                                So we need to compute 
+                                \[\limsup_{n\to \infty} \sqrt[n!]{1} = 1\]
+                                Therefore, the radius of convergence is 1.
+                                \end{solution}
+
+                                \section{Exploration}
+
+                                \begin{problem}For the series in \ref{lacunary-series}, find a dense
+                                  subset of the circle $\{ z \in \C : \abs{z} = 1 \}$ where the series
+                                    diverges.
+                                    \end{problem}
+                                    \begin{solution}
+                                    Let $z=e^{2i\pi \theta}$ with $\theta$ some rational number $n/m$, this is a dense subset of the circle. Note that for $x>=m$, 
+                                    \[z^x = (e^{2i\pi n/m})^{x!} = z^x = e^{(2i\pi n)*(x!/m)} = 1\],
+                                    so we are taking a sum of a 1 infinitely many times, which does not seem like a good sign for convergence.
+                                    \end{solution} 
+
+                                    \begin{problem}
+                                      For which $z \in \C$ with $|z|=1$ does the series
+                                        $\displaystyle\sum_{n=0}^{\infty} \frac{z^n}{n}$ converge?  Diverge?
+                                        \end{problem}
+                                        \begin{solution}
+                                        If $z=1$ then it's the harmonic series so it diverges. Otherwise it goes in a big spiral that obviously converges. But how to prove... Let's check by letting $z=e^{i\theta}, \theta\neq 0$ and using the integral test (checking if the integral from some lower bound to infinity is finite). It suffices to show that the real and imaginary part converge. For the imaginary part:
+                                        \begin{align*}
+                                        \int_{\pi/\theta}^\infty \frac{\sin(x\theta)}{x} dx &=
+                                        \sum_{k=1}^\infty (\int_{(2k + 1)\pi /\theta}^{(2k+2)\pi/\theta} \frac{\sin(x\theta)}{x} dx +
+                                        \int_{2k\pi/\theta}^{(2k + 1)\pi/\theta} \frac{\sin(x\theta)}{x} dx)
+                                        \end{align*}
+                                        Setting $u=x\theta, du = \theta dx$:
+                                        \begin{align*}
+                                        \int_{\pi/\theta}^\infty \frac{\sin(x\theta)}{x} dx &= \sum_{k=1}^\infty (\int_{(2k + 1)\pi}^{(2k+2)\pi} \frac{\sin(u)}{u} du +
+                                        \int_{2k\pi}^{(2k + 1)\pi} \frac{\sin(u)}{u} du)\\
+                                        &= \sum_{k=1}^\infty \int_{(2k + 1)\pi}^{(2k+2)\pi} \sin(u)(\frac{1}{u} - \frac{1}{u-\pi}) du  \color{purple} \text{ note it's negative}\\
+                                        &\geq -\sum_{k=1}^\infty \int_{(2k + 1)\pi}^{(2k+2)\pi} (\frac{1}{(2k+2)\pi} - \frac{1}{2k\pi}) du \\
+                                        &= \sum_{k=1}^\infty \frac{1}{(2k+2)} - \frac{1}{2k} du = -\frac{1}{2}
+                                        \end{align*}
+                                        This integral is finite so the imaginary part of the series converges. An analogous argument with cosine shows that the real part of the series converges, so the series must converge in the complex plane.
+                                        \end{solution}
+
+
+                                        \begin{problem}
+                                        Suppose $f : \C \to \C$ is a rational function which
+                                          sends the unit circle to the real line, i.e., for $z \in \C$ with
+                                            $|z| = 1$ we have $f(z) \in \R$.  Inspired
+                                              by \ref{schwarz-reflection-principle}, compute
+                                                $\overline{f(1/\conj{z})}$ and then discuss the relationship between
+                                                  the poles and zeros of $f$.
+                                                  \end{problem}
+                                                  \begin{solution}
+                                                  If $|z|=1$, then $f(z)=\conj{f(z)}$ and $1/\conj{z} = z$. Thus
+                                                  $\conj{f(1/\conj{z})} = f(z)$ on the unit circle. Since these are rational functions that agree on an infinite set of points, they must be equal everywhere.
+
+                                                  Thus for any zero or pole $z_0$ of $f$, there is another zero or pole respectively at $\frac{1}{\conj{z_0}}= \frac{z_0}{|z_0|}.$
+                                                  \end{solution}
+                                                  \begin{problem}
+                                                  In lecture, we briefly saw an example (the
+                                                    \textbf{topologist's sine curve}) of a subset of $\mathbb{C}$ which
+                                                      is connected but not path-connected.  For open subsets of
+                                                        $\mathbb{C}$, what is the relationship between connectedness and
+                                                          path-connectedness?
+                                                          \end{problem}
+                                                          \begin{solution}
+                                                          If a open subset of $\C$ is path-connected, it's also connected: For contradiction, suppose there was a disconnection formed from disjoint open sets $U$, $V$. Choosing points $P_U \in U, P_V \in V$, there is a path $f:[0, 1]\mapsto \C$ from $P_U$ to $P_V$. Let $s = \sup x\in [0,1]: f(x) \in U$. s is not 1 since $f$ is continuous and there is a ball around $f(1)$ contained in $V$. Hence by the defintion of sup, we can find an infinite sequence $u_i \in [0, 1]$ with $f(u_i) \in U$ that converges to $s$ and any sequence of points $v_i \in [0, 1]$ with $v_i < s$ converging to $s$ has $f(v_i) \in V$, so $f(s)$ is a boundary point of both $U$ and $V$ contained in either $U$ or $V$, a contradiction.
+
+                                                          Next we show that if a open subset of $S\in \C$ is connected, it's also path-connected. For each point $p \in S$, define $P$ to be the set of points that we can reach from $p$. $P$ is open since if we can reach any point by a path, we can also reach any point from $p$, then we can also reach any point in the (convex) open ball surrounding that point.
+
+                                                          Now consider the complement $S/P$. This set is also open - supposing that we can't reach a point $s\in S/P$, then we can't reach any point in the open ball surrounding that point. So $P=(S/P)\cup S$ is a union of two disjoint open sets. As $P$ is connected, this implies that one of the $S/P$ and $S$ is empty, and as $s\in S$, this implies $S/P = \empty$ and $S=P$. Recalling the definition of $P$, we can reach any point in $S$ by a path starting at $p$, so we can reach any point from any other point by going first to $p$ and then to the second point.
+                                                          \end{solution}
+                                                          \begin{problem}\label{argument-principle-numerical}Consider $\gamma : [0,2\pi] \to \C$ given by $\gamma(\theta) = e^{i\theta}$.  For an integer $n \in \Z$ and $f(z) = z^n$, compute
+                                                            \[
+                                                                \frac{1}{2\pi i} \displaystyle\int_\gamma \frac{f'(z)}{f(z)} \, dz
+                                                                  \]
+                                                                    in two different ways.  First, evaluate $f'(z)/f(z)$ and invoke
+                                                                      \ref{integral-powers-of-z}.  Second, describe a curve $\gamma_n$ and
+                                                                        interpret $\int_\gamma \frac{f'(z)}{f(z)} \, dz$ as
+                                                                          $\int_{\gamma_n} dz/z$ for that different curve $\gamma_n$.  (This
+                                                                            is our first glimpse of the \textbf{argument principle}.)
+                                                                            \end{problem}
+                                                                            \begin{solution}
+                                                                            \[\frac{f'(z)}{f(z)} = \frac{nz^{n-1}}{z^n} = \frac{n}{z}\]
+                                                                            Then using \ref{integral-powers-of-z}, the integral's value is $n$.
+
+                                                                            Next, consider going along the curve $\gamma_n = f\circ \gamma$, it's the path that $f(z)$ traces out as we go along the curve. Algebraically, let $u = f(z)$ so $du = f'(z) dz.$
+                                                                            Then
+                                                                            \[
+                                                                            \int_{\gamma} \frac{f'(z)}{f(z)}dz =  \int_{\gamma_n} \frac{1}{u} du = \int \frac{\gamma_n'(t)}{\gamma_n(t)}dt = \int_0^{2\pi} \frac{ine^{int}}{e^{int}}dt = 2in\pi
+                                                                            \]
+                                                                            Dividing out by $2in\pi$, the value of the integral we were given is $n$. 
+                                                                            \end{solution}
+
+                                                                            \begin{problem}\label{one-over-z-w-around-circle}
+                                                                              Consider the curve $\gamma : [0,2\pi] \to \C$ given by $\gamma(\theta) = e^{i\theta}$.  For $w \in \C$ with $|w| \neq 1$, compute
+                                                                                \[
+                                                                                    \frac{1}{2\pi i} \displaystyle\int_\gamma \frac{1}{z-w} \, dz
+                                                                                      \]
+                                                                                        perhaps by invoking \ref{one-over-z-around-circle}.
+                                                                                        \end{problem}
+                                                                                        \begin{solution}
+                                                                                        Let $v = z - w,$ so $dv = dz$. Defining the function $\gamma_2(t) := \gamma(t) - w$, we see that 
+                                                                                        \[\int_\gamma \frac{1}{z-w}dz =  \int_{\gamma_2} \frac{1}{v}dv\]
+                                                                                        This is exactly the integral of a circle, and \ref{one-over-z-around-circle} shows that if the circle doesn't include the origin, then the integral is 0 and otherwise, (the specific proof I did shows), it is $\frac{1}{2\pi i}$. Thus
+                                                                                        \[
+                                                                                        \frac{1}{2\pi i} \displaystyle\int_\gamma \frac{1}{z-w} \, dz = \begin{cases}1 & |w| < 1\\ 0 & |w| > 1\end{cases}.
+                                                                                        \]
+                                                                                        \end{solution}
+
+                                                                                        \begin{problem}
+                                                                                          Yet again consider the curve $\gamma : [0,2\pi] \to \C$ given by $\gamma(\theta) = e^{i\theta}$.  For distinct $w_1, w_2 \in \C$ with $\abs{w_1} \neq 1$ and $\abs{w_2} \neq 1$, let $f(z) = (z - w_1) (z - w_2)$ and compute
+                                                                                            \[
+                                                                                                \frac{1}{2\pi i} \displaystyle\int_\gamma \frac{f'(z)}{f(z)} \, dz.
+                                                                                                  \]
+                                                                                                  \end{problem}
+                                                                                                  \begin{solution}
+                                                                                                  Let $\gamma' = f\circ \gamma = (e^{i\theta} - w_1)(e^{i\theta} - w_2)$, and make the subsitution $w=f(z)$ so $dw = f'(z)dz$.
+                                                                                                  Then
+                                                                                                  \begin{align*}
+                                                                                                  \frac{1}{2\pi i} \int_\gamma \frac{f'(z)}{f(z)} \, dz
+                                                                                                  &= \frac{1}{2\pi i} \int_{\gamma_1}\frac{1}{w} \, dw\\
+                                                                                                  &= \frac{1}{2\pi i} \int_0^{2\pi} \frac{\gamma_1'(t)}{\gamma_1(t)} \, dt\\
+                                                                                                  &= \frac{1}{2\pi i} \int_0^{2\pi} \frac{ie^{i\theta} - w_1}{e^{i\theta}} + \frac{ie^{i\theta}}{e^{i\theta} - w_1} \, dt\\
+                                                                                                  &= \frac{1}{2\pi i} (\int_0^{2\pi} \frac{ie^{i\theta}}{e^{i\theta} - w_1} dt + \int_0^{2\pi} \frac{ie^{i\theta}}{e^{i\theta} - w_1}dt )\\
+                                                                                                  &= \frac{1}{2\pi i} (\int_{\gamma} \frac{1}{z - w_1} dt + \int_{\gamma} \frac{1}{z - w_1}dt )
+                                                                                                  \end{align*}
+                                                                                                  Invoking \ref{one-over-z-w-around-circle}, this is
+                                                                                                  \[\left(\begin{cases}1 & |w_1| < 1\\ 0 & |w_1| > 1\end{cases} \right) +
+                                                                                                  \left(\begin{cases}1 & |w_2| < 1\\ 0 & |w_2| > 1\end{cases}\right)\]
+                                                                                                  \end{solution}
+
+                                                                                                  \section{Prove or Disprove and Salvage if Possible}
+
+                                                                                                  \begin{problem}
+                                                                                                    If $e^z = e^w$, then $z = w$.
+                                                                                                    \end{problem}
+                                                                                                    \begin{solution}
+                                                                                                    False, $e^0 = e^{2\pi i}= 1$. However, since $e^{x + iy} = e^x(\cos(y) + i\sin(y))$, $\exists \, k \, s.t. \, (e^z = e^w \implies z = w + 2\pi ik)$
+                                                                                                    \end{solution}
+                                                                                                    \begin{problem}
+                                                                                                      If $f \, dz$ is exact, then $\displaystyle\int_\gamma f \, dz = 0$.
+                                                                                                      \end{problem}
+                                                                                                      \begin{solution}
+                                                                                                      Additionally we require that $\gamma$ is a closed curve starting and ending at the same point $p$. In this case, letting $F$ be the antiderivative of $f$,
+                                                                                                      \begin{align*}
+                                                                                                      \int_\gamma f \, dz 
+                                                                                                      &= \int \gamma'(t)f(\gamma(t)) \, dt \\
+                                                                                                      &= \int_\gamma \frac{d}{dt}(F\circ\gamma)(t) \, dt\\
+                                                                                                      &= (F\circ\gamma)(\gamma(p) - \gamma(p)) = 0
+                                                                                                      \end{align*}
+                                                                                                      \end{solution}
+
+                                                                                                      \begin{problem}% orientation issues
+                                                                                                        Suppose $\gamma : [0,1] \to \C$ is a smooth curve, and $p : [0,1] \to [0,1]$ is a smooth bijection.
+                                                                                                          Then
+                                                                                                            \[
+                                                                                                                \int_\gamma f(z) \, dz = \int_{\gamma \circ p} f(z) \, dz.
+                                                                                                                  \]
+                                                                                                                  \end{problem}
+                                                                                                                  \begin{solution}
+                                                                                                                  If $p(0)=1$, then we will switch the direction of the curve which will make the answer negative. 
+
+                                                                                                                  Otherwise, we can prove it as follows.
+                                                                                                                  \begin{align*}
+                                                                                                                  \int_{\gamma \circ p} f(z) \, dz &= \int_0^1 (\frac{d}{dt}(\gamma\circ p) \times (f \circ \gamma \circ p))t \,dt\\
+                                                                                                                  &= \int_{0}^1 \gamma'(p(t))p'(t) (f \circ \gamma \circ p)t\, dt \\
+                                                                                                                  &= \int_{0}^1 \gamma'(u) (f \circ \gamma)u\, du \quad \color{purple} u=p(t), du = p'(t)dt\\
+                                                                                                                  &= \int_{\gamma} f(z) \, dz
+                                                                                                                  \end{align*}
+                                                                                                                  \end{solution}
+
+
+
+                                                                                                                    \begin{problem}\label{identity-theorem}If $f \in \C[z]$ is a polynomial with infinitely many zeros, then
+                                                                                                                        $f \equiv 0$.
+                                                                                                                          \end{problem}
+                                                                                                                           \begin{solution}
+                                                                                                                            By the fundamental theorem of arithmetic, $f$ splits completely in $\C$ as $\prod_{i=0}^n (z - r_i)$ where $r_i$ is a root. At any number that's not a root, this product is clearly nonzero unless it is the empty product, so we must have that $f\equiv 0$.
+                                                                                                                             \end{solution} 
+                                                                                                                             \end{document}
+

@@ -1,0 +1,367 @@
+\documentclass{homework}
+\course{Math 5522H}
+\author{Alex Li}
+\input{preamble}
+
+\begin{document}
+\maketitle
+
+\begin{inspiration}
+  On April 9, 1975, Congressman Robert Michel brandished a list of new
+    NSF grants on the floor of the House of Representatives and selected
+      a few that he thought might represent a waste of the taxpayers'
+        money. One of them \ldots was called ``Studies in Complex
+          Analysis.'' Michel's comment was, `` `Simple Analysis' would,
+            hopefully, be cheaper.''
+              \byline{Gerald B. Folland} % the American Mathematical Monthly (vol 780, Oct 1998, pg. 780)
+              \end{inspiration}
+
+              \section{Terminology}
+
+              \begin{problem}
+                What is a \textbf{simply-connected} domain?
+                \end{problem}
+                \begin{solution}
+                A open set $U\subset \C$ is said to be a simply connected domain if it is connected and, any two piecewise smooth closed curves $\gamma_1, \gamma_2: [0, 1]\mapsto U$ with the same start and end point are \textbf{homologous}.
+                \end{solution}
+                \begin{problem}
+                  What does it mean to say that two curves $\alpha: [0, 1]\mapsto U$ and $\beta: [0, 1]\mapsto U$ are
+                    \textbf{homologous}?
+                    \end{problem}
+                    \begin{solution}
+                    It means that $\alpha, \beta$ are piecewise smooth and $\alpha(0) = \beta(0)$ and $\alpha(1) = \beta(1)$ and that $\alpha - \beta$ is null homotopic.
+                    \end{solution}
+                    \begin{problem}
+                      What is a \textbf{null homotopic} path?
+                      \end{problem}
+                      \begin{solution}
+                      A path (or formal sum of paths $\sum_{i} \gamma_i$) of a function $f: U \mapsto \C$ is said to be null homotopic if for all $x\in \C \setminus U$, the winding number of the paths sum to 0: $\sum_i n(\gamma_i, x) = 0.$
+                      \end{solution}
+                      \begin{problem}
+                        Given a function $f : U \to \C$, what is meant by a \textbf{branch} of $\log f$?
+                        \end{problem}
+                        \begin{solution}
+                        A branch of $\log f$ is an analytic function $g: U \to \C$ such that $e^g = f$.
+                        \end{solution}
+
+                        \section{Numericals}
+
+                        \begin{problem}
+                          Let $f(z) = (z^2-z-1)/z^3$, and consider the curve
+                            $\gamma : [0,2\pi] \to \C$ by $\gamma(\theta) = f(e^{i\theta})$.
+                              Compute the winding number $n(\gamma,0)$.
+                              \end{problem}
+                              \begin{solution}
+                              Let $u=e^{it}$
+                              \begin{align*}
+                                  n(\gamma, 0) &= \frac{1}{2\pi i}\int_\gamma \frac{1\, d\gamma}{\gamma}\\
+                                      &= \frac{1}{2\pi i}\int_{t=0}^{2\pi} \frac{u^3\frac{d}{du}(\frac{1}{u} - \frac{1}{u^2} - \frac{1}{u^3})z'}{(u^2-u-1)}dt\\
+                                          &= \frac{1}{2\pi i}\int_{t=0}^{2\pi} \frac{(-u + 2 + 3zu{-1})u'}{(u^2-u-1)}dt
+                                          \end{align*}
+                                          Let $\gamma_2$ be the positively oriented unit circle. Since $\gamma_2' = z'$, 
+                                          \begin{align*}
+                                              n(\gamma, 0) &= \frac{1}{2\pi i}\int_{\gamma_2} \frac{(-z + 2 + 3z^{-1})\, dz}{(z^2-z-1)}\\
+                                                  &= \frac{1}{2\pi i}\int_{\gamma_2} \frac{(-z^2 + 2z + 3)dz}{z(z^2-z-1)}\\
+                                                      &= \frac{1}{2\pi i}\int_{\gamma_2} \frac{-3}{z} + \frac{1}{z - \frac{1+\sqrt{5}}{2}} + \frac{1}{z + \frac{1-\sqrt{5}}{2}}dz \quad\color{purple} \text{Partial Fraction Decomp}\\
+                                                          &= -3n(\gamma_2, 0) + n(\gamma_2,\frac{1+\sqrt{5}}{2}) + n(\gamma_2, \frac{1-\sqrt{5}}{2})\\
+                                                              &= -3 + 0 + 1 = -2
+                                                              \end{align*}
+                                                              \end{solution}
+                                                              \begin{problem}
+                                                                Evaluate the \textbf{Dirichlet integral}
+                                                                  \[
+                                                                      \int_0^\infty \frac{\sin x}{x} \, dx.
+                                                                        \]
+                                                                        \end{problem}
+                                                                        \begin{solution}
+                                                                        Let 
+                                                                        \[
+                                                                        I(t) = \int_0^\infty e^{-tx}\frac{\sin x}{x}\, dx
+                                                                        \]
+                                                                        We would like to find $I(0)$. Consider differentiating w.r.t t:
+                                                                        \begin{align*}
+                                                                        \frac{d}{dt}I(t) = -\int_0^\infty e^{-tx}\sin x\, dx
+                                                                        \end{align*}
+                                                                        Now, do integration by parts twice to compute \(I_2 = \int_0^\infty e^{-tx}\sin x\, dx\):
+                                                                        \begin{align*}
+                                                                        &\color{purple} u=e^{-tx}, u'=-te^{-tx}, v = \cos x, v' = -\sin x\\
+                                                                        I_2 &= -e^{-tx}\cos x\big|_{x=0}^\infty - \int_0^\infty te^{-tx}\cos x\, dx\\
+                                                                        &= 1 - t\int_0^\infty e^{-tx}\cos x\, dx\\
+                                                                        &\color{purple} u=e^{-tx}, u'=-te^{-tx}, v = \sin x, v' = \cos x\\
+                                                                        \int_0^\infty e^{-tx}\cos x\, dx &= -e^{-tx}\sin x|_{0}^{\infty} + \int_0^\infty te^{-tx}\sin x dx\\
+                                                                        &= tI_2\, dx
+                                                                        \end{align*}
+                                                                        Thus 
+                                                                        \[
+                                                                        I_2 = 1 - t^2I_2 \implies (t^2+1)I_2 = 1 \implies I_2 = \frac{1}{t^2+1} \implies \frac{d}{dt}I(t) = \frac{-1}{t^2+1}
+                                                                        \]
+                                                                        With the goal of recovering $I(0)$, we want to integrate. To remove the constant term, let's compute $I(\infty) = \lim_{t\to\infty} \int_0^\infty e^{-tx}\frac{\sin x}{x}$. As this converges pointwise to 0, $I(\infty) = 0$.
+                                                                        \begin{align*}
+                                                                        I(0) - I(\infty) = I(0) = \int_\infty^0 \frac{-dt}{t^2 + 1} = \tan^{-1}(t)\big|_\infty^0 = -0 - -\pi/2 = \pi/2
+                                                                        \end{align*}
+                                                                        \end{solution}
+                                                                        \begin{problem}
+                                                                          Define $\gamma : [0,2\pi] \to \C$ by $\gamma(\theta) = e^{i\theta}$.
+                                                                            Suppose $p \in \C[z]$ is a degree $n$ polynomial with distinct roots
+                                                                              $z_1,\ldots,z_n$ in the unit disk, and evaluate
+                                                                                \[
+                                                                                    \int_\gamma \frac{z^m \, p'(z)}{p(z)} \, dz.
+                                                                                      \]
+                                                                                      \end{problem}
+                                                                                      \begin{solution}
+                                                                                      \begin{align}
+                                                                                      \int_\gamma \frac{z^m \, p'(z)}{p(z)} \, dz &= \int_\gamma z^m\sum_{i=1}^n \frac{1}{z-z_i} \, \, dz\\
+                                                                                      \label{sum_of_int_zm_z_zi}
+                                                                                      &= \sum_{i=1}^n \int_\gamma \frac{z^m}{z-z_i} \, \, dz
+                                                                                      \end{align}
+                                                                                      Now Cauchy's integral formula shows us that for any root $z_i$ and holomorphic function $f$,
+                                                                                      \begin{align*}
+                                                                                      f(z_i) &= \frac{1}{2\pi i}\int_\gamma \frac{f(z)}{z - z_i}\,dz\\
+                                                                                      2\pi i z_i^m &= \int_\gamma \frac{z^m}{z - z_i}\,dz
+                                                                                      \end{align*}
+                                                                                      Plugging this into \ref{sum_of_int_zm_z_zi},
+                                                                                      \begin{align*}
+                                                                                      \int_\gamma \frac{z^m \, p'(z)}{p(z)} \, dz &= 2\pi i\sum_{i=1}^n z^m
+                                                                                      \end{align*}
+                                                                                      \end{solution}
+
+                                                                                      \begin{problem}
+                                                                                        Again define $\gamma : [0,2\pi] \to \C$ by
+                                                                                          $\gamma(\theta) = e^{i\theta}$, and then evaluate
+                                                                                            \[
+                                                                                                \int_\gamma \frac{\conj{w}}{w - z} \, dw
+                                                                                                  \] for $z \in \C$ with $\abs{z} < 1$.
+                                                                                                  \end{problem}
+                                                                                                  \begin{solution}
+                                                                                                  \begin{align*}
+                                                                                                      \int_\gamma \frac{\conj{w}}{w - z} \, dw &=
+                                                                                                          \int_0^{2\pi} \frac{e^{-it}(-ie^{it})}{e^{it} - z} \, dt\\
+                                                                                                              &= -i\int_0^{2\pi} \frac{e^{-it}}{1 - ze^{-it}} \, dt
+                                                                                                              \end{align*}
+                                                                                                              The denominator has positive real part - by assumption $\abs{z}< 1$, and as $\abs{e^{it}} =1$, $\abs{ze^{-it}}  < 1$ so $\Re(1-ze^{-it}) > \abs{1} - \abs{ze^{-it}} > 0$. Thus, $\Log$ is a branch of the logarithm function defined in a simply connnected domain containing the curve $\gamma(t) = 1-ze^{-it}$.
+
+                                                                                                              Notice that $\frac{d}{dt}\log(1-ze^{-it}) = \frac{-ize^{-it}}{1-ze^{-it}}$, so we can simplify our expression further:
+                                                                                                              \begin{align*}
+                                                                                                                  \int_\gamma \frac{\conj{w}}{w - z} \, dw &=
+                                                                                                                      \frac{1}{z}\Log(1 - ze^{-it})|_0^{2\pi} = 0
+                                                                                                                      \end{align*}
+
+                                                                                                                      \end{solution}
+                                                                                                                      \begin{problem}
+                                                                                                                        Consider subsets of the real line $A = (-\infty,-1] \cup [1,\infty)$
+                                                                                                                          and $B = [-1,1]$.  Is it possible to define a branch of the
+                                                                                                                            logarithm of $z^2 - 1$ on $\C \setminus A$?  What about on
+                                                                                                                              $\C \setminus B$?
+                                                                                                                              \end{problem}
+                                                                                                                              \begin{solution}
+                                                                                                                              From Theorem 4.1 of Palka, it's possible to define a branch of the logarithm on a set $U$ iff $\int_{\gamma} \frac{f'(z)dz}{f(z)} \, dz= 0$ for every closed curve $\gamma\subset U$.
+
+                                                                                                                              \begin{align*}
+                                                                                                                                  \int_\gamma \frac{2z}{z^2 - 1}\, dz &=     \int_\gamma \frac{1}{z- 1}\,dz + \int_\gamma\frac{1}{z+1}\, dz\\
+                                                                                                                                      &= n(\gamma, 1) + n(\gamma, -1)
+                                                                                                                                      \end{align*}
+                                                                                                                                      It's geometrically clear that any curve $\gamma\subset \C\setminus A$ must have $n(\gamma, 1) = n(\gamma, -1) = 0$, so there is a branch of the log function here.
+
+                                                                                                                                      On the other hand, on the set $\C\setminus B$, the curve $\gamma = 2e^{it}$ for $0\leq t \leq 2\pi$ has $n(\gamma, 1)+ n(\gamma, -1) = 1 + 1 \neq 0$, so we cannot define a branch of the logarithm function here.
+                                                                                                                                      \end{solution}
+                                                                                                                                      \section{Exploration}
+
+                                                                                                                                      \begin{problem}
+                                                                                                                                        If we can find a branch of $\log f$ then we can define a
+                                                                                                                                          single-valued $\sqrt{f(z)}$ via $e^{(1/2) \, \log f}$.  Does the
+                                                                                                                                            converse hold?  Find an open set $U \subset \C$ and a holomorphic
+                                                                                                                                              function $f : U \to \C$ so that there is \textit{no} branch of
+                                                                                                                                                $\log f$ but it is nevertheless possible to define a single-valued
+                                                                                                                                                  $\sqrt{f(z)}$.
+                                                                                                                                                  \end{problem}
+                                                                                                                                                  \begin{solution}
+                                                                                                                                                  Let $U = \C \setminus \{0\}$ and $f(z) = z^2$. There is no branch of $\log f$ here: suppose that $e^g = f$ for some holomorphic $g$, then 
+                                                                                                                                                  \[
+                                                                                                                                                  g'e^{g} g\cdot f= f' \implies g' = \frac{f'}{f}
+                                                                                                                                                  \]
+                                                                                                                                                  Then since $g$ is holomorphic, so is $g'$. Thus the integral of $g$ around the positively oriented unit circle $\gamma$ is nonzero:
+                                                                                                                                                  \[
+                                                                                                                                                  \int_\gamma g(z) dz =\int_\gamma \frac{f'}{f} dz = \int_\gamma \frac{2}{z} dz = 4\pi i \neq 0
+                                                                                                                                                  \]
+                                                                                                                                                  Thus, $g$ isn't holomorphic, so there is no branch of $\log f$.
+
+                                                                                                                                                  On the other hand, $z = \sqrt{f(z)}$ is a branch of the square root function that is analytic on the whole set.
+                                                                                                                                                  \end{solution}
+
+                                                                                                                                                  \begin{problem}
+                                                                                                                                                    Liouville's theorem (\ref{liouville-theorem}) states that a
+                                                                                                                                                      nonconstant holomorphic function $f : \C \to \C$ is not bounded.
+                                                                                                                                                        Seeing \ref{entire-is-dense}, we might ask how ``small'' can the
+                                                                                                                                                          image of holomorphic function be.  Find a holomorphic function
+                                                                                                                                                            $f : \C \to \C$ with image equal to $\C \setminus \{w\}$.
+                                                                                                                                                              (Incidentally, by \textbf{Picard's little theorem}, you will have
+                                                                                                                                                                trouble finding an entire function with image missing two points.)
+                                                                                                                                                                \end{problem}
+                                                                                                                                                                \begin{solution}
+                                                                                                                                                                Notice that $f(x) = e^x$ has image $\C \setminus \{0\}$, since $f^{-1}(re^{i\theta}) = \log r + i\theta$. However, the real function $\log r$ is not invertible for $r=0$, so the image doesn't contain only 0. 
+
+                                                                                                                                                                Thus, $f(x-w)$ has image $\C\setminus \{w\}$.
+                                                                                                                                                                \end{solution}
+
+                                                                                                                                                                \begin{problem}\label{cauchy-inequalities-2}Suppose
+                                                                                                                                                                  $f(z) = \sum_{n=0}^\infty a_n z^n$ is holomorphic in the disk
+                                                                                                                                                                    $B_R(0)$.  If $0 < r < R$, show that
+                                                                                                                                                                      \[
+                                                                                                                                                                          \abs{a_n} \leq \frac{1}{r^n} \displaystyle\sup_{z \in \partial B_r(0)} \abs{f(z)}.
+                                                                                                                                                                            \]
+                                                                                                                                                                              This extends \ref{cauchy-inequalities}.
+                                                                                                                                                                              \end{problem}
+                                                                                                                                                                              \begin{solution}
+                                                                                                                                                                              Let $\gamma$ be the positively oriented border of $B_R(0)$.
+                                                                                                                                                                              By Cauchy's integral formula,
+                                                                                                                                                                              \begin{align*}
+                                                                                                                                                                              f^{(n)}(0) &= \frac{n!}{2\pi i}\int_{\gamma} \frac{f(z)\, dz}{z^{n+1}}\\
+                                                                                                                                                                              &= \frac{n!}{2\pi}\abs{\int_{\gamma} \frac{f(z)\, dz}{z^{n+1}}}\\
+                                                                                                                                                                              &\leq \frac{n!}{2\pi}\int_{\gamma} \frac{\abs{f(z)}\, dz}{r^{n+1}}\\
+                                                                                                                                                                              &\leq n!\frac{\sup_{z\in\partial B_r(0)} \abs{f(z)}}{r^{n}}\quad \color{purple} \int_\gamma d|\gamma| = 2\pi r
+                                                                                                                                                                              \end{align*}
+
+                                                                                                                                                                              Also, by taking derivatives, 
+                                                                                                                                                                              \begin{align*}
+                                                                                                                                                                                  f^{(n)}(z) = \frac{\partial^n \sum_{k=0}^\infty a_kz^k }{\partial ^n} = n!a_n + \sum_{k=n+1}^\infty k!a_k z^{n-k}
+                                                                                                                                                                                  \end{align*}
+                                                                                                                                                                                  When $z=0$, this implies $f^{(n)}(0) = n!a_n$.
+                                                                                                                                                                                  Comparing the two expressions,
+                                                                                                                                                                                  \begin{align*}
+                                                                                                                                                                                      n!a_n \leq n!\frac{\sup_{z\in\partial B_r(0)} \abs{f(z)}}{r^{n}}
+                                                                                                                                                                                          a_n \leq \frac{\sup_{z\in\partial B_r(0)} \abs{f(z)}}{r^{n}}.
+                                                                                                                                                                                          \end{align*}
+                                                                                                                                                                                          \end{solution}
+
+                                                                                                                                                                                          \begin{problem}
+                                                                                                                                                                                            Consider a nonconstant polynomial $p \in \mathbb{C}[z]$ of degree $n$.  Compute
+                                                                                                                                                                                              \[
+                                                                                                                                                                                                  \lim_{r \to \infty} \int_{\partial B_r(0)} \left( \frac{p'(z)}{p(z)} - \frac{n}{z} \right) dz.
+                                                                                                                                                                                                    \]
+                                                                                                                                                                                                      Can you perform this computation \textit{without} appealing to the
+                                                                                                                                                                                                        fundamental theorem of algebra?
+                                                                                                                                                                                                        \end{problem}
+                                                                                                                                                                                                        \begin{solution}
+                                                                                                                                                                                                        Let $\displaystyle{p(z) = \sum_{k=0}^n a_kz^k}$.
+                                                                                                                                                                                                        \begin{align*}
+                                                                                                                                                                                                            \lim_{r \to \infty} \int_{\partial B_r(0)} \left( \frac{p'(z)}{p(z)} - \frac{n}{z} \right) dz &= \lim_{r \to \infty} \int_{\partial B_r(0)} \left( \frac{\sum_{k=1}^n a_kz^{k-1} }{\sum_{k=0}^n a_kz^{k}} - \frac{n}{z} \right) dz \\
+                                                                                                                                                                                                                &= \lim_{r \to \infty} \int_{\partial B_r(0)} \left( \frac{\sum_{k=1}^n ka_kz^{k-1} }{\sum_{k=0}^n a_kz^{k}} - \frac{n}{z} \right) dz \\
+                                                                                                                                                                                                                    &= \lim_{r \to \infty} \int_{\partial B_r(0)} \left( \frac{\sum_{k=1}^n ka_kz^{k} - n\sum_{k=0}^n a_kz^{k+1} }{\sum_{i=0}^k a_kz^{k+1}} \right) dz \\
+                                                                                                                                                                                                                        &= \lim_{r \to \infty} \int_{\partial B_r(0)} \left( \frac{\sum_{k=0}^{n-1} (k-n)a_kz^{k} }{\sum_{k=0}^n a_kz^{k+1}} \right) dz = f(r)
+                                                                                                                                                                                                                        \end{align*}
+                                                                                                                                                                                                                        This is the integral of something $O(\frac{1}{z^2})$, so it's 0. More precisely, choose $r$ such that $\abs{a_{n-1}r^{n-1}} > \sum_{k=0}^{n-1} \abs{(k-n)a_kr^{k}}$ and $\abs{a_nr^{n+1}} > \frac{1}{2}(\sum_{k=0}^{n-1} \abs{a_kr^{k+1}})$
+                                                                                                                                                                                                                        \begin{align*}
+                                                                                                                                                                                                                            f(r) &\leq \int_{\partial B_r(0)} \left( \abs{\frac{\sum_{k=0}^{n-2} (k-n)a_kz^{k} }{\sum_{k=0}^n a_kz^{k+1}}}\right) dz\\
+                                                                                                                                                                                                                                &\leq \int_{\partial B_r(0)} \left( \frac{\abs{a_{n-1}r^{n-1}}+\sum_{k=0}^{n-1} \abs{(k-n)a_kr^{k}}}{\abs{a_nr^{n+1}} - \sum_{k=0}^{n-1} \abs{a_kr^{k+1}}}\right) dz \\
+                                                                                                                                                                                                                                     &\leq \int_{\partial B_r(0)} \left( \frac{\abs{2a_{n-1}r^{n-1}}}{\abs{\frac{1}{2}a_nr^{n+1}}}\right) dz \qquad \color{purple}C:=\frac{4a_{n-1}}{a_n}\\
+                                                                                                                                                                                                                                          &= C\int_{\partial B_r(0)} \abs{\frac{1}{r^2}} dz \leq C\frac{1}{r^2}2\pi r
+                                                                                                                                                                                                                                          \end{align*}
+                                                                                                                                                                                                                                          As $r\to 0$, this expression also goes to 0.
+                                                                                                                                                                                                                                          \end{solution}
+
+
+                                                                                                                                                                                                                                          \begin{problem}\label{uniformly-approximate-conj}For $\epsilon > 0$, is there a polynomial $p \in \mathbb{C}[z]$ so
+                                                                                                                                                                                                                                            that $\abs{p(z) - \conj{z}} < \epsilon$ for $z \in B_1(0)$?  In
+                                                                                                                                                                                                                                              other words, can we uniformly approximate $\conj{z}$ by a polynomial
+                                                                                                                                                                                                                                                in $z$?
+                                                                                                                                                                                                                                                \end{problem}
+                                                                                                                                                                                                                                                \begin{solution}
+                                                                                                                                                                                                                                                No. Suppose $p(z) - \conj{z} < 1$ for all points in $B_1(0)$. 
+                                                                                                                                                                                                                                                Let $\gamma:[0,2\pi]$ with $\gamma(t) = .5e^{it}$. Then
+                                                                                                                                                                                                                                                \begin{align*}
+                                                                                                                                                                                                                                                    \int_{\gamma} p(z) - \conj{z}dz = 
+                                                                                                                                                                                                                                                            \int_{\gamma} p(z) - \int_{\gamma} \frac{1}{z} dz = 0-2\pi i
+                                                                                                                                                                                                                                                            \end{align*}
+                                                                                                                                                                                                                                                            However, 
+                                                                                                                                                                                                                                                            \begin{align*}
+                                                                                                                                                                                                                                                                \abs{\int_{\gamma} p(z) - \conj{z} dz} &=
+                                                                                                                                                                                                                                                                        \abs{\int_0^{2\pi} \gamma'(p(\gamma(t)) - \conj{\gamma(t)}) dt}\\
+                                                                                                                                                                                                                                                                                &\leq \int_0^{2\pi} .5 \abs{p(\gamma(t)) - \conj{\gamma(t)})} dz \leq \pi
+                                                                                                                                                                                                                                                                                \end{align*}
+                                                                                                                                                                                                                                                                                And since $|2\pi i|\not\leq \pi$, we have a contradiction.
+                                                                                                                                                                                                                                                                                \end{solution}
+
+
+                                                                                                                                                                                                                                                                                \section{Prove or Disprove and Salvage if Possible}
+
+                                                                                                                                                                                                                                                                                \begin{problem}\label{entire-is-dense}If $f : \C \to \C$ is
+                                                                                                                                                                                                                                                                                  holomorphic, then the image of $f$ is dense in $\C$.
+                                                                                                                                                                                                                                                                                  \end{problem}
+                                                                                                                                                                                                                                                                                  \begin{solution}
+                                                                                                                                                                                                                                                                                  No, let $f(z)=0$. That's pretty holomorphic and pretty not dense. 
+
+                                                                                                                                                                                                                                                                                  To show that the image is dense, it suffices to show that for any $w$, there is no open ball around $w$ in the image such that no point of $f$ maps to the open ball around $w$. If $w\in \text{Image} f$ then we are done! Otherwise, consider the function $g(z) =\frac{1}{f(z) - w}$, it's holomorphic since $f(z) - w$ has no zeros, and hence it is unbounded, and thus $\forall \epsilon > 0$ there is a point $z$ such that $\frac{1}{f(z) - w} > \frac{1}{\epsilon}$, so $f(z) - w < \epsilon$. Hence there are points arbitrarily close to $w$ in the image of $f$, implying density.
+                                                                                                                                                                                                                                                                                  \end{solution}
+
+                                                                                                                                                                                                                                                                                  \begin{problem}\label{identity-dominate-entire}Suppose $f : \C \to \C$
+                                                                                                                                                                                                                                                                                    is holomorphic and for all $z \in \C$ we have
+                                                                                                                                                                                                                                                                                      $\abs{f(z)} \leq \abs{z}$.  Then $f(z) = \lambda z$ for some
+                                                                                                                                                                                                                                                                                        $\lambda \in \C$.
+                                                                                                                                                                                                                                                                                        \end{problem}
+                                                                                                                                                                                                                                                                                        \begin{solution}
+
+                                                                                                                                                                                                                                                                                        Since $f$ is holomorphic in $\C$, it is analytic and can be represented by an everywhere convergent power series.
+                                                                                                                                                                                                                                                                                        \[
+                                                                                                                                                                                                                                                                                        f(z) = \sum_{i=0}^\infty a_iz^i
+                                                                                                                                                                                                                                                                                        \]
+                                                                                                                                                                                                                                                                                        Since $\abs{f(0)} \leq \abs{0}$, $f(0)=0$ and thus $a_0=0$. Define $g(z) = \sum_{i=0}^\infty a_{i+1}z^i$ so that
+                                                                                                                                                                                                                                                                                        \begin{align}\label{f_z_is_z_g_z}
+                                                                                                                                                                                                                                                                                        f(z) = z\sum_{i=0}^\infty a_{i+1}z^i = zg(z)
+                                                                                                                                                                                                                                                                                        \end{align}
+
+                                                                                                                                                                                                                                                                                        $g(z)$ must be convergent everywhere, since if $z = 0$ $g(z)=a_1$ and otherwise, multiplication by $z$ gives $f(z)$. Thus, $g(z)$ is an analytic function.
+
+                                                                                                                                                                                                                                                                                        Since $f(|z|)\leq |z|$, $f(0)=0$, and dividing out we have that at other points, $\abs{\frac{f(z)}{z}}\leq 1$. Combining this with \ref{f_z_is_z_g_z},
+                                                                                                                                                                                                                                                                                        \[ 
+                                                                                                                                                                                                                                                                                        \frac{f(z)}{z} = g(z) \leq 1
+                                                                                                                                                                                                                                                                                        \]
+                                                                                                                                                                                                                                                                                        Thus liouville's theorem shows that $g(z)$ is a constant $\lambda$, and therefore 
+                                                                                                                                                                                                                                                                                        \[f(z) = z\lambda.\]
+                                                                                                                                                                                                                                                                                        \end{solution}
+                                                                                                                                                                                                                                                                                        \begin{problem}
+                                                                                                                                                                                                                                                                                          There is a nonconstant holomorphic function $f : \C \to \C$ so that
+                                                                                                                                                                                                                                                                                            for all $n \in \Z$ we have $f(z + n) = f(z)$.  (Such a function is
+                                                                                                                                                                                                                                                                                              \textbf{periodic}.)
+                                                                                                                                                                                                                                                                                              \end{problem}
+                                                                                                                                                                                                                                                                                              \begin{solution}
+                                                                                                                                                                                                                                                                                              Let $f(z) = \sin(2\pi z)$. This is clearly not constant, and
+                                                                                                                                                                                                                                                                                              \[
+                                                                                                                                                                                                                                                                                              f(z+n) = \sin(2\pi (z + n)) + \sin(2\pi z + 2\pi n) = \sin(2\pi z) = f(z) .
+                                                                                                                                                                                                                                                                                              \]
+                                                                                                                                                                                                                                                                                              $f$ is holomorphic since $\sin = \frac{e^{i\theta} - e^{-i\theta}}{2i}$ is holomorphic and we are just composing it with addition and multiplication by a constant.
+                                                                                                                                                                                                                                                                                              \end{solution}
+
+                                                                                                                                                                                                                                                                                              \begin{problem}\label{doubly-periodic}There is a nonconstant holomorphic function $f : \C \to \C$ so that
+                                                                                                                                                                                                                                                                                                for all $\omega \in \Z[i]$ we have $f(z + \omega) = f(z)$.  (Such a
+                                                                                                                                                                                                                                                                                                  function is \textbf{doubly periodic}.)
+                                                                                                                                                                                                                                                                                                  \end{problem}
+                                                                                                                                                                                                                                                                                                  \begin{solution}
+                                                                                                                                                                                                                                                                                                  False. If so, then the image of $f:\C \mapsto \C$ is the same as the image of $f$ restricted to the unit square. As $f$ is continuous, and the unit square is compact, the image of $f$ is bounded, contradicting the fact that $f$ is entire.
+
+                                                                                                                                                                                                                                                                                                  Since any constant function is holomorphic, we can salvage by saying that for any holomorphic $f$, $f$ is doubly periodic iff it is constant.
+                                                                                                                                                                                                                                                                                                  \end{solution}
+
+                                                                                                                                                                                                                                                                                                  \begin{problem}\label{maximum-modulus-principle}
+                                                                                                                                                                                                                                                                                                  Consider a connected open subset $U \subset \C$ and a holomorphic
+                                                                                                                                                                                                                                                                                                    function $f : U \to \C$.  If there is a point $z_0 \in U$ so that
+                                                                                                                                                                                                                                                                                                      for all $z \in U$ we have $\abs{f(z_0)} \geq \abs{f(z)}$, then $f$
+                                                                                                                                                                                                                                                                                                        is constant.  \textit{Hint:} show that $g(z) = \abs{f(z)}$ is
+                                                                                                                                                                                                                                                                                                          constant and invoke \ref{open-mapping-theorem-preview}.  This is the
+                                                                                                                                                                                                                                                                                                            \textbf{maximum modulus principle}.
+                                                                                                                                                                                                                                                                                                            \end{problem}
+                                                                                                                                                                                                                                                                                                            \begin{solution}
+                                                                                                                                                                                                                                                                                                            Choose a ball of radius $r$ around $z_0$ contained in $U$ parameterized by $\gamma$. By Cauchy's integral formula,
+                                                                                                                                                                                                                                                                                                            \begin{align*}
+                                                                                                                                                                                                                                                                                                            f(z_0) = \frac{1}{2\pi i}\int_{\gamma} \frac{f(z) \, dz}{z - z_0}\\
+                                                                                                                                                                                                                                                                                                            \abs{f(z_0)} = \frac{1}{2\pi}\abs{\int_{\gamma} \frac{f(z) \, dz}{z-z_0}}\\
+                                                                                                                                                                                                                                                                                                            = \frac{1}{2\pi}\abs{\int_0^{2\pi} \frac{f(e^{it})(rie^{it}) \, dz}{z - z_0}}\\
+                                                                                                                                                                                                                                                                                                            \leq \frac{1}{2\pi}\int_0^{2\pi} \frac{\abs{f(e^{it})(rie^{it})} \, dz}{r}\\
+                                                                                                                                                                                                                                                                                                            \leq \frac{1}{2\pi}\int_0^{2\pi} \abs{f(e^{it})} \, dz
+                                                                                                                                                                                                                                                                                                            \leq    \frac{1}{2\pi}\int_0^{2\pi} \abs{f(e^{it})} \, dz
+                                                                                                                                                                                                                                                                                                            \end{align*}
+                                                                                                                                                                                                                                                                                                            This means that the average value of $f(z)$ around the point $z_0$ is at least $z_0$, but since $f(z_0)$ is the max, $f(z)=f(z_0)$ on $\gamma$. As this argument holds for any ball of radius $\gamma$ contained in $U$, the set $V = \{z:f(z) = f(z_0)\}$ is open. The set $V^c = \{z:f(z)\neq f(z_0)\}$ is also open since it's the preimage of an open set, so $V$ is closed. Since $U$ is connected, $V=U$.
+                                                                                                                                                                                                                                                                                                            \end{solution}
+
+                                                                                                                                                                                                                                                                                                            \end{document}
+
+

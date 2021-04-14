@@ -1,0 +1,162 @@
+\documentclass{homework}
+\course{Math 5522H}
+\author{Alex Li}
+\input{preamble}
+
+\begin{document}
+\maketitle
+
+\begin{inspiration}
+What kind of metabolism do they have? What's their \textbf{growth rate?}
+\byline{the fictional Dr. Alan Grant in \textit{Jurassic Park}, a well-known movie about complex dynamics}
+\end{inspiration}
+
+\textbf{This is a short week with an instructional break, so this
+  problem set is shorter.}
+
+  \section{Terminology}
+
+  \begin{problem}
+    What does it mean to say that an entire function is of
+      \textbf{finite order}?
+      \end{problem}
+      \begin{solution}
+      A function $f:\C\to\C$ is said to have order of growth at most $\rho\in\R$ if there exist $A\in\R, B\in\R$ so that $\forall z\, \in \C$,
+      \[
+      f(z) \leq Ae^{B\rho^{|z|}}
+      \]
+      The order is finite if such $\rho$ exists.
+      \end{solution}
+      \begin{problem}
+        What are \textbf{canonical factors}?
+        \end{problem}
+        \begin{solution}
+        For $k\geq0,$ the $k$th canonical factor is a function of $z$ given by the equation
+        \[
+        \left(1-z\right)e^{z + \frac{z^2}{2} + \dots + \frac{z^k}{k}}
+        \]
+        Note that when $k=0$, the exponential term is $e^0$.
+        \end{solution}
+        \section{Numericals}
+
+        \begin{problem}
+          Compute $\displaystyle\prod_{n=0}^\infty \left( 1 + z^{(2^n)} \right)$.
+          \end{problem}
+          \begin{solution}
+          First we note that if $|z| < 1$, then $\sum_{n=0}^\oo |z^{(2^n)}| < \infty$ by comparison to the geometric series $z^n$, so the product converges to something nonzero, and if $|z| > 1$, then each term grows unboundedly so the product diverges. If $|z|=1$ then the product diverges (to 0) since no matter how big $n$ is, there will a $\delta$ so that there are terms of product farther than $\delta$ from $1$.
+
+          Next let's consider this as a formal product and expand. We note that
+          for any term $z^k$, there is eactly one way to multiple terms to get it, corresponding to the binary expansion of $k$:
+          \[
+          \prod_{n=0}^\infty \left( 1 + z^{(2^n)} \right) = \sum_{n=0}^\infty z^n
+          \]
+          The rearrangement of the terms of the product are justified by the fact that the sum $\sum_{n=0}^\infty z^n$ converges absolutely for $|z|< 1$. % Not really
+
+          This implies that the sum is equal to 
+          \[
+          1 + \log(\frac{1}{1-z})
+          \]
+          \end{solution}
+          \begin{problem}
+            Compute $\displaystyle\prod_{n=1}^\infty \left( 1 - \frac{1}{(2n)^2} \right)$.
+            \end{problem}
+            \begin{solution}
+            Recall that in an earlier assignment, we proved that 
+            \[
+            \sin \left( \pi z \right) = \pi z \prod_{n=1}^\infty \left( 1 - \frac{z^2}{n^2} \right)
+            \]
+            Then take $z=\frac{1}{2}$ to see that 
+            \[
+            \frac{2}{\pi} = \frac{2\sin \left( \pi/2 \right)}{\pi} = \prod_{n=1}^\infty \left( 1 - \frac{1}{(2n)^2} \right)
+            \]
+            \end{solution}
+            \begin{problem}
+              What is the order of growth of $f(z) = \sin z$?
+              \end{problem}
+              \begin{solution}
+              \begin{align*}
+              \abs{\sin z} = \abs{\frac{e^{iz} - e^{-iz}}{2}}
+              \end{align*}
+              For a radius $r$, both terms in the numerator are bounded above by $e^{\abs{z}}$, so 
+              \begin{align*}
+              \abs{\sin z} \leq e^{\abs{z}}
+              \end{align*}
+              Thus the order of growth of $f$ is at most $1$.
+
+              Then considering the point $z=ir$ for $r>1$, 
+              \[
+              e^{iz} - e^{-iz} = e^{r} - e^{-r} \geq \frac{1}{2}e^{r}
+              \]
+              so the order of growth of $f$ is at least $1$. Hence the order of growth is exactly 1.
+              \end{solution}
+              \begin{problem}
+                What is the order of growth of a polynomial?
+                \end{problem}
+                \begin{solution}
+                For fixed $B, C, \rho>0$, the function $Ae^{B\rho^{|z|}}$ grows at an expoential rate in $|z|$, faster than any polynomial. Since $\rho\leq0$ will not satisfy any function, the inf of the $\rho$ satisfying the conditions is 0, so the order of growth of any polynomial is 0.
+                \end{solution}
+                \section{Exploration}
+
+                \begin{problem}
+                  Suppose $f : \C \to \C \setminus \{0, 1\}$ is a holomorphic function
+                    of finite order.  What does Hadamard say about $f$ in this case?
+                    \end{problem}
+                    \begin{solution}
+                    $f$ has no zeros, just like the function $g(z) = 1$. Hence by Hadamard's theorem, $f(z) = e^{p(z)}g(z)$. Since $f$ has finite order, $p(z)$ is a polynomial. If $p(z)$ is constant, than $f(z)$ is a constant. Otherwise, it has a root at $z_0$ by the funamental theorem of algebra. But $f(z_0) = e^p(z_0)g(z_0) = 1$, contradicting the range of $f$. Thus $f$ must be constant.
+                    \end{solution}
+                    \begin{problem}
+                      Consider the function
+                        \[
+                            G(z) = z \prod_{n=1}^\infty \left( 1 + \frac{z}{n} \right) e^{-z/n}
+                              \]
+                                which has zeros at nonpositive integers, just like the function
+                                  $z \mapsto 1/\Gamma(z)$ we saw last week.
+
+                                    Is it the case that $1/\Gamma(z) = G(z)$?
+                                    \end{problem}
+                                    \begin{solution}
+                                    Suppose that $G(z)\Gamma(z) = 1$. Then $\frac{G(2)}{G(1)} = \frac{\Gamma(2)}{\Gamma(1)} = 2$. But
+                                    \begin{align*}
+                                    \frac{G(2)}{G(1)} &= 2\prod_{n=1}^\infty\frac{1+\frac{2}{n}}{1 + \frac{1}{n}}e^{\frac{-1}{n}}\\
+                                    &= 2\prod_{n=1}^\infty \frac{n + 2}{n + 1}e^{-\frac{1}{n}}\\
+                                    \end{align*}
+                                    This product telescopes, so
+                                    \begin{align*}
+                                    \frac{g(2)}{g(1)} &= \lim_{N\to\infty} N\exp({-\sum_{n=1}^N \frac{1}{n}})\\
+                                    &= \lim_{N\to\infty} N\exp({-\sum_{n=1}^N \frac{1}{n}})e^{\log(N^{-1}) + \log(N))}\quad\color{purple} \text{ multiply by 1}\\
+                                    &= \lim_{N\to\infty} Ne^{\log(N^{-1})}\exp({-\sum_{n=1}^N \frac{1}{n} + \log(N)})\\
+                                    &= e^{-\gamma} \quad\color{purple} \gamma \text{ the euler mascheroni constant} \neq 2
+                                    \end{align*}
+                                    Thus $\frac{1}{\Gamma(z)\neq G(z)}$. One can also note that, since $\Gamma$ has order 1 and shares the same zeroes as $G$, $\Gamma(z) e^{a+bz} = G(z)$. We showed $b=-\gamma$.
+                                    \end{solution}
+
+                                    \section{Prove or Disprove and Salvage if Possible}
+
+                                    \begin{problem}
+                                      A meromorphic function on the complex plane is the quotient of two
+                                        entire functions.
+                                        \end{problem}
+                                        \begin{proof}
+                                        The claim is true. Let $f$ be meromorphic. If $f=0$, then $f(z)=g(z)/h(z)$ with $g(z)=0$, $h(z)=1$. Otherwise, $f$ has a list of poles with repetition $z_1, z_2, \dots$. Then there is an entire function $h$ with zeros at exactly the poles of $f$, given by a Wierstrauss infinite product. The function $h\cdot f = g$ then has removable singularities at $z_1, z_2, \dots$, and we can regard it as entire. Dividing by $h$, we see that $f = \frac{g}{h}$, so $f$ is holomorphic.
+                                        \end{proof}
+                                        \begin{problem}
+                                          If $f : \C \to \C$ is a odd function of order 1 with $f(n) = 0$ for
+                                            $n \in \Z$, then $f(z) = \sin (\pi z)$.
+                                            \end{problem}
+                                            \begin{solution}
+                                            False. $f(z) = z^2\sin (\pi z)$ also works.
+
+
+                                            If we assume that $f$ has a zero of degree 1 at 0, we can get the result up to a constant:
+
+                                            By Hadamard's factorization theorem, if $f$ is of order 1, then we can write it as a product of $\sin(\pi z)$ with a function exponent raised to the power of a linear polynomial.
+                                            \[
+                                            f(z) = e^{a+bz}\sin(\pi z)
+                                            \]
+                                            If $b\neq 0$, then the function will no longer be odd (e.g. consider $a=0, z=\pm i$). Hence 
+                                            \[
+                                            f(z) = e^{a}\sin(\pi z)
+                                            \]
+                                            so $f(z)$ can by any nonzero constant multiple of $\sin(\pi z)$.
+                                            \end{solution}
+                                            \end{document}

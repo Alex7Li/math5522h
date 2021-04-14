@@ -1,0 +1,416 @@
+\documentclass{homework}
+\course{Math 5522H}
+\author{Alex Li}
+\input{preamble}
+
+\usepackage[symbol]{footmisc}
+\renewcommand{\thefootnote}{\fnsymbol{footnote}}
+
+\begin{document}
+\maketitle
+
+\begin{inspiration}
+  Wenn ich nur erst die S\"atze habe! Die Beweise werde ich schon
+    finden.\footnote{``If only I first had the theorems, then I'd find
+        the proofs somehow.''  Riemann knew all too well the challenge of
+            PODASIPs.} \byline{Bernhard Riemann}
+            \end{inspiration}
+
+            \section{Terminology}
+
+            \begin{problem}
+              When $\Real s > 0$, what is the Gamma function $\Gamma(s)$?
+              \end{problem}
+              \begin{solution}
+              \[
+              \Gamma(s): \C^+ \to \C = \int_0^\oo x^{s-1}e^{-x}dx
+              \]
+              \end{solution}
+              \begin{problem}
+                When $\Real s > 1$, what is the Riemann zeta function $\zeta(s)$?
+                \end{problem}
+                \begin{solution}
+                \[
+                \zeta(s) = \sum_{k=1}^\infty k^{-s}
+                \]
+                \end{solution}
+                \begin{problem}
+                  What is the von Mangoldt function $\Lambda(n)$?
+                  \end{problem}
+                  \begin{solution}
+                  \[
+                  \Lambda(n) = \begin{cases}
+                  \log(p) & n = p^k \text{ for some prime $p$ and $k\in \N$}\\
+                  0 & \text{else}
+                  \end{cases}
+                  \]
+                  \end{solution}
+                  \section{Numericals}
+
+                  \begin{problem}
+                    Compute $\Res(\Gamma,s)$ for $s \in \{ 0, -1, -2, \ldots \}$.
+                    \end{problem}
+                    \begin{solution}
+                    The subsequent problem shows that for $f= \Gamma(s)\Gamma(1-s), k\in \Z, \Res(f, k)= (-1)^k$. At each of these poles, $\Gamma(1-s)$ is holomorphic, so
+                    \[
+                    \Res(f, s) = \Gamma(1-s)\Res(\Gamma, s) = (-s)!\Res(\Gamma, s).
+                    \]
+                    And therefore
+                    \[
+                    \frac{(-1)^s}{(-s)!} = \Res(\Gamma, s).
+                    \]
+                    \end{solution}
+                    \begin{problem}Evaluate $\Res(f,s)$ for the
+                      function $f(s) = \Gamma(s) \Gamma(1-s)$.
+                      \end{problem}
+                      \begin{solution}
+                      Considering the definition of the analytic extension of $\Gamma$, one can observe that the poles are at every integer.
+                      First let's compute the residue at $s=0$:
+                      \[
+                      \lim_{s\to 0} s \Gamma(s) \Gamma(1-s) = \lim_{s\to 0} \Gamma(s+1)\Gamma(1) = \Gamma(1)\Gamma(1) = 1
+                      \]
+                      Then note the following periodicity property of $f$:
+                      \[
+                      f(s) = \Gamma(1-s)\Gamma(s) = -s\Gamma(-s) \cdot \frac{\Gamma(s+1)}{s} = -f(s+1)
+                      \]
+                      So the residue at $s \in \Z$ is $(-1)^s$.
+                      \end{solution}
+                      \begin{problem} % be careful to get the sign right!
+                        Use \ref{euler-reflection-formula} to compute $\Gamma(1/2)$.  
+                        \end{problem}
+                        \begin{solution}
+                        The referenced problem shows that $\Gamma(1-s)\Gamma(s) = \frac{\pi}{\sin(\pi s)}$. At $s=\frac{1}{2}$,
+                        \begin{align*}
+                        \Gamma(.5)^2&= \frac{\pi}{1}\\
+                        \Gamma(.5)&= \pm \sqrt{\pi}
+                        \end{align*}
+                        Since $\Gamma(.5) =\int_0^\infty x^{-.5}e^{-x} dx > 0$, $\Gamma(.5) = \sqrt{\pi}$
+
+                        \end{solution}
+                        \section{Exploration}
+
+                        \begin{problem}
+                          In previous courses, you have seen that
+                            $\Gamma(s+1) = s \cdot \Gamma(s)$.  Use this fact to explain how to
+                              define a meromorphic function on $\C$ agreeing with $\Gamma(s)$ for
+                                $\Real s > 0$.  This is \textbf{analytic continuation} which succeeds
+                                  here by using a \textbf{functional equation}.
+                                  \end{problem}
+                                  \begin{solution}
+                                  We can define an extension named $\hat\Gamma$ as follows
+                                  \[
+                                  \hat\Gamma(s) = \begin{cases}
+                                  \Gamma(s) &\Real(s) > 0\\
+                                  (s+1)\hat \Gamma(s+1) &\Real(s) \leq 0\\
+                                  \end{cases}
+                                  \]
+                                  We show this is meromorphic by induction. Assume $\hat\Gamma$ is meromorphic with poles at the negative integers for $s>k$ for $k\in \N\cup \{0\}$. This is true if $k=0$ since $\Gamma$ is meromorphic. 
+
+                                  Now we will prove $\hat\Gamma$ is meromorphic if $s>k-1$. $\hat\Gamma$ is holomorphic when $\Real(s)$ is not a nonnegative integer because it is defined to be $(s+1)\hat\Gamma(s+1)$, the product of two functions holomorphic when $\Real(s)$ is not a nonnegative integer. Furthermore, on the line $s=k-1$, $(s+1)\hat\Gamma(s+1)= \hat\Gamma(s)$ by definition, so the functions agree where they are defined, and thus we can extend $\Gamma$ back using this formula, creating another pole at $s=k$. By induction, we can extend $\Gamma$ down the entire real line.
+
+                                  \end{solution}
+                                  \begin{problem}\label{start-of-reflection-formula}For $\lambda \in (0,1)$, evaluate
+                                    \[
+                                        \int_{0}^\infty \frac{u^{\lambda - 1}}{1 + u} \, du.
+                                          \]
+                                            \textit{Hint:} make the substitution $u = e^x$ and invoke \ref{integral-for-euler-reflection}.
+                                            \end{problem}
+                                            \begin{solution}
+
+                                            \begin{align*}
+                                            \int_0^\oo \frac{u^{\lambda - 1}\, du }{1 + u} &=
+                                            \int_0^\oo \frac{u^{\lambda}\, du }{u(1 + u)}
+                                            \end{align*}
+                                            Let $u=e^x$ so that $du = e^x dx = u dx$ and thus $\frac{du}{u} = dx$.
+                                            \begin{align*}
+                                            \int_0^\oo \frac{u^{\lambda - 1}\, du }{1 + u} &= \int_{-\oo}^\oo \frac{e^{x\lambda}\, dx }{1 + e^x}
+                                            \end{align*}
+                                            In a previous problem, we evaluated this integral to be 
+                                            \[
+                                            \frac{2\pi i e^{i\pi \lambda}}{1 - e^{2\pi i \lambda}} = \frac{\pi}{\sin(\pi \lambda)}
+                                            \]
+                                            \end{solution}
+
+                                            \begin{problem}\label{integrate-gamma-one-minus-s}For $s \in (0,1)$ and positive $t \in \R$, show that
+                                              \[
+                                                  \Gamma(1 - s) = t \int_0^\infty (xt)^{-s} e^{-xt}\, dx.
+                                                    \]
+                                                    \end{problem}
+                                                    \begin{solution}
+                                                    \begin{align*}
+                                                    \Gamma(s) &= \int_0^\infty u^{s-1} e^{-u}\, du\qquad\color{purple}\text{Definition of }\Gamma\\
+                                                    \Gamma(1 - s) &= \int_0^\infty u^{-s} e^{-u}\, du
+                                                    \end{align*}
+                                                    Now take $tx = u$ so that $t\, dx = du$
+                                                    \begin{align*}
+                                                    \Gamma(1 - s) = t\int_0^\infty (tx)^{-s} e^{-tx}\, dx
+                                                    \end{align*}
+
+                                                    \end{solution}
+
+                                                    \begin{problem}\label{euler-reflection-formula}Combine \ref{start-of-reflection-formula} and \ref{integrate-gamma-one-minus-s} to conclude that
+                                                      \[
+                                                          \Gamma(1-s) \, \Gamma(s) = \frac{\pi}{\sin \left( \pi s \right)}.
+                                                            \]
+                                                              This is \textbf{Euler's reflection formula}.
+                                                              \end{problem}
+                                                              \begin{solution}
+                                                              Let's suppose that $0<s<1$.
+                                                              Combining \ref{integrate-gamma-one-minus-s} with the definition of $\Gamma$,
+                                                              \begin{align*}
+                                                              \Gamma(1-s) \, \Gamma(s) &= \left(t\int_0^\oo (tx)^{-s} e^{-tx}\, dx\right)\left(\int_0^\oo y^{s-1}e^{-y} dy\right)\\
+                                                              &= \int_0^\oo \int_0^\oo (tx)^{-s} e^{-tx} ty^{s-1}e^{-y} dy dx
+                                                              \end{align*}
+                                                              Let $t=y$
+                                                              \begin{align*}
+                                                              &= \int_0^\oo \int_0^\oo (yx)^{-s} e^{-yx} y^{s}e^{-y} dy dx\\
+                                                              &= \int_0^\oo \int_0^\oo x^{-s} e^{-y(x+1)} dy dx\\
+                                                              &= \int_0^\oo \left\{x^{-s} \frac{-e^{-y(x+1)}}{x+1}\right\}\bigg|_0^\oo dx\\
+                                                              &= \int_0^\oo \frac{x^{-s}}{x+1} dx
+                                                              \end{align*}
+                                                              Now let $\lambda = \frac{1}{x}$, $d\lambda = -\frac{dx}{x^2}$ to see that 
+                                                              \begin{align*}
+                                                              \int_0^\oo \frac{x^{-s}}{x+1} dx &=
+                                                              \int_0^\oo \frac{x^{-s+2}}{x^2(x+1)} dx\\
+                                                              &= \int_0^\oo \frac{\lambda^{s-2}}{\frac{1}{\lambda}+1} dx\\
+                                                              &= \int_0^\oo \frac{\lambda^{s-1}}{1 + \lambda} dx
+                                                              \end{align*}
+                                                              By problem \ref{start-of-reflection-formula}, this is \[\frac{\pi}{\sin(\pi s)}\]
+
+                                                              So the formulas are equal on the real line from $0$ to $1$. Noting that
+                                                              \[
+                                                              f(s) = \Gamma(1-s)\Gamma(s) = -s\Gamma(-s) \cdot \frac{\Gamma(s+1)}{s} = -f(s+1)
+                                                              \]
+                                                              and that 
+                                                              \[
+                                                              \frac{\pi}{\sin(\pi s)} = -\frac{\pi}{\sin(\pi (s+1))} \], we can extend this to the whole real line.
+
+                                                              Subtracting the two functions, we have a meromorphic function that is 0 at all nonintegral points on the real line. Taking the limit going towards an integral points, this implies that the difference between these functions is 0 at integral points on the real line, so the difference is in fact an entire function. Then the identity theorem implies that they must be the same. 
+                                                              \end{solution}
+                                                              \begin{problem}
+                                                                Show that the series
+                                                                  \[\displaystyle\sum_{n=1}^\infty \displaystyle\frac {1}{n^{s}}\]
+                                                                    converges to a holomorphic function when $\Real s > 1$.
+                                                                    \end{problem}
+                                                                    \begin{solution}
+                                                                    \begin{align*}
+                                                                    \abs{\sum_{n=1}^\infty \frac {1}{n^{s}}} &\leq \sum_{n=1}^\infty \frac {1}{n^{\Real(s)}} \\
+                                                                    &\leq \int_1^\oo \frac{1}{n^{\Real(s)}}dn \leq -\frac{1}{\Real(-s)+1}n^{\Real(-s)+1}\bigg|_1^\oo \\
+                                                                    &= \frac{1}{\Real(-s)+1}\left(1 - \oo^{\Real{(-s)+1)}}\right)
+                                                                    \end{align*}
+                                                                    Since $s>1$, this is finite, this converges. Since each term of the series is holomorphic, each partial sum is holomorphic, so the limit of the partial sums is also holomorphic.
+                                                                    \end{solution}
+                                                                    \begin{problem}\label{euler-product-formula}
+                                                                    Recall that you defined
+                                                                      \(\displaystyle\prod_{n=1}^\infty \left( 1 + a_n \right)\) in
+                                                                        \ref{terminology-infinite-product}.  Show that when $\Real s > 1$, we
+                                                                          have
+                                                                            \[
+                                                                                \frac{1}{\zeta(s)} = \displaystyle\prod_{n=1}^\infty \left( 1 - {p_n}^{-s} \right),
+                                                                                  \]
+                                                                                    where $p_n$ is the $n$th prime number.
+                                                                                    \end{problem}
+                                                                                    \begin{solution}
+                                                                                    Let 
+                                                                                    \[
+                                                                                    P(s) = \prod_{p_n} 1 + p^{-s}_n + p^{-2s}_n + \dots = \prod_{p_n} \frac{1}{1-p^{-s}}
+                                                                                    \]
+                                                                                    We will show that $\zeta(s) = P(s)$. First, we show $\zeta(s) \leq P(s)$.
+                                                                                    \begin{align*}
+                                                                                    \sum_{n=1}^N n^{-s} \leq \prod_{p_n\leq N} 1 + p^{-s}_n + p^{-2s}_n + \dots
+                                                                                    \end{align*}
+                                                                                    because every term on the LHS appears in the RHS and all terms are positive, this inequality is true for all $N$, and taking the limit as $N\to\oo$, we deduce that $\zeta(s) \leq P(s)$.
+
+                                                                                    Next, we show that $\zeta(s)\geq P(s)$
+                                                                                    \begin{align*}
+                                                                                    \sum_{n=1}^{N!} n^{-s} \geq \prod_{p|N!}\sum_{p^k|N!} p^{-sk}
+                                                                                    \end{align*}
+                                                                                    Note that both the right and left sides are montonically increasing and bounded if we take the limit as $N\to\infty$. After rewriting the right hand side as 
+                                                                                    \[
+                                                                                    \lim_{N\to\infty} \prod_{p|N!}\sum_{p^k|N!} p^{-sk} \geq  e^{\lim_{N\to\infty}\sum_{p|N!} \log(\sum_{p^k|N!} p^{-sk} )}
+                                                                                    \]
+                                                                                    since the total sum is bounded by $\log(\zeta(s))$ which converges when $Re(s)>1$, we can use Fubini's theorem to evaluate the inner sum first
+                                                                                    \[
+                                                                                    \zeta(s)\geq \lim_{N\to \infty} e^{\sum_{p|N!} \log(\frac{1}{1 - p^{-s}})} =  \lim_{N\to \infty} \sum_{p|N!} \frac{1}{1 - p^{-s}} = P(s)
+                                                                                    \]
+                                                                                    Thus $\zeta(s) = P(s)$. Inverting both sides gets the desired equality.
+                                                                                    \end{solution}
+                                                                                    \begin{problem}
+                                                                                      Use \ref{euler-product-formula} and \ref{nonzero-infinite-product}
+                                                                                        to show that if $\Real s > 1$ then $\zeta(s) \neq 0$.
+                                                                                        \end{problem}
+                                                                                        \begin{proof}
+                                                                                        At $\zeta(0)$ we expand the formula in $\ref{euler-product-formula}$ and see it suffices to show that
+                                                                                        \[
+                                                                                        \prod_{n=1}^\infty (1- p_n^{-s})
+                                                                                        \]
+                                                                                        is constant. Now, 
+                                                                                        \[
+                                                                                        \sum_{n=1}^\oo p_n^{-s} \leq \sum_{n=1}^\oo \abs{n^{-s}} \leq \infty
+                                                                                        \]
+                                                                                        when the real part of $s$ is more than 1. By \ref{nonzero-infinite-product}, the product converges. Therefore $\zeta(s)\neq 0$.
+                                                                                        \end{proof}
+                                                                                        \begin{problem}
+                                                                                          Use \ref{euler-product-formula} to show that
+                                                                                            \[
+                                                                                                \Real \left( \frac{ \zeta'(a+bi) }{ \zeta(a+bi) } \right) = - \sum_{n=1}^\infty \frac{\Lambda(n) \, \cos \left( b \log n \right)}{n^{a}}.
+                                                                                                  \]
+                                                                                                  \end{problem}
+                                                                                                  \begin{proof}
+                                                                                                  Let's compute $\Real(\log\zeta(a+bi))$, taking the derivative will get us the LHS of the desired equation. Using \ref{euler-product-formula},
+                                                                                                  \begin{align*}
+                                                                                                  \Real(\log\zeta(a+bi))&= \Real(\log \prod_{n=1}^\infty \frac{1}{1-p_n^{-(a+bi)}})\\
+                                                                                                  &= \Real(\sum_{n=1}^\infty \log \frac{1}{1-p_n^{-(a+bi)}})\\
+                                                                                                  &= \Real(-\sum_{n=1}^\infty \log (1-p_n^{-(a+bi)}))\\
+                                                                                                  &= \sum_{n=1}^\infty \sum_{m=1}^\oo \Real(\frac{p_n^{-m(a+bi)}}{m}) \quad \text{ power series of log}\\
+                                                                                                  \end{align*}
+                                                                                                  Since the double sum converges absolutely, we can change the order of summation. Note that the only coefficients of $n^{-s}$ which are nonzero correspond to prime powers, so this is
+                                                                                                  \begin{align*}
+                                                                                                  \Real(\log\zeta(a+bi)) &= \sum_{n=1}^\infty \phi(n)\Real(n^{-(a+bi)})
+                                                                                                  \end{align*}
+                                                                                                  Where 
+                                                                                                  \[
+                                                                                                  \phi(n) = \begin{cases}
+                                                                                                  \frac{1}{k} & n= p^k\\
+                                                                                                  1 & n = 0
+                                                                                                  \end{cases}
+                                                                                                  \]
+                                                                                                  We next take a derivative with respect to $a+bi$
+                                                                                                  \[
+                                                                                                  \Real(\frac{\zeta'(a+bi)}{\zeta(a+bi)}) = -\sum_{n=1}^\infty \phi(n)\log(n)\Real(n^{-a+bi})
+                                                                                                  \]
+                                                                                                  Next we can notice that
+                                                                                                  \begin{align}\label{n_to_a+bi_expansion}
+                                                                                                      \Real(n^{-(a+bi)}) = n^{-a}\Real(e^{-bi\log n}) = n^{-a}\cos(b\log n)
+                                                                                                      \end{align}
+                                                                                                      and also that when $\phi(n)\neq 0$ so $n$ is a prime power $n=p^k$,
+                                                                                                      \[
+                                                                                                      \phi(p^k)\log(p^k) = \frac{1}{k}k\log(p) = \log(p) = \Lambda(n)
+                                                                                                      \]
+                                                                                                      With this, we can simplify to the given expression:
+                                                                                                      \begin{align*}
+                                                                                                      \Real(\frac{\zeta'(a+bi)}{\zeta(a+bi)}) &= -\sum_{n=1}^\infty \Lambda(n)\frac{\cos(b\log n)}{n^{a}}
+                                                                                                      \end{align*}
+                                                                                                      \end{proof}
+                                                                                                      \begin{problem}
+                                                                                                        Use the trigonometric fact $3 + 4 \cos \theta + \cos (2\theta) \geq 0$ to show that
+                                                                                                          \[
+                                                                                                              \Real \left( 3 \frac{ \zeta'(a) }{ \zeta(a) } + 4 \frac{ \zeta'(a+bi) }{ \zeta(a+bi) } +  \frac{ \zeta'(a+2bi) }{ \zeta(a+2bi) } \right) \leq 0.
+                                                                                                                \]
+                                                                                                                  Knowing $\zeta$ has a simple pole at $s = 1$ and assuming
+                                                                                                                    $\zeta(1+bi) = 0$ for $b \in \R$, define 
+                                                                                                                      \[
+                                                                                                                          f(a) = \zeta(a)^3 \cdot \zeta(a+bi)^4 \cdot \zeta(a + 2bi)
+                                                                                                                            \]
+                                                                                                                              and study $f$ near $a = 1$ to uncover a contradiction.  You will
+                                                                                                                                have shown that $\zeta(s) \neq 0$ when $\Real s = 1$.
+                                                                                                                                \end{problem}
+                                                                                                                                \begin{solution}
+                                                                                                                                First we use equation \eqref{n_to_a+bi_expansion} to notice that
+                                                                                                                                \[
+                                                                                                                                \Real(\log\zeta(x+yi)) = \sum_{n=1}^\infty n^{-x}\cos(y\log n)
+                                                                                                                                \]
+                                                                                                                                Then we take derivatives to see that
+                                                                                                                                \begin{align*}
+                                                                                                                                \Real(\log\zeta'(x+yi)) = -\sum_{n=1}^\infty \log(n) n^{-x}\cos(y\log n)
+                                                                                                                                \end{align*}
+                                                                                                                                Now we can check the inequality by plugging this in three times
+                                                                                                                                \begin{align*}
+                                                                                                                                &\Real\left(3\log\left(\frac{\zeta'(a)}{\zeta(a)}\right) + 4\log\left(\frac{\zeta'(a+bi)}{\zeta(a+bi)}\right) + \log\left(\frac{\zeta'(a+2bi)}{\zeta(a+2bi)}\right)\right)\\
+                                                                                                                                &= -\sum_{n=1}^\infty \log(n) n^{-a}(3 + 4\cos(b\log n) + \cos(2b\log n)) 
+                                                                                                                                \end{align*}
+                                                                                                                                Using the trig identity with $\theta = b\log n$, each of these terms is positive so the RHS is negative.
+
+                                                                                                                                Next, we assume that $\zeta(1 + bi) = 0$, and consider 
+                                                                                                                                \[
+                                                                                                                                f(a) = \zeta(a)^3\zeta(a+bi)^4 \zeta(a+2bi)
+                                                                                                                                \]
+                                                                                                                                Note that we have just shown that $\Real(\frac{f'(a)}{f(a)}) \leq 0.$ 
+
+                                                                                                                                Now, since $\zeta(1)$ is a pole of degree 1 $\zeta(1+bi)$ is a zero of degree 4, and $\zeta(1+2bi)$ is not a pole, $f(x)\to 0$ as $x\to 1$. Thus $\log(f(x))\to \infty$, and so the derivative of $\log(f(x))$ is positive, contradicting the fact that $\Real(\frac{f'(a)}{f(a)}) \leq 0.$ Thus $\zeta$ must not have any zeros on the line with real part equal to 1.
+                                                                                                                                \end{solution}
+                                                                                                                                \section{Prove or Disprove and Salvage if Possible}
+
+                                                                                                                                \begin{problem}\label{nonzero-infinite-product}
+                                                                                                                                For a sequence $a_n \neq 0$ of complex numbers, suppose
+                                                                                                                                  $\displaystyle\sum_{n=1}^\infty |a_n|$ converges.  Then
+                                                                                                                                    $\displaystyle\prod_{n=1}^\infty \left( 1 + a_n \right)$ converges
+                                                                                                                                      to a nonzero quantity.
+                                                                                                                                      \end{problem}
+                                                                                                                                      \begin{solution}
+                                                                                                                                      False. We should assume $a_n\neq -1$ instead of $a_n \neq 0.$
+
+                                                                                                                                      Choose a branch of the log with a branch cut given by a line that intersects none of the $a_i$. This is always possible since the set of $a_i$ is countable, but the set of angles is uncountable. We will use this branch for the rest of the proof.
+                                                                                                                                      \begin{lemma}\label{log_prod_convergence}
+                                                                                                                                      If
+                                                                                                                                      \[
+                                                                                                                                      \sum_{n=1}^\infty \log(1 + a_n)
+                                                                                                                                      \]
+                                                                                                                                      converges to $S_1$, then
+                                                                                                                                      \[
+                                                                                                                                      \prod_{n=1}^\infty (1 + a_n)
+                                                                                                                                      \]
+                                                                                                                                      converges to $e^{S_1}$.
+
+                                                                                                                                      \end{lemma}
+                                                                                                                                      \begin{proof}
+                                                                                                                                      If the sum converges to $S_1$, then $e^{S_1}$ is also finite, and
+                                                                                                                                      \[
+                                                                                                                                      \exp(\sum_{n=1}^\infty \log(1 + a_n)) = \prod_{n=1}^\infty (1 + a_n)
+                                                                                                                                      \]
+                                                                                                                                      \end{proof}
+                                                                                                                                      Now suppose that $\sum_{n=1}^\infty \abs{a_n}$ converges, then there are only finitely many terms $a_n$ with $\abs{a_n}>\frac{1}{2}$, and for the rest,
+                                                                                                                                      \[
+                                                                                                                                      \abs{\log(1 + a_n)} = \abs{\sum_{k=1}^\infty \frac{(-1)^{k-1}a_n^k}{k}} = \abs{a_n + a_n\sum_{k=1}^\infty \frac{(-1)^{k-1}a_n^k}{k}}
+                                                                                                                                      \]
+                                                                                                                                      Since
+                                                                                                                                      \[
+                                                                                                                                      \abs{\sum_{k=1}^\infty \frac{(-1)^{k-1}a_n^k}{k}}\leq 
+                                                                                                                                      \abs{\sum_{k=1}^\infty a_n^k} = \abs{\frac{a_n}{1-a_n}} \leq 1,
+                                                                                                                                      \]
+                                                                                                                                      we can conclude that 
+                                                                                                                                      \[
+                                                                                                                                      \abs{\log(1 + a_n)}\leq \abs{2a_n}
+                                                                                                                                      \]
+                                                                                                                                      And since $a_n$ converges, $\log(1 + a_n)$ does as well, so by lemma \ref{log_prod_convergence}, $\prod(1+a_n)$ converges to $e^{S_1}\neq 0$.
+
+                                                                                                                                      \end{solution}
+
+                                                                                                                                      \begin{problem} % missing pole at s = 1
+                                                                                                                                        Define the \textbf{Dirichlet eta function} via
+                                                                                                                                          \[
+                                                                                                                                              \eta(s) := \sum_{n=1}^\infty \frac{(-1)^{n-1}}{n^s}.
+                                                                                                                                                \]
+                                                                                                                                                  This series converges to a holomorphic function when $\Real s > 0$.
+                                                                                                                                                  \end{problem}
+                                                                                                                                                  \begin{solution}
+                                                                                                                                                  True. Let
+                                                                                                                                                  \begin{align*}
+                                                                                                                                                      \eta(s) &= \sum_{n=1}^\infty (2n)^{-s} - (2n + 1)^{-s} \\
+                                                                                                                                                      \end{align*}
+                                                                                                                                                      Note that for $\Real(s) > 0$, $f(n, s) = (2n)^{-s} - (2n + 1)^{-s}$ is positive and a decreasing function in $n$, since 
+                                                                                                                                                      \[
+                                                                                                                                                      \pfrac{f}{n} = -s(f(n, s+1)) < 0
+                                                                                                                                                      \]
+                                                                                                                                                      Thus we see that
+                                                                                                                                                      \begin{align*}
+                                                                                                                                                      \abs{\eta(s)}    &\leq \abs{\int_1^\infty (2n)^{-s} - (2n + 1)^{-s} dn}\\
+                                                                                                                                                          &= \frac{1}{2}\abs{\int_2^\infty n^{-s} - (n + 1)^{-s} dn}\\
+                                                                                                                                                              &= \frac{1}{2}\abs{\frac{n^{-s}}{\log(n)} - \frac{(n + 1)^{-s}}{\log(n+1)} \bigg|_{n=2}^\infty}
+                                                                                                                                                              \end{align*}
+                                                                                                                                                              If $\Real(s)>0$, then the numerator will go to zero faster than the denominator, so the value at infinity is 0 and thus $\abs(\eta(s))$ is bounded, so the series converges. Also, since $\sum_{n=1}^N \frac{(-1)^n}{n^s}$ is holomorphic, the limit as $N\to \infty$ is also holomorphic.
+                                                                                                                                                              \end{solution}
+                                                                                                                                                              \begin{problem}
+                                                                                                                                                                The Riemann zeta and Dirichlet eta functions are related via
+                                                                                                                                                                  \[
+                                                                                                                                                                      \left( 1 - 2^{1-s} \right) \zeta(s) = \eta(s).
+                                                                                                                                                                        \]
+                                                                                                                                                                        \end{problem}
+                                                                                                                                                                        \begin{solution}
+                                                                                                                                                                        We need to be a little careful about the domain: $\zeta$ isn't even defined at $s=1$. The claim is true if we restrict to $\Re(s)>1$, since in this case all the infinite sums converge aboslutely and so we can rearrange terms and make things cancel nicely:
+                                                                                                                                                                        \begin{align*}
+                                                                                                                                                                        \left( 1 - 2^{1-s} \right)\zeta(s) &=    (\sum_{n=1}^\infty \frac{1}{n^s}) -  \sum_{n=1}^\infty \frac{2}{(2n)^s} \\
+                                                                                                                                                                        &= \sum_{n=1}^\infty \frac{(-1)^n}{n^s} = \eta(s)
+                                                                                                                                                                        \end{align*}
+                                                                                                                                                                        \end{solution}
+                                                                                                                                                                        \end{document}

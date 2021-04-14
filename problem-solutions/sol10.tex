@@ -1,0 +1,533 @@
+\documentclass{homework}
+\course{Math 5522H}
+\author{Alex Li}
+\input{preamble}
+
+\begin{document}
+\maketitle
+
+\begin{inspiration} % https://frinkiac.com/caption/S01E04/240324
+  As far as anybody knows, we're a nice normal family.
+  \byline{Homer Simpson in S01E04}
+  \end{inspiration}
+
+  \section{Terminology}
+
+  \begin{problem}
+    What is a \textbf{normal family} of holomorphic functions on an open set $U$?
+    \end{problem}
+    \begin{solution}
+    A normal family $\mathcal{F}$ of functions $f\in \mathcal{F}: U \to \C$ is a family of functions where for any subsequence of functions $<f_n\in\mathcal{F}>_{n\in \N}$, there is a subsequence $<f_{n_k}>$ that converges normally in $U$.
+
+    A sequence of functions is said to converge normally if it converges uniformly on every compact subset of $U$ and pointwise on all of $U$.
+
+    \end{solution}
+    \begin{problem}
+      What does it mean to say that the infinite product
+        \(
+            \prod_{n=1}^\infty \left( 1 + a_n \right)
+              \)
+                converges?
+                \end{problem}
+                \begin{solution}
+                Let $s_N = \prod_{n=1}^N \left(1 + a_n\right).$ The infinite product converges if the sequence $\{s_N\}$ converges, or if there is a value $s_\infty$ such that for all $\epsilon> 0$ there exists $N\in \N$ such that $\abs{s_N - s_\infty} \leq \epsilon$.
+
+                \end{solution}
+                \section{Numericals}
+
+                \begin{problem}
+                  For which $z$ does the series
+                    \[
+                        \sum_{n=0}^\infty \frac{\cos \left( nz \right)}{n!}
+                          \]
+                            converge?
+
+                              Does it converge to a holomorphic function you recognize?
+                              \end{problem}
+                              \begin{solution}
+                              This series converges for every $z\in \C$. First note that
+                              \[
+                              \abs{\cos(nz)} = \abs{\frac{e^{inz} + e^{-inz}}{2}} \leq e^{n\abs{z}}
+                              \]
+                              Using Stirling's approximation, there is some $c\in R$ so that $n! \geq \frac{1}{c}(\frac{n}{e})^n$
+                              \[
+                              \abs{\frac{\cos(nz)}{n!}} \leq \frac{e^{n\abs{z}}}{\frac{1}{c}(\frac{n}{e})^n} \leq \frac{ce^{n(|z|+1)}}{n^n}
+                              \]
+                              Thus
+                              \[
+                              \abs{\sum_{n=0}^\infty \frac{\cos(nz)}{n!}} \leq \sum_{n=0}^\infty \frac{ce^{n(|z|+1)}}{n^n}  = \sum_{n=0}^\infty c(\frac{e^{|z|+1)}}{n})^n
+                              \]
+                              The series on the right converges by comparison to a geometric series like $\frac{1}{2}$, and so by the weirstrauss M test, the series converges everywhere.
+
+                              Next we notice that $\cos(nz) = \frac{e^{inx} + e^{-inx}}{2}$ and use this to expand the sum
+                              \begin{align*}
+                              \sum_{n=0}^\infty \frac{\cos(nx)}{n!} &= \sum_{n=0}^\infty \frac{e^{inx} + e^{-inx}}{n!2}\\
+                              &= \frac{1}{2}\sum_{n=0}^\infty \frac{(e^{ix})^n}{n!} + \frac{1}{2}\sum_{n=0}^\infty \frac{(e^{-ix})^n}{n!}\\
+                              &= \frac{1}{2}(e^{e^{ix}} + e^{e^{-ix}})
+                              \end{align*}
+                              \end{solution}
+                              \begin{problem}\label{p4h10}
+                                For which $z$ does the series
+                                  \[
+                                      \sum_{0 \neq n \in \Z} \left( \frac{1}{z+n} - \frac{1}{n} \right)
+                                        \]
+                                          converge?
+
+                                            Does it converge to a meromorphic function you recognize?
+                                              \textit{Hint:} \ref{residues-all-one}.
+                                              \end{problem}
+                                              \begin{solution}
+                                              When $z\in \Z$, the series doesn't converge since some of it's terms are infinite. Otherwise, it should converge (pointwise).
+                                                \begin{align*}
+                                                \abs{\sum_{0 \neq n \in \Z} \left( \frac{1}{z+n} - \frac{1}{n} \right) }&= \abs{ \sum_{0 \neq n \in \Z} \left( \frac{n - (z+n)}{(z+n)n} \right) }\\
+                                                &=  \abs{\sum_{0 \neq n \in \Z} \left( \frac{-z}{(z+n)n} \right)}\\
+                                                &= \abs{ z\left(\sum_{\{n: |n|<=|z+n|\}} \left( \frac{-1}{(z+n)n} \right) + \sum_{\{n: |n|>|z+n|\}} \left( \frac{-1}{(z+n)n} \right)\right)}\\
+                                                &\leq \abs{z}\left(\sum_{\{n: |n|<=|z+n|\}} \frac{1}{\abs{n^2}} + \sum_{\{n: |n|>|z+n|\}} \frac{1}{\abs{z+n}^2} \right)\\
+                                                &\leq \abs{z}\left(\sum_{0\neq n\in \Z}  \frac{1}{\abs{n^2}}+ \sum_{\{0\neq n \in \Z\}} \frac{1}{\abs{z+n}^2} \right)
+                                                  \end{align*}
+                                                  And both of these sums are clearly finite (by say comparison to the integral $\int_{-\infty}^\infty \frac{dn}{(z+n)^2}$.)
+
+
+                                                  Now add $\frac{1}{z}$ to the sum and let's compare this sum to $\pi\cot(\pi z)$. Both are holomorphic everywhere but the integers, and at those points, both of these functions have simple poles at $\Z$ with residue $1$. (This was proved for cot in the last assignment, and for the expression, we can just see that there's a single $1/(z-n)$ term plus a holomorphic function at each integer $n$). Also, both are periodic in that $f(z)=f(z+1)$ for all $z$. 
+
+                                                  So the function 
+                                                  \[
+                                                  \pi \cot(\pi z) -\left(\sum_{n\in \Z} \frac{1}{z+n} - \frac{1}{n}\right)
+                                                  \]
+                                                  is holomorphic and also periodic. We will show that it is bounded for $\abs{\Re{(z)}}\leq .5$. First note that if we also have that $\abs{\Im(z)}\leq 1$, the function is bounded since it is holomorphic and we are considering a bounded region.
+                                                  Otherwise, on this strip,
+                                                  \[
+                                                  \abs{\pi\cot(\pi z)} = \pi\abs{i\frac{e^{iz}+e^{-iz}}{e^{iz}-e^{-iz}}}
+                                                  \leq \pi \frac{\abs{e^{iz}+e^{-iz}}}{\abs{e^{iz}-e^{-iz}}}\leq \frac{\pi\abs{e^{-\Im(z)}+e^{-\Im(z)}}}{\abs{e^{-\Im(z)}-e^{\Im(z)}}}
+                                                  \leq \frac{\abs{2\pi e^{-1}}}{\abs{e-\frac{1}{e}}}
+                                                  \]
+                                                  Since the function is 1 periodic, $\pi\cot(\pi z)$ is bounded everywhere.
+
+                                                  Next we look at the infinite sum:
+                                                  \begin{align*}
+                                                  \abs{\sum_{n\in \Z} \frac{1}{z+n} - \frac{1}{n}} &\leq \sum_{0\neq n\in \Z} \abs{\frac{1}{z+n} - \frac{1}{n} }\\
+                                                  &\leq \sum_{n\in \Z} \frac{\abs{z}}{\abs{n}\abs{z+n}}\\
+                                                  &\leq \sum_{n\in \Z}\abs{\frac{z}{(\abs{n}-.5)^2}}\leq \infty
+                                                  \end{align*}
+                                                  Where the last line comes from the fact that for any point $n\in \Z$, $\abs{n+z-.5} \geq \abs{z}$, since $z$ has real part no more than $.5$ in magnitude. Thus this function is finite and hence constant. Since it is 0 at the point 0, it is 0 everywhere so 
+                                                  \[
+                                                  \pi \cot(\pi z) -\frac{1}{z} = \left( \sum_{0\neq n\in \Z} \frac{1}{z+n} - \frac{1}{n}\right).
+                                                  \]
+                                                  \end{solution}
+                                                  \section{Exploration}
+
+                                                  \begin{problem}\label{poisson-summation}Describe conditions on $f$ so
+                                                    that, for a suitable $\gamma_1$ and $\gamma_2$,
+                                                      \[
+                                                          \sum_{n=-\infty}^\infty f(n) = \int_{\gamma_1} \frac{f(z)}{e^{2\pi i z} - 1} \, dz - \int_{\gamma_2} \frac{f(z)}{e^{2\pi i z} - 1} \, dz.
+                                                            \]
+                                                              Then expand $1/(e^{2\pi i z} - 1)$ as a geometric series to deduce the \textbf{Poisson summation formula}
+                                                                \[
+                                                                    \sum_{n=-\infty}^\infty f(n) = \sum_{n=-\infty}^\infty \hat{f}(n) 
+                                                                      \]
+                                                                        where $\hat{f}$ is the Fourier transform, i.e.,
+                                                                          \[
+                                                                              {\hat {f}}(\xi ) := \int _{-\infty }^{\infty} f(x) \, e^{-2\pi ix \xi} \,dx.
+                                                                                \]
+                                                                                \end{problem}
+                                                                                \begin{solution}
+                                                                                Let's explore! Noting that the (order 1) zeros of $e^{2\pi i z} - 1$ are the integers, we likely want to use the residue theorem. So let $f$ be holomorphic. The residue of $f(z)$ at $k\in Z$ is
+                                                                                \[
+                                                                                \lim_{z\to k} \frac{(z-k)f(z)}{e^{2\pi i z}-1} = \lim_{z\to k}\frac{(z-k)f'(z)+f(z)}{2\pi i e^{2\pi iz}} = \frac{f(k)}{2\pi i e^{2\pi ik}} = \frac{f(k)}{2\pi i}
+                                                                                \]
+                                                                                So if we take a curve around all the zeros, we get the sum. In particular, let $\gamma$ be the curve around the rectangle centered at $(0,0)$ with height $h$ and width $R\to \infty$. Provided that $f$ gets small enough for everything to converge (say $O(\frac{1}{z^2}$) as $R\to \infty$, the two sides of the rectangle will go to zero and so the residue theorem shows us that 
+                                                                                \begin{align*}
+                                                                                \sum_{k=-\infty}^\infty f(k) &= \int_{-\infty}^\infty -\frac{f(x+ih)}{e^{2\pi i (x+ih)}-1} dx + \int_{-\infty}^\infty \frac{f(x-ih)}{e^{2\pi i (x-ih)}-1} dx\\
+                                                                                &= \lim_{h\to 0}\int_{-\infty}^\infty -\frac{f(x+ih)}{e^{2\pi i (x+ih)}-1} + \frac{f(x-ih)}{e^{2\pi i (x-ih)}-1} dx\\
+                                                                                &= \lim_{h\to 0}\int_{-\infty}^\infty \frac{f(x)}{1 - e^{2\pi i (x+ih)}} + \frac{f(x)}{e^{2\pi i (x - ih)}-1} dx\\
+                                                                                &= \lim_{h\to 0}\int_{-\infty}^\infty \frac{f(x)}{1 - e^{2\pi i (x+ih)}} + \frac{f(x)e^{-2\pi i (x - ih)}}{1 - e^{-2\pi i(x-ih)}} dz
+                                                                                \end{align*}
+
+                                                                                We now need to get rid of the denominator, note that
+                                                                                \begin{gather*}
+                                                                                \frac{1}{1-e^{2\pi i (z + ih)}} = \sum_{k=0}^\infty e^{2\pi i (z+ ih)k}\\
+                                                                                \frac{e^{-2\pi i (z - ih)}}{1-e^{-2\pi i (z - ih)}} = \sum_{k=1}^\infty e^{2\pi i (z- ih)k} = \sum_{-\infty}^{-1} e^{2\pi i (z-ih)k}
+                                                                                \end{gather*}
+                                                                                And using these power series, we get the expression
+                                                                                \begin{align*}
+                                                                                \sum_{k=-\infty} ^\infty f(k) &= \lim_{h\to 0}\int_{-\infty}^\infty f(x)\left(\sum_{k=0}^{\infty}e^{2\pi i (x+ih)k} + \sum_{k=-\infty}^{-1} e^{2\pi i (x-ih)k}\right) dx\\
+                                                                                &= \lim_{h\to 0}\int_{-\infty}^\infty f(x)\left(\sum_{k=0}^{\infty}e^{2\pi i xk}e^{-2\pi hk} + \sum_{k=-\infty}^{-1} e^{2\pi i xk}e^{2\pi hk}\right) dx
+                                                                                \end{align*}
+                                                                                We would like to get rid of the $e^{\pm 2\pi h k}$ term.
+                                                                                Consider the sequence of functions 
+                                                                                \[
+                                                                                f_h(x) = f(x)\left(\sum_{k=0}^{\infty}e^{2\pi i xk}e^{-2\pi kh} + \sum_{k=-\infty}^{-1} e^{2\pi i xk}e^{2\pi kh}\right)
+                                                                                \]
+                                                                                indexed by $\frac{1}{h}\in \N$ where and $h$ is sufficiently small so that the function always converges. We can choose $f(x)$ as in the following lemma.
+                                                                                \begin{lemma}\label{sum_fh_converges}
+                                                                                If, for any $\epsilon,C>0$
+                                                                                \[\abs{f(x)} <  C\abs{(1-e^{\epsilon\abs{x}})/x^2}\] 
+                                                                                holds for all $x$,
+                                                                                then 
+                                                                                \[ \lim_{R\to\infty} \int_{-R}^R f_h(x) dx < \infty\] converges for small enough $h$.
+                                                                                \end{lemma}
+                                                                                \begin{proof}
+                                                                                Each term of the sum in $f_h$ is a bounded value times $f(x)e^{c_1kx}$ with $c_1<1$, so using the geometric series formula
+                                                                                \[
+                                                                                \abs{f_h(x)} \leq f(x)\frac{1}{1-e^{c_1 hx}}
+                                                                                \]
+                                                                                Then using the hypothesis of the lemma with $\epsilon = c_1h$ (we can make $\epsilon$ arbitrarily small by varying $h$,
+                                                                                \[
+                                                                                \int_{-\infty}^\infty \abs{f_h(x)}dx \leq \int_{-\infty}^\infty Cx^{-2} dx \leq \infty
+                                                                                \]
+                                                                                and thus the integral converges. 
+                                                                                \end{proof}
+                                                                                Now we can consider swapping the order of the limits and integration. We need another lemma.
+                                                                                \begin{lemma}\label{fh_converges_normally}
+                                                                                \[
+                                                                                f_h(x) = f(x)\left(\sum_{k=0}^{\infty}e^{2\pi i xk}e^{-2\pi kh} + \sum_{k=-\infty}^{-1} e^{2\pi i xk}e^{2\pi kh}\right)
+                                                                                \]
+                                                                                converges normally to \[\sum_{k=-\infty}^\infty f(x)e^{2\pi kh}\]
+                                                                                \end{lemma}
+                                                                                \begin{proof}
+                                                                                To see that this convergence is uniform on compact sets, we show that it is uniform on any interval $[a, b]$. 
+                                                                                Choose $N$ so big that 
+                                                                                \[
+                                                                                \abs{\sum_{k=N}^\infty f(x)e^{2\pi i x k}(1-e^{-2\pi hk}) + 
+                                                                                \sum_{k=-\infty}^{-N} f(x)e^{2\pi i x k}(1-e^{2\pi hk})} < \epsilon_1
+                                                                                \] 
+                                                                                this is possible for any $\epsilon_1>0$ since the sum converges, since $f(x)$ is bounded on the interval $[a, b]$ and the other terms are bounded in magnitude by 1. 
+
+                                                                                Next note that, for a fixed $x$, the terms of the sum $e^{2\pi ix k}e^{2\pi h k}$ will converge to $e^{2\pi h k}$ since $\lim_{h\to 0} e^{2\pi h k}\to 1$. Again using the fact that $f$ is bounded, we can choose $h$ so small that $f(x)e^{2\pi x i k}(1-e^{2\pi h k})\leq \epsilon_2$ for any $\epsilon_2>0$.
+
+                                                                                Thus
+                                                                                \begin{align*}
+                                                                                \abs{\sum_{k=-\infty}^\infty f(x)e^{2\pi k h} - f_h(x)} &= \bigg| 
+                                                                                \sum_{k=N}^\infty f(x)e^{2\pi i x k}(1-e^{-2\pi hk}) \\
+                                                                                &+ \sum_{k=-\infty}^{-N} f(x)e^{2\pi i x k}(1-e^{2\pi hk}) + \sum_{-N+1}^{N-1} f(x)e^{2\pi ixk}(1-e^{2\pi kh})\bigg| \\
+                                                                                &\leq \epsilon_1 + \epsilon_2
+                                                                                \end{align*}
+
+                                                                                It must converge pointwise everywhere, since any point is in some compact set, where the function converges uniformly.
+                                                                                \end{proof}
+                                                                                Now, we want to compute
+                                                                                \[
+                                                                                 \lim_{h\to 0}\lim_{R\to \infty} \int_{-R}^R f_h(x)dx.
+                                                                                 \]
+                                                                                 For all sufficiently small $h$ and any $\epsilon>0$, we can find $R_1$ big enough so that
+                                                                                 \[
+                                                                                 \abs{\int_{-\infty}^\infty f_h(x)dx - \int_{-R_1}^{R_1} f_h(x)dx} < \epsilon
+                                                                                 \]
+                                                                                 since the absolute vale of $\int_{-\infty}^\infty f_h(x)dx$ is bounded by \ref{sum_fh_converges}.
+
+
+                                                                                 Now we can use Theorem 1.4 along with lemma \ref{fh_converges_normally} of Palka (normal convergence + continuous $\implies$ can swap integral order) to bring the limit inside the integral: 
+                                                                                 \[
+                                                                                  \lim_{h\to 0} \int_{-R_1}^{R_1} f_h(x)dx = 
+                                                                                  \int_{-R_1}^{R_1}\lim_{h\to 0} f_h(x)dx = \int_{-R_1}^{R_1}\sum_{k=-\infty}^\infty e^{2\pi i k x} f(x)dx 
+                                                                                  \]
+                                                                                  And by increasing $R_1$ to make $\epsilon$ arbitrarily small we conclude that
+                                                                                  \[
+                                                                                  \sum_{k=-\infty}^\infty f(k) = \lim_{h\to 0} \lim_{R\to \infty} \int_{-R}^{R} f_h(x)dx = \int_{-\infty}^{\infty}\sum_{k=-\infty}^\infty e^{2\pi i k x} f(x)dx 
+                                                                                  \]
+
+                                                                                  If we can only interchange the order of the integral and the sum, we will have the correct formula. To do this, we can use Fubini's theorem and it suffices for $f$ to be such that the value of the sum of the integral to be finite- that is, for $\sum_{k=-\infty}^\infty f(k)$ to be finite. Thus we can finally conclude that
+                                                                                  \begin{align*}
+                                                                                  \sum_{-\infty} ^ \infty f(x) &=  \sum_{k=-\infty}^{\infty}\int_{-\infty}^\infty f(x)e^{2\pi i xk} dx\\
+                                                                                  &=  \sum_{k=-\infty}^{\infty}\int_{-\infty}^\infty f(x)e^{-2\pi i xk} dx = \sum_{k=-\infty}^\infty \hat f(k)dx
+                                                                                  \end{align*}
+                                                                                  Provided that for any $\epsilon,C>0$
+                                                                                  \[\abs{f(x)} <  C\abs{(1-e^{\epsilon\abs{x}})/x^2}\] 
+                                                                                  holds for all $x$, $f$ is holomorphic, and $\sum_{k\in \Z} f(k)$ is finite.
+                                                                                  \end{solution}
+
+                                                                                  \begin{problem}\label{modularity}For $a > 0$ define
+                                                                                    $\vartheta(a) = \sum_{n=-\infty}^\infty e^{-a \pi n^2}$.  Recalling
+                                                                                      \ref{fourier-transform-itself} shows that if $f(z) = e^{-a \pi z^2}$
+                                                                                        we can compute $\hat{f}(z)$.  Use $\hat{f}(z)$ and
+                                                                                          \ref{poisson-summation} to verify
+                                                                                            \[
+                                                                                                \vartheta(a) = \vartheta(1/a) / \sqrt{a}.
+                                                                                                  \]
+                                                                                                  \end{problem}
+                                                                                                  \begin{solution}
+
+                                                                                                  \begin{lemma}
+                                                                                                  \[
+                                                                                                  \hat{f}(z) = \frac{e^{\frac{-\pi \xi}{a}}}{\sqrt{a}}
+                                                                                                  \]
+                                                                                                  \end{lemma}
+                                                                                                  \begin{proof}
+                                                                                                  Cosider the closed rectangular contour that goes on a straight line between the four points below.
+                                                                                                  \[
+                                                                                                  R \mapsto R - i\xi/a \mapsto - R - i\xi/a \mapsto -R
+                                                                                                  \]
+                                                                                                  As $R\to\infty$, the sides of this rectangle with nonzero imaginary derivative will disappear as
+                                                                                                  \[
+                                                                                                  \abs{\int_{-\xi/a}^{0} e^{-\pi((\pm R+ix) -i\xi/a)^2} dx} \leq \abs{\xi/a} \abs{e^{-\pi R^2}}\to 0.
+                                                                                                  \]
+                                                                                                  Since $f$ is holomorphic on the interior of the rectangal, we conclude that the integral of the top and bottom sides of the rectangle are negatives of each other. Let's compute the imaginary one going in the wrong direction:
+                                                                                                  \begin{align*}
+                                                                                                  {\hat {f}}(\xi ) &=\int_{-\infty}^\infty e^{-a\pi (z- i\xi/a)^2}e^{-2\pi i x\xi}\\
+                                                                                                  &=  e^{-\xi^2\pi/a}\int _{-\infty }^{\infty} e^{-(x\sqrt{\pi a})^2} \,dx\\
+                                                                                                  &=  \frac{e^{-\xi^2\pi/a}}{\sqrt{\pi a}}\int_{-\infty}^\infty e^{-u^2} \,du \quad \color{purple} u = \sqrt{\pi a}x, du = \sqrt{\pi a} dx\\
+                                                                                                  &=  \frac{e^{-\xi^2\pi/a}}{\sqrt{\pi a}} \sqrt{\pi} =  \frac{e^{-\xi^2\pi/a}}{\sqrt{a}}
+                                                                                                  \end{align*}
+                                                                                                  \end{proof}
+                                                                                                  Next, we apply the previous problem's statement. First we must check the conditions, but this is trivial, so we skip that step (Well, I don't really think it's true for my conditions). Anyways, we see that 
+                                                                                                  %TODO apply condition
+                                                                                                  \begin{align*}
+                                                                                                  \vartheta(x) &= \sum_{n=-\infty}^{\infty} e^{-a\pi n^2} = \sum_{n=-\infty}^{\infty} f(n) \\
+                                                                                                  &= \sum_{n=-\infty}^\infty \hat f(n) = \sum_{n=-\infty}^\infty \frac{e^{-n^2\pi/a}}{\sqrt{a}}\\
+                                                                                                  &= \frac{\sum_{n=-\infty}^\infty e^{-n^2\pi(1/a)}}{\sqrt{a}} = \vartheta(1/a)/\sqrt{a}
+                                                                                                  \end{align*}
+                                                                                                  \end{solution}
+                                                                                                  \begin{problem}
+                                                                                                    Having just celebrated $\pi$-day, some computer calculations revealed
+                                                                                                    \begin{align*}
+                                                                                                      \vartheta(1/(4\pi)) = \sum_{n=-\infty}^\infty e^{-n^2/4} &=
+                                                                                                      3.544907701811032\textbf{10533931955126186}\ldots \\
+                                                                                                        2\sqrt{\pi} &=
+                                                                                                        3.544907701811032\textbf{05459633496668229}\ldots
+                                                                                                        \end{align*}
+                                                                                                        Is my computer broken?  (For more, see \texttt{https://arxiv.org/abs/1809.10907}.)
+                                                                                                        \end{problem}
+                                                                                                        \begin{solution}
+                                                                                                        \[
+                                                                                                        \vartheta(1/(4\pi)) = \sum_{n=-\infty}^\infty e^{-\frac{\pi n^2}{4\pi}} = \sum_{-\infty}^\infty e^{-n^2/4}
+                                                                                                        \]
+                                                                                                        By the preceding problem, this expression is equal to 
+                                                                                                        \[
+                                                                                                        \frac{\vartheta(4\pi)}{\sqrt{4\pi}} = \frac{1}{2\sqrt{\pi}}\sum_{n=-\infty}^\infty e^{-4\pi^2 n^2} = \frac{1}{2\sqrt{\pi}}\left(1 + 2\sum_{n=1}^\infty e^{-4\pi^2 n^2}\right) = \frac{1}{2\sqrt{\pi}} + \text{tiny}
+                                                                                                        \]
+                                                                                                        So it makes sense that they are super close
+                                                                                                        \end{solution}
+
+                                                                                                        \begin{problem}
+                                                                                                          Define
+                                                                                                            \[
+                                                                                                                \wp(z) = \frac{1}{z^2} + \sum_{0 \neq \lambda \in \Z[i]} \left( \frac{1}{(z - \lambda)^2} - \frac{1}{\lambda^2} \right)
+                                                                                                                  \]
+                                                                                                                    which is \textbf{Weierstrass' elliptic function} on the square lattice.  Use \ref{sum-one-over-gaussian-integers} to verify that $\wp(z)$ converges.
+                                                                                                                    \end{problem}
+                                                                                                                    \begin{solution}
+                                                                                                                    \begin{align*}
+                                                                                                                    \wp(z) &= \frac{1}{z^2} + \sum_{0 \neq \lambda \in \Z[i]} \left( \frac{1}{(z - \lambda)^2} - \frac{1}{\lambda^2} \right)\\
+                                                                                                                    &= \frac{1}{z^2} + \sum_{0 \neq \lambda \in \Z[i]} \left( \frac{\lambda^2 - (z-\lambda)^2}{\lambda^2(z-\lambda)^2} \right)\\
+                                                                                                                    &= \frac{1}{z^2} + \sum_{0 \neq \lambda \in \Z[i]} \left( \frac{\frac{\lambda}{z-\lambda}^2 - 1}{\lambda^2} \right)\\
+                                                                                                                    &= \frac{1}{z^2} + \sum_{0 \neq \lambda \in \Z[i]} \left( \frac{\frac{\lambda^2 - z^2 + 2z\lambda - \lambda^2}{(z-\lambda)^2}}{\lambda^2} \right)\\
+                                                                                                                    &= \frac{1}{z^2} + \sum_{0 \neq \lambda \in \Z[i]} \left( \frac{z(\lambda - 2z)}{\lambda^2(z-\lambda)^2} \right)\\
+                                                                                                                    \end{align*}
+                                                                                                                    The interior of the sum is a degree $-3$ polynomial in $\lambda$ and the constant $z$, so except for finitely many terms where $|\lambda|\approx |z|$, there will be some constant $c$ where the terms are less than $c\lambda^{-3}$. Since $-3 < -2$, the sum converges.
+                                                                                                                    \end{solution}
+
+                                                                                                                    \begin{problem}\label{elliptic-derivative-periodic}Compute $\wp'(z)$ by differentiating term-by-term to show that $\wp'(z + \lambda) = \wp'(z)$ for $\lambda \in \Z[i]$.
+                                                                                                                    \end{problem}
+                                                                                                                    \begin{solution}
+                                                                                                                    We can prove the identity by differentiating term by term,
+                                                                                                                    \begin{align*}
+                                                                                                                    \wp'(z) = z^{-3} + \sum_{0\neq \lambda\in\Z[i]} (-2(z-\lambda)^{-3}  + 2\lambda^{-3})\\
+                                                                                                                    = \sum_{\lambda\in\Z[i]}(-2(z-\lambda)^{-3}) + \sum_{0\neq \lambda\in\Z[i]} 2\lambda^{-3}\\
+                                                                                                                    \wp'(z-\lambda_1) = (z-\lambda_1)^{-3} + \sum_{0\neq \lambda\in\Z[i]} (-2(z-\lambda-\lambda_1)^{-3}  + 2\lambda^{-3})\\
+                                                                                                                    = \sum_{\lambda\in\Z[i]}(-2(z-\lambda)^{-3}) + \sum_{0\neq \lambda\in\Z[i]} 2\lambda^{-3}
+                                                                                                                    \end{align*}
+                                                                                                                    This also gives us the value of $\wp'(z)$.
+                                                                                                                    \end{solution}
+                                                                                                                    \begin{problem}
+                                                                                                                      Compare $\wp(z)$ and $\wp(-z)$.  Use this to relate $\wp(1/2)$ and $\wp(-1/2)$ and to relate $\wp(i/2)$ and $\wp(-i/2)$ and with \ref{elliptic-derivative-periodic}, conclude that $\wp(z + \lambda) = \wp(z)$ for $\lambda \in \Z[i]$.
+                                                                                                                      \end{problem}
+                                                                                                                      \begin{solution}
+                                                                                                                      It must be that $\wp(z) = \wp(-z)$, since
+                                                                                                                      \begin{align*}
+                                                                                                                      \wp(-z) &= \frac{1}{(-z)^2} + \sum_{0 \neq \lambda \in \Z[i]} \left( \frac{1}{(-z - \lambda)^2} - \frac{1}{\lambda^2} \right)\\
+                                                                                                                      &= \frac{1}{z^2} + \sum_{0 \neq -\lambda \in \Z[i]} \left( \frac{1}{(z - \lambda)^2} - \frac{1}{\lambda^2} \right) = \wp(z)
+                                                                                                                      \end{align*}
+                                                                                                                      Therefore $\wp(\frac{1}{2})=\wp(-\frac{1}{2})$, $\wp(\frac{i}{2})=\wp(-\frac{i}{2})$. By the fundamental theorem of calculus,
+                                                                                                                      \[
+                                                                                                                      \wp(\frac{1}{2}) - \wp(-\frac{1}{2}) = \int_{-\frac{1}{2}}^{.\frac{1}{2}}\wp'(x)dx = 0 = \int_{-\frac{1}{2}}^{\frac{1}{2}} i\wp'(ix)dx =\wp(\frac{i}{2}) - \wp(-\frac{i}{2})
+                                                                                                                      \]
+                                                                                                                      And since $\wp'$ is doubly, periodic, we can even conclude that for any $x$,
+                                                                                                                      \[
+                                                                                                                      \wp(x+1) - \wp(x) = \int_{x}^{x+1}\wp'(x)dx = 0 = \int_{x}^{x+1} i\wp'(ix)dx  = \wp(x+i) - \wp(x)
+                                                                                                                      \]
+                                                                                                                      so $\wp$ is also doubly periodic.
+
+                                                                                                                      \end{solution}
+                                                                                                                      \section{Prove or Disprove and Salvage if Possible}
+
+                                                                                                                      \begin{problem}\label{differentiating-taylor-series}If
+                                                                                                                        $f(z) = \sum_{n=0}^\infty a_n z^n$ has radius of convergence $r$,
+                                                                                                                          then the series
+                                                                                                                            \[
+                                                                                                                                g(z) = \sum_{n=1}^\infty n a_n z^{n-1} 
+                                                                                                                                  \]
+                                                                                                                                    has radius of convergence $r$ and if $|z| < r$ then $f'(z) = g(z)$.
+                                                                                                                                    \end{problem}
+                                                                                                                                    \begin{solution}
+                                                                                                                                    We get the reciprical of the radius of convergence of $g$ with the root test:
+                                                                                                                                    \[
+                                                                                                                                    \limsup \sqrt[n]{n\abs{a_{n+1}}} =
+                                                                                                                                    \limsup \sqrt[n]{n}\sqrt[n]{\abs{a_{n+1}}} =
+                                                                                                                                    \limsup \sqrt[n]{\abs{a_{n+1}}}
+                                                                                                                                    \]
+                                                                                                                                    And this last term is the reciprical of the radius of convergence of the sequence 
+                                                                                                                                    \[
+                                                                                                                                    \sum_{n=0}^\infty a_{n+1}z^n = \frac{1}{z}\sum_{n=1}^\infty a_{n+1}z^{n+1} = \frac{1}{z}f(z)
+                                                                                                                                    \]
+                                                                                                                                    As this has the same radius of convergence as $f$,
+                                                                                                                                    $g$ has the same radius of convergence as $f$.
+
+                                                                                                                                    Next we need to show that $f'(z)=g(z)$. To start we make a short lemma.
+                                                                                                                                    \begin{lemma}\label{difference_of_nths}
+                                                                                                                                    \[(z+h)^n - z^n = h\sum_{k=0}^{n-1}(z+h)^{n-1-k}z^{k}\]
+                                                                                                                                    \end{lemma}
+                                                                                                                                    \begin{proof}
+                                                                                                                                    \[
+                                                                                                                                    (a-b)\sum_{k=0}^{n-1} a^{n-1-k}b^{k}=\sum_{k=0}^{n-1} a^{n-k}b^{k}-\sum_{k=1}^{n}a^{n-k}b^{k} = a^n-b^n
+                                                                                                                                    \]
+                                                                                                                                    Take $a=z+h, b=z$ to prove the lemma.
+                                                                                                                                    \end{proof}
+                                                                                                                                    To compute $f'(z)$, let's look at the difference quotient.
+                                                                                                                                    \begin{align*}
+                                                                                                                                    \frac{f(z+h)-f(z)}{h}
+                                                                                                                                    &= \frac{1}{h}\sum_{n=0}^\infty a_n((z+h)^n - z^n) \\
+                                                                                                                                    &= \sum_{n=0}^\infty a_n\sum_{k=0}^{n-1}(z+h)^{n-1-k}z^{k}\quad \text{ Lemma \eqref{difference_of_nths}}
+                                                                                                                                    \end{align*}
+                                                                                                                                    We want $f'(z)-g(z)=0$, so let's subtract $g(z)$ from the difference quotient. The coefficient of $a_n$ is then
+                                                                                                                                    \begin{align*}
+                                                                                                                                    \left(\sum_{k=0}^{n-1}(z+h)^{n-1-k}z^{k}\right) - nz^{n-1} &= \sum_{k=0}^{n-1}\left((z+h)^{n-1-k}z^{k} - z^{n-1} \right)\\
+                                                                                                                                    &= \sum_{k=0}^{n-1}z^k\left((z+h)^{n-1-k} - z^{n-1-k} \right)\\
+                                                                                                                                    &= \sum_{k=0}^{n-1}z^k\left((z+h)^{n-1-k} - z^{n-1-k} \right)\\
+                                                                                                                                    &= h\sum_{k=0}^{n-1}z^k\left(\sum_{l=0}^{n-1-k}(z+h)^{n-1-k-l}z^l\right)\quad \text{ Lemma \eqref{difference_of_nths}}
+                                                                                                                                    \end{align*}
+                                                                                                                                    Let $m = max(|z+h|, |z|)$, so that we can bound the magnitude of this difference
+                                                                                                                                    \begin{align*}
+                                                                                                                                    \left(\sum_{k=0}^{n-1}(z+h)^{n-1-k}z^{k}\right) - nz^{n-1} &\leq  h\sum_{k=0}^{n-1}m^k\left((n-1-k)m^{n-1-k}\right)\\
+                                                                                                                                    &\leq  h\binom{n-1}{2}m^{n-1}
+                                                                                                                                    \end{align*}
+                                                                                                                                    So therefore we can show that the difference between $f'$ and $g$ vanishes.
+                                                                                                                                    \begin{align*}
+                                                                                                                                    \abs{f'(z)-g(z)}\leq \lim_{h\to 0}h \sum_{n=0}^\infty a_n\binom{n-1}{2}m^{n-1}
+                                                                                                                                    \end{align*}
+                                                                                                                                    As $h\to 0$, $m$ is less than the radius of convergence, so the sum without the $\binom{n-1}{2}$ term converges. Since $\lim_{n\to\infty} \sqrt[n]{\binom{n-1}{2}} = \lim_{n\to\infty} \sqrt[n]{n^2} = 1$,
+                                                                                                                                    the whole series converges within the same radius of convergence, and thus the two series are equal.
+
+                                                                                                                                    \end{solution}
+                                                                                                                                    \begin{problem}\label{sum-one-over-gaussian-integers}For $n > 2$, the
+                                                                                                                                      series \( \displaystyle\sum_{0 \neq \lambda \in \Z[i]} \frac{1}{|\lambda|^n} \).
+                                                                                                                                        converges.
+                                                                                                                                        \end{problem}
+                                                                                                                                        \begin{solution}
+                                                                                                                                        Each $\lambda\in\Z[i]\setminus 0$ is contained on the square with corners \[(n, 0), (0, n), (-n, 0), (0, -n)\] with $n\in \N$. Furthermore, the $nth$ of these squares has $4n$ points in total, and each point is of radius at most $n$ from the origin. We can deduce a formula from these observations:
+                                                                                                                                        \[
+                                                                                                                                        \sum_{0 \neq \lambda \in \Z[i]} \frac{1}{|\lambda|^n} < \sum_{k=1}^\infty \frac{\text{zeros on kth square}}{\text{furthest zero from origin on kth square}} = \sum_{k=1}^\infty \frac{4k}{\sqrt{k}^n} = 4\sum_{k=1}^\infty k^{1-\frac{n}{2}}
+                                                                                                                                        \]
+                                                                                                                                        If $n > 2$, then the term to the right is a geometric series, so it converges. Thus the original series converges as well.
+                                                                                                                                        \end{solution}
+                                                                                                                                        \begin{problem}\label{elliptic-more-than-two-poles}There is no meromorphic function $f : \C \to \hat{\C}$ having simple poles at $a+bi \in \Z[i]$ and satisfying $f(z) = f(z+a+bi)$ for all $z \in \C$ and $a+bi \in \Z[i]$.
+                                                                                                                                        \end{problem}
+                                                                                                                                        \begin{solution}
+                                                                                                                                        TODO this is wrong, we are assuming that there are no extra simple poles
+
+                                                                                                                                        False.  Let $\gamma$ be the square of side length 1 centered at the origin. Then 
+                                                                                                                                        \[
+                                                                                                                                        \int_\gamma f(z)dz = \int_{-\frac{1}{2}}^{\frac{1}{2}}f(z-\frac{i}{2})dz - \int_{-\frac{1}{2}}^{\frac{1}{2}}f(z+\frac{i}{2})dz + \int_{-\frac{1}{2}}^{\frac{1}{2}}f(iz+\frac{1}{2})dz - \int_{-\frac{1}{2}}^{\frac{1}{2}}f(iz-\frac{i}{2})dz
+                                                                                                                                        \]
+                                                                                                                                        But since $f$ is doubly-periodic, $f(z-\frac{i}{2}) = f(z+\frac{i}{2})$ and $f(z-\frac{1}{2}) = f(z+\frac{1}{2})$, so this integral is zero. However, there is a simple pole at zero, so 
+                                                                                                                                        \[
+                                                                                                                                        \int_\gamma f(z) dz = 2\pi i\Res(f, 0)\neq 0.
+                                                                                                                                        \]
+                                                                                                                                        This is a contradiction, so no such $f$ can exist.
+                                                                                                                                        \end{solution}
+
+                                                                                                                                        \begin{problem}\label{infinite-product-sine}For all $z \in \C$, we have 
+                                                                                                                                          \(
+                                                                                                                                              \sin \left( \pi z \right) = \pi \displaystyle\prod_{n=1}^\infty \left( 1 - \frac{z^2}{n^2} \right)
+                                                                                                                                                \). % missing factor of z
+                                                                                                                                                \end{problem}
+                                                                                                                                                \begin{solution}
+                                                                                                                                                False. At $z=0$, the function on the RHS is 1, while $sin(0)=0$. We prove the following statement:
+
+                                                                                                                                                \begin{lemma}
+
+                                                                                                                                                Define
+                                                                                                                                                \[
+                                                                                                                                                S(z) = \pi z \displaystyle\prod_{n=1}^\infty \left( 1 - \frac{z^2}{n^2} \right)
+                                                                                                                                                \]
+                                                                                                                                                Then
+                                                                                                                                                \[
+                                                                                                                                                S(z) = \sin \left( \pi z \right)
+                                                                                                                                                \]
+                                                                                                                                                \end{lemma}
+                                                                                                                                                This function converges everywhere since $\sum_{n=1}^\infty\abs{\frac{z^2}{n^2}}\leq\infty$, so it is well defined.
+                                                                                                                                                Note that 
+                                                                                                                                                \[
+                                                                                                                                                \frac{\pfrac{}{z}\sin(\pi z)}{\sin(\pi z)} = \frac{\pi\cos(\pi z)}{\sin(\pi z)} = \pi \cot(\pi z)
+                                                                                                                                                \]
+                                                                                                                                                and
+                                                                                                                                                \[
+                                                                                                                                                \frac{S'(z)}{S(z)} = \frac{1}{z}  + \sum_{n=1}^\infty \left(\frac{\frac{2z}{n^2}}{1-\frac{z^2}{n^2}}\right) = \frac{1}{z}  + \sum_{n=1}^\infty \left(\frac{2z}{n^2-z^2}\right) 
+                                                                                                                                                \]
+                                                                                                                                                By \ref{p4h10},
+                                                                                                                                                \[
+                                                                                                                                                \pi \cot(\pi z) -\frac{1}{z} = \left( \sum_{0\neq n\in \Z} \frac{1}{z+n} - \frac{1}{n}\right)
+                                                                                                                                                \]
+                                                                                                                                                Pairing the terms from $n$ and $-n$,
+                                                                                                                                                \begin{align*}
+                                                                                                                                                \frac{S'(z)}{S(z)} = \frac{1}{z} + \left( \sum_{n\in \N} \frac{2z}{z^2-n^2}\right) = \pi \cot(\pi z) = \frac{\pfrac{}{z}\sin(\pi z)}{\sin(\pi z)}
+                                                                                                                                                \end{align*}
+                                                                                                                                                Noting that
+                                                                                                                                                \[
+                                                                                                                                                \pfrac{}{z}\frac{S(z)}{\sin(\pi z)} = \frac{\sin(\pi z)S'(z) - S(z)\pi\cos(\pi z)}{\sin^2(\pi z)} = 0
+                                                                                                                                                \]
+                                                                                                                                                so the two functions are a constant multiple of each other. Since $\lim_{z\to 0 }zS(z) = \lim_{z\to 0} z\sin(\pi z)= \pi$, they are the same.
+
+                                                                                                                                                \end{solution}
+                                                                                                                                                \begin{problem}\label{normal-family-example}Define
+                                                                                                                                                  $f_w : B_1(0) \to \C$ by $f_w(z) = z/(z-w)$.  The family of
+                                                                                                                                                    functions $\mathcal{F} := \{ f_w \mid w \in \C \}$ is a normal
+                                                                                                                                                      family.
+                                                                                                                                                      \end{problem}
+                                                                                                                                                      \begin{solution}
+                                                                                                                                                      No way, not all of these functions are even defined on the ball of radius 1. We will assume additionally that $\abs{w}\geq 1$.
+
+                                                                                                                                                      By the Arzel\`a Ascoli Theorem, this family is normal iff it is both equicontinuous and pointwise bounded on $B_1(0)$. First let's show that this family is equicontinuous: choose a point $z_0\in B_1(0)$, and consider $z$ very close to $z_0$. We see that
+                                                                                                                                                      \[
+                                                                                                                                                      f(z)-f(z_0) = \frac{z}{z-w} - \frac{z_0}{z_0-w} = \frac{(z-z_0)w}{(z-w)(z_0-w)}
+                                                                                                                                                      \]
+                                                                                                                                                      We can choose $\delta$ small enough so that when $z-z_0<\delta$, $z < 1$. Then
+                                                                                                                                                      \[
+                                                                                                                                                      \abs{\frac{(z-z_0)w}{(z-w)(z_0-w)}}\leq \frac{\delta \abs{w}}{\abs{z-w}\abs{z_0-w}} \leq \frac{\delta \abs{w}}{\abs{w-\max(z, z_0)}^2}  \leq \frac{\delta \abs{w}}{\abs{w-z_0-\delta}^2}
+                                                                                                                                                      \]
+                                                                                                                                                      Decreasing $\delta$ will only make the denominator bigger and hence the value smaller, and since we are also multiplying by $\delta$, we can make the value arbitrarily small provided that
+                                                                                                                                                      \[
+                                                                                                                                                      \frac{\abs{w}}{\abs{w-z_0-\delta}^2}
+                                                                                                                                                      \]
+                                                                                                                                                      is bounded. Let $x= \abs{z_0-\delta} < 1$ and consider this as a real function in $w\geq 1$.
+                                                                                                                                                      \[
+                                                                                                                                                      g(w) = \frac{w}{\abs{w-x}^2}
+                                                                                                                                                      \]
+                                                                                                                                                      Since this is a degree $-1$ polynomial, it approaches 0 in the limit, and since it is everywhere continuous with $w\geq 1$, it must be bounded. Hence by choosing $\delta$ small enough, we can get the distance of $f(z)-f(z_0)$ arbitrarily small for any function in the family, so the family must be equicontinuous.
+
+                                                                                                                                                      Next we show that $\mathcal{F}$ is pointwise bounded. For any point $z_0$,
+                                                                                                                                                      \[
+                                                                                                                                                      \abs{\frac{z}{z-w}} \leq \frac{\abs{z}}{\abs{w}- \abs{z}} \leq \frac{\abs{z}}{1-\abs{z}}
+                                                                                                                                                      \]
+                                                                                                                                                      so it's bounded. Now we can apply Arzela to see that the family is normal.
+                                                                                                                                                      \end{solution}
+                                                                                                                                                      \begin{problem}\label{derivatives-normal-then-not-normal}Suppose $\mathcal{F}$ is a family of functions defined on the domain $B_1(0)$.  If $\mathcal{F}' := \{ f' \mid f \in \mathcal{F} \}$, the
+                                                                                                                                                        family consisting of derivatives of functions in the family
+                                                                                                                                                          $\mathcal{F}$, is normal, then the original family $\mathcal{F}$ is
+                                                                                                                                                            normal. % assume that \{ f(0) \mid f \in \mathcal{F} \} is bounded
+                                                                                                                                                            \end{problem}
+                                                                                                                                                            \begin{solution}
+                                                                                                                                                            False, define $f_k:\C\to\C, f_k(z)=k$ and let $\mathcal{F}=\{f_k: k\in \Z\}$ be a family of all constant functions. The sequence $\{f_k\}_{k\in \N}$ has no convergence subsequence, so the family is not normal. But the derivative of this family is just the constant function, and being a finite family, it is certainly normal.
+
+                                                                                                                                                            Instead, suppose that $\mathcal{F}$ is normal, and we will show that $\mathcal{F'}$ is normal too. We shold also assume that each of the functions have derivatives (and are hence analytic). For $f\in \mathcal{F}$, what can we say about $f'$?
+
+                                                                                                                                                            Since $\mathcal{F}$ is equicontinuous by Arzel\`a Ascoli, for any point $z_0$, for any function $f\in\mathcal{F}$, any $\epsilon > 0$, $\exists \delta$ so that $|z_0 - z|<\delta\implies |f(z_0) - f(z)| < \epsilon$. Thus 
+                                                                                                                                                            \[
+                                                                                                                                                            f'(z) = \lim_{h\to 0}\frac{f(z+h) - f(z)}{h} \leq \lim_{\epsilon\to 0}\frac{\epsilon}{\delta}
+                                                                                                                                                            \]
+                                                                                                                                                            And since $f'$ exists, we can find a way of choosing $\delta$ so that 
+                                                                                                                                                            \[
+                                                                                                                                                            \lim_{\epsilon\to 0}\frac{\epsilon}{\delta}\leq \infty
+                                                                                                                                                            \]
+                                                                                                                                                            this bound holds for all functions $f$ at the point $z$, so the derivatives are locally bounded. Since $f$ is analytic, $f'$ is too, and by Montel's thorem, $\mathbb{F'}$ is a normal family.
+                                                                                                                                                            \end{solution}
+                                                                                                                                                            \end{document}

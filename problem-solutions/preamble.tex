@@ -15,6 +15,7 @@
 \DeclareMathOperator{\Real}{Re}
 \DeclareMathOperator{\Imag}{Im}
 \DeclareMathOperator{\Arg}{Arg}
+\DeclareMathOperator{\Log}{Log}
 
 \newcommand{\C}{\mathbb{C}}
 \newcommand{\R}{\mathbb{R}}
@@ -26,22 +27,36 @@
 \newcommand{\norm}[1]{\left\lVert#1\right\rVert}
 \newcommand{\transpose}{\intercal}
 
-\newcommand{\conj}[1]{\bar{#1}}
+\newcommand{\conj}[1]{\overline{#1}}
 \newcommand{\abs}[1]{\left|#1\right|}
 
 %%% My commands, for solutions %%%
 
-\DeclareMathOperator{\Log}{Log}
+\usepackage{amssymb}
+\usepackage{xifthen}
+\usepackage{listings}
+\usepackage{tikz} % Guide http://bit.ly/gNfVn9
+\usetikzlibrary{decorations.markings}
+\DeclareMathOperator{\Res}{Res}
+
 % To write df/(dx), use \pfrac{f}{x}
 \newcommand{\pfrac}[2]{\frac{\partial #1}{\partial #2}}
 % Partial derivative. To take d^2f/(dxdy), use \ppfrac[y]{f}{x}
 % To take d^2f/(dx^2), use ppfrac{f}{x}
 \newcommand{\ppfrac}[3][]{\frac{\partial^2 #2}{\ifthenelse{\isempty{#1}}{\partial #3^2}{\partial #3\partial #1}}}
+\newcommand{\oo}[0]{\infty}
+
  \newenvironment{solution}
-  {\renewcommand\qedsymbol{$\blacksquare$}\begin{proof}[Solution]}
-  {\end{proof}}
+   {\renewcommand\qedsymbol{$\blacksquare$}\begin{proof}[Solution]}
+     {\end{proof}}
+       
+       % Code listing environment  
+       \lstnewenvironment{code}{\lstset{basicstyle=\ttfamily, mathescape=true, breaklines=true}}{}
 
-
-
+       % When you want to see how many pages your HW is
+       \usepackage{lastpage}
+       \usepackage{fancyhdr}
+       \pagestyle{fancy} 
+       \cfoot{\thepage\ of \pageref{LastPage}}
 
 

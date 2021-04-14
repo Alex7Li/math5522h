@@ -1,0 +1,204 @@
+\documentclass{homework}
+\course{Math 5522H}
+\author{Alex Li}
+\input{preamble}
+
+\DeclareMathOperator{\polylog}{Li}
+\newcommand{\dilog}{\polylog_2}
+
+\begin{document}
+\maketitle
+
+\begin{inspiration}
+    Music is nothing but ratios and harmonic math, anyways.
+    \byline{Andrew Sega}
+    \end{inspiration}
+
+    With this being a ``short'' week because of the instructional break,
+    this problem set is concomitantly shorter.
+
+    \section{Terminology}
+
+    \begin{problem}
+      What is a harmonic function?
+      \end{problem}
+      \begin{solution}
+      Let $U$ be an open subset of $\C$. A function $f:U \to \R$ is real harmonic if $f\in C^2$ and $\Delta f = 0$.
+      \end{solution}
+      \begin{problem}
+        Define the term \textbf{harmonic conjugate}.  (Recall \ref{harmonic-conjugate}.)
+        \end{problem}
+        \begin{solution}
+        A harmonic conjugate of a harmonic funcion $f$ is a function $g$ such that $f+ig$ is holomorphic.
+        \end{solution}
+
+        \section{Numericals}
+
+        \begin{problem}\label{relate-fourier-and-taylor-series}Let $S^1 := \{(x,y) \in \R^2 : x^2 + y^2 = 1 \}$ and $D_1(0) := \{ (x,y) \in \R^2 : x^2 + y^2 \leq 1 \}$.  Find a continuous function $F : D_1(0) \to \R$ that is harmonic on the interior of $D_1(0)$ and that extends
+          $f : S^1 \to \R$ given by
+           \[
+              f(\cos \theta,\sin \theta) = \sum_{k=0}^N \left(c_k \, \cos \left( k\theta \right) + s_k \, \sin \left( k \theta \right) \right).
+               \]
+                (This problem encourages you to relate Fourier series and Taylor series.)
+                \end{problem}
+                \begin{solution}
+                Extend $f$ to the disk by the following equation:
+                \[
+                F(r, \theta) = f(\theta)r^{k}
+                \]
+                On the open disk, $r=1$ and so the additional term we multiply by is $r^1=1$, and thus this function agrees with $f$ on the edges of the disk. As a sum and product of infinitely differentiable functions, it is $C^2$.
+
+                Checking that the laplacian $F_{xx} + F_{yy} = 0$ is equivalent to checking the following in polar coordinates:
+                \begin{align*}
+                F_{rr} +  \frac{F_r}{r} + \frac{F_{\theta\theta}}{r^2} &= 0\\
+                f(\theta)k(k-1)r^{k-2} +  \frac{f(\theta)kr^{k-1}}{r} + \frac{(-f(\theta))r^k}{r^2} &= 0\\
+                r^{k-2}(k(k-1) +  k - k^2) &= 0\\
+                r^{k-2}\cdot 0 &= 0
+                \end{align*}
+                Thus this function is harmonic on the interior of $D$.
+                \end{solution}
+                \section{Exploration}
+
+                \begin{problem}
+                  Recall \ref{where-converge-one-over-n}.  Consider the power series for the \textbf{dilogarithm} function,
+                    \[
+                        \dilog(z) = \sum_{n=1}^\infty \frac{z^n}{n^2}.
+                          \]
+                            What is its radius $r$ of convergence?  Where on the boundary of
+                              $B_r(0)$ does this series converge?  (Note that there is no pole on
+                                the boundary; not every singularity is a pole!)
+                                \end{problem}
+                                \begin{solution}
+                                The radius of convergence is 1: if $r > 1$, then  
+                                \[\abs{Li_2(r)} = \sum_1^\infty \frac{r^n}{n^2}\]
+                                But as $n\to\infty$, 
+                                \[
+                                \lim_{n\to \infty} \frac{r^n}{n^2} = \lim_{n\to \infty} \frac{nr^{n-1}}{2n} =  \lim_{n\to \infty} n(n-1)r^{n-2} = \infty,
+                                \]
+                                so the terms grow arbitrarily large, and thus the sum diverges.
+
+                                On the other hand, if $r\leq 1$, then 
+                                \[\abs{Li_2(z)} \leq \sum_{n=1}^\infty \frac{1}{n^2} = \frac{\pi^2}{6},\]
+                                so the sum converges absolutely and thus the sum converges everywhere on the closed unit ball of radius 1, and nowhere outside of it.
+                                %TODO This seems too easy?
+                                \end{solution}
+                                \begin{problem}\label{laplacian-via-wirtinger}Consider an open set
+                                  $U \subset \C$ and a holomorphic function $f : U \to \C$.  Write
+                                    the \textbf{Laplacian}
+                                      \[
+                                          \Delta := \frac{\partial^2}{\partial x^2} + \frac{\partial^2}{\partial y^2} 
+                                            \]
+                                              in terms of the mixed Wirtinger derivative
+                                                $\displaystyle\frac{\partial^2}{\partial z \partial \conj{z}}$.
+                                                \end{problem}
+                                                \begin{solution}
+                                                \begin{align*}
+                                                \pfrac{}{z}\pfrac{}{\conj{z}} &= \frac{1}{2}(\pfrac{}{x} - i\pfrac{}{y})\frac{1}{2}(\pfrac{}{x} + i\pfrac{}{y})\\
+                                                &= \frac{1}{4}(\ppfrac{}{x} + \ppfrac{}{y}) = \frac{\Delta}{4}
+                                                \end{align*}
+                                                \end{solution}
+
+                                                \begin{problem}\label{composition-holomorphic-harmonic}Consider open
+                                                  sets $U, V \subset \C$ and a holomorphic function $f : U \to V$ and
+                                                    a harmonic function $g : V \to \R$.  Is the composition $g \circ f$
+                                                      a harmonic function on $V$?
+                                                      \end{problem}
+                                                      \begin{solution}
+                                                      Choose real valued functions $u, v:U \to \R$ such that $f(z) = u(z) + iv(z)$. Let $g_x$ be the derivative of $g$ in the first coordinate and $g_y$ the second.
+                                                      \begin{align*}
+                                                      \ppfrac{g(u, v)}{x} &= \pfrac{}{x}\left( g_x(u, v)(u_x + v_x) \right)\\
+                                                      &=  g_{xx}(u, v)(u_x + v_x)^2 + g_x(u, v)(u_{xx} + v_{xx})\\
+                                                      &=  g_{xx}(u, v)(u_x - u_y)^2 \color{purple} \qquad \text{Cauchy Riemann Equations}
+                                                      \end{align*}
+                                                      Let's do the same for the y derivative
+                                                      \begin{align*}
+                                                      \ppfrac{g(u, v)}{y} &= \pfrac{}{y}\left( g_y(u, v)(u_y + v_y) \right)\\
+                                                      &=  g_{yy}(u, v)(u_y + v_y)^2 + g_x(u, v)(u_{yy} + v_{yy})\\
+                                                      &=  g_{yy}(u, v)(u_y - u_x)^2 \color{purple} \qquad \text{Cauchy Riemann Equations}
+                                                      \end{align*}
+                                                      Then $g\circ f$ is harmonic since,
+                                                      \begin{align*}
+                                                          (\ppfrac{}{y}+\ppfrac{}{x})g\circ f = (g_{xx} + g_{yy})(u, v)(u_x - u_y)**2 = 0
+                                                          \end{align*}
+                                                          (using the fact that $g$ is harmonic).
+                                                          \end{solution}
+                                                          \section{Prove or Disprove and Salvage if Possible}
+                                                          \begin{problem} % wrong sign
+                                                            If $f : U \to \R$ is a harmonic function on an open set $U \subset \R^2$, then 
+                                                              \[
+                                                                  F(x+iy) := f_x(x,y) + i f_y(x,y) 
+                                                                    \]
+                                                                      defines a holomorphic function $F : U \to \C$, regarding $U$ as an
+                                                                        open subset of $\C$.
+                                                                        \end{problem} 
+                                                                        \begin{solution}
+                                                                        % Let $f = \frac{1}{z}$ on $U=\C/\{0\}$. Since $f$ is holomorphic, it's twice differentiable with $f_{xx}(z) = f''(x+iy) = -f_{yy}(z)$, so $f_{xx} + f_{yy} = 0$ and $f$ is harmonic. 
+                                                                        No, take $f=\Re(z^2) = x^2 - y^2$. This is harmonic as it is the real part of a holomorphic function. Then $F = 2x - 2yi = 2\conj{z}$, and this is not holomorphic. 
+
+                                                                        Instead define 
+                                                                          \[
+                                                                              F_2(x+iy) := f_x(x,y) - i f_y(x,y) 
+                                                                                \]
+                                                                                We can see that $F_2$ satisfies the Cauchy-Riemann equations: Let $u=f_x(x,y)$ and $v=f_y(x,y)$ so that $F=u-iv$. Then
+                                                                                \begin{gather*}
+                                                                                u_x = f_{xx}(x, y) = -f_{yy}(x, y) = v_y\\
+                                                                                u_y = f_{xy}(x, y) = f_{yx}(x, y) = -v_x
+                                                                                \end{gather*}
+                                                                                Since $f$ is a harmonic function, $F_2$ is twice differentiable and this is more than enough to conclude that it is in fact holomorphic.
+                                                                                \end{solution}
+                                                                                \begin{problem}\label{maximum-principle}For an open set
+                                                                                  $U \subset \R^2$ and a harmonic function $f : U \to \R$, the
+                                                                                        function $f$ does not achieve a maximum. % nonconstant missing
+                                                                                        \end{problem}
+                                                                                        \begin{solution}
+                                                                                        False, take $f=0$. It's true if $f$ is not constant and $U$ is connected.
+
+                                                                                        Let $g$ be a holomorphic function with real part $f$.
+                                                                                        Suppose that $f$ achieves a maximum at the point $z$.
+                                                                                        Then consider a curve $\gamma(t) = re^{it} + z$ from 0 to $2\pi$ and apply Cauchy's integral formula:
+                                                                                        \begin{align*}
+                                                                                        f(z) &= \Re\left(\frac{1}{2\pi i}\int_\gamma \frac{g(w)}{w-z}dw\right)\\
+                                                                                        &= \Re\left(\frac{1}{2\pi i}\int_0^{2\pi} \frac{g(z + re^{i\theta})ire^{i\theta}}{re^{i\theta}}d\theta\right)\\
+                                                                                        &= \frac{1}{2\pi }\int_0^{2\pi} f(z + re^{i\theta})d\theta
+                                                                                        \end{align*}
+                                                                                        Subtracting $f(z)$, we see that 
+                                                                                        \begin{align*}
+                                                                                        0 = \frac{1}{2\pi }\int_0^{2\pi} f(w) - f(z) d\theta
+                                                                                        \end{align*}
+                                                                                        Since $f(z)$ is the maximum value, the integrand is never positive and by continuity of $f$ it must always be 0. Since this is true for all circles centered at $z$, the set of points which achieve the maximum value of $f$ is open, and the complement of this set is the preimage of the open set $\R/\{f(z)\}$, so it is open. Since $U$ is connected, $f$ is constna
+                                                                                        \end{solution}
+                                                                                        \begin{problem}\label{universal-taylor-series}Suppose
+                                                                                          $\displaystyle\sum_{n=0}^\infty a_n z^n$ is a power series with
+                                                                                            radius of convergence 1.  We say that series is \textbf{universal}
+                                                                                              if, for every $\epsilon > 0$ and $\delta > 0$, for every closed disk
+                                                                                                $D_r(a)$ with $\abs{a-1} > r$, for every holomorphic function
+                                                                                                  $f : B_{r + \delta}(a) \to \C$, there exists $N$ so that
+                                                                                                    \[
+                                                                                                        \sup_{z \in D_r(a)} \abs{ f(z) - \sum_{n=0}^N a_n z^n } < \epsilon.
+                                                                                                          \]
+
+                                                                                                            There is a universal power series.
+                                                                                                            \end{problem}
+                                                                                                            \begin{solution}
+                                                                                                            This is super false, since the power series isn't neccessarily the power series of $f$. For example, take $a_n=1$ and $f=0$, and consider the disk of radius .2 around the point $0$. Then $\sum_{n=0}^N a_nz^n = 1 + \sum_{n=1}^N 0^n = 1$ for any $N$ but $f(0) = 0$.
+
+                                                                                                            Let's choose $f$ first, and let the power series be the taylor series of $f$ at the point $0$. We can write it out using Cauchy's integral formula and a positively oriented curve $\gamma$ around the circle of radius $r+\delta$.
+
+                                                                                                            \begin{align}\label{Taylor_Series_0_for_f}
+                                                                                                                f(z) = \sum_{n=0}^N \int_\gamma \frac{f(w) dw}{w^{n+1}}z^n
+                                                                                                                \end{align}
+
+                                                                                                                Now we just really need to show that this function approaches $f(z)$. We can apply Cauchy's integral formula to $f$ in a small circle $\gamma_2$ centered at $z$ and contained in the circle $\gamma$ .
+                                                                                                                \begin{align}\label{Cauchys_Integral_Formula_for_f}
+                                                                                                                    f(z) &= \int_{\gamma_2} \frac{f(w) dw}{w - z}
+                                                                                                                    \end{align}
+                                                                                                                    In fact, we can replace $\gamma_2$ with $\gamma$ since the two curves are homotopic on the set $\C\setminus z$ where the function $\frac{f(w)}{w-z}$ is holomorphic. Thus we need to show that difference of the RHS of equations \ref{Taylor_Series_0_for_f} and \ref{Cauchys_Integral_Formula_for_f} is 0.
+
+                                                                                                                    \begin{align*}
+                                                                                                                        \int_{\gamma} \frac{f(w) dw}{w - z} - \sum_{n=0}^N \int_\gamma \frac{f(w) dw}{w^{n+1}}z^n &= \int_\gamma f(w)\left( \frac{1}{w-z} - \sum_{n=0}^n \frac{z^n}{w^{n+1}}\right) dw\\
+                                                                                                                            &= \int_\gamma f(w)\left( \frac{1}{w-z} - \frac{1/w}{1-\frac{z}{w}}\right) dw\\
+                                                                                                                                &= \int_\gamma 0 dw = 0
+                                                                                                                                \end{align*}
+                                                                                                                                \end{solution}
+                                                                                                                                \end{document}
+
